@@ -1,2 +1,3 @@
 # Course-Notes
-Course Notes at HKUST
+Course notes and cheatsheets at HKUST in editable LaTeX format
+

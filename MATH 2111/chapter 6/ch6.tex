@@ -1,0 +1,428 @@
+\documentclass[10pt, a4paper]{article}
+\hbadness=10000
+\usepackage{listings}
+\usepackage{ulem}
+\usepackage{appendix}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage[top=2.5cm, bottom=3.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{ctex}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{sectsty}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\vt}[1]{\mathbf{#1}}
+
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+\colorlet{LightBlue}{Cyan!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Example,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{example}
+\tcolorboxenvironment{example}{colback=LightBlue, boxrule=0pt}
+
+\declaretheoremstyle[name=Principle,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{principle}
+\tcolorboxenvironment{principle}{colback=LightGreen, boxrule=0pt}
+
+\declaretheoremstyle[name=Proposition,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{proposition}
+\tcolorboxenvironment{proposition}{colback=LightGray, boxrule=0pt}
+
+\declaretheoremstyle[name=Definition,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{definition}
+\tcolorboxenvironment{definition}{colback=LightOrange, boxrule=0pt}
+
+
+\newenvironment{Solution}{\textbf{Solution.}}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},  
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,        
+    breaklines=true,                
+    captionpos=b,                    
+    keepspaces=true,                
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\setlength{\parindent}{2em}
+\subsubsectionfont{\color{Blue}}
+
+
+% ------------------------------------------------------------------------------
+\setstretch{1.0}
+% ------------------------------------------------------------------------------
+\begin{document}
+\title{ \normalsize \textsc{}
+\\ [2.0cm]
+\HRule{1.5pt} \\ [0.3cm]
+\LARGE {\textbf{Matrix Algebra and Applications}
+\HRule{1.5pt} \\ [0.6cm]
+\LARGE{\textbf{MATH 2111 Lecture Notes}} \vspace*{10\baselineskip}}
+}
+\date{\today}
+\author{\textbf{LI, Hongrui}}  %template borrowed from hlx
+\maketitle
+
+\clearpage
+\tableofcontents
+\newpage
+
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 1
+% ------------------------------------------------------------------------------
+\section{Systems of Linear Equations}
+\section{Matrix Algebra}
+\section{Determinants}
+\section{Vector Spaces}
+\section{Eigenvalues and Eigenvectors}
+\newpage
+
+
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 6
+% ------------------------------------------------------------------------------
+\section{Inner Product Spaces}
+\subsection{Inner Product, Length, and Orthogonality}
+\indent In $\R^2, \R^3$, we have already learnt the concepts of dot product, length/distance, perpendicularity, etc. In this section, we will generalize these concepts to $\R^n$ and more general vector spaces.
+\begin{itemize}
+    \item \textbf{Inner Product:} Let $\vt{u} = (u_1, u_2, \cdots, u_n)$ and $\vt{v} = (v_1, v_2, \cdots, v_n)$ be vectors in $\R^n$. The \textbf{inner product} of $\vt{u}$ and $\vt{v}$ is defined as\[ \vt{u} \cdot \vt{v} = u_1v_1 + u_2v_2 + \cdots + u_nv_n. \]
+    \item \textbf{Length:} The \textbf{length} (or \textbf{norm}) of a vector $\vt{v}$ in $\R^n$ is defined as\[ ||\vt{v}|| = \sqrt{\vt{v} \cdot \vt{v}} = \sqrt{v_1^2 + v_2^2 + \cdots + v_n^2}. \] 
+    \item \textbf{Distance:} The \textbf{distance} between two vectors $\vt{u}$ and $\vt{v}$ in $\R^n$ is defined as\[ d(\vt{u}, \vt{v}) = ||\vt{u} - \vt{v}|| = \sqrt{(u_1 - v_1)^2 + (u_2 - v_2)^2 + \cdots + (u_n - v_n)^2}. \]
+    \item \textbf{Orthogonality:} Two vectors $\vt{u}$ and $\vt{v}$ in $\R^n$ are \textbf{orthogonal} if $\vt{u} \cdot \vt{v} = 0$.
+\end{itemize}
+\begin{proposition}
+    \textbf{Pythagorean Theorem}\\ Two vectors $\vt{u}$ and $\vt{v}$ in $\R^n$ are orthogonal if and only if\[ ||\vt{u} + \vt{v}||^2 = ||\vt{u}||^2 + ||\vt{v}||^2. \]
+\end{proposition}
+\subsubsection*{Orthogonal Complements}
+\indent Let $\vt{z}\in \R^n$ and $W$ is a subspace of $\R^n$. If $\vt{z}$ is orthogonal to every vector in $W$, we say that $\vt{z}$ is orthogonal to $W$, and write $\vt{z}\perp W$. The set of all vectors in $\R^n$ that are orthogonal to $W$ is called the \textbf{orthogonal complement} of $W$, denoted by $W^\perp$. 
+By definition, we can easily see that $W^\perp$ is also a subspace of $\R^n$. Furthermore, we will look at some facts:
+\begin{itemize}
+    \item Let $A$ be an $m\times n$ matrix. The orthogonal complement of the row space of $A$ is the null space of $A$, and the orthogonal complement of $A$ is the null space of $A^T$, that is \[ \text{Row}A^\perp = \text{Nul}A, \quad \text{Col}A^\perp = \text{Nul}A^T. \]
+    \item Let $W$ be a subspace of $\R^n$. Then $(W^\perp)$ is also a subspace of $\R^n$, and\[
+    \operatorname*{dim} W + \operatorname*{dim} W^\perp = n.
+    \]
+\end{itemize}
+
+
+\subsection{Orthogonal Sets}
+In applications in different areas, like the Cartesian coordinate system, we use a set of orthogonal vectors to represent the space, and use them as the basis to represent other instances like vectors, surfaces, etc.
+Here, we summarize such set of vectors as orthogonal sets and show some properties of them.
+\begin{definition}
+    A set of vectors $\{\vt{v}_1, \vt{v}_2, \cdots, \vt{v}_n\}$ in $\R^n$ is said to be an \textbf{orthogonal set} if each pair of distince vectors in the set is orthogonal, that is,
+    $\vt{v}_i \cdot \vt{v}_j = 0$ for all $i \neq j$.
+\end{definition}
+\begin{proposition}
+    If $S=\{\vt{v}_1, \vt{v}_2, \cdots, \vt{v}_n\}$ is an orthogonal set of nonzero vectors in $\R^n$, then the set $S$ is linearly independent and hence is a basis for the subspace $V$ of $\R^n$ spanned by $S$.
+\end{proposition}
+\indent\textit{Proof.} Suppose that $c_1\vt{v}_1 + c_2\vt{v}_2 + \cdots + c_n\vt{v}_n = \vt{0}$, then we have
+\begin{align*}
+    \vt{0} &= \vt{v}_1 \cdot (c_1\vt{v}_1 + c_2\vt{v}_2 + \cdots + c_n\vt{v}_n) \\
+    &= c_1\vt{v}_1 \cdot \vt{v}_1 + c_2\vt{v}_1 \cdot \vt{v}_2 + \cdots + c_n\vt{v}_1 \cdot \vt{v}_n \\
+    &= c_1\|\vt{v}_1\|^2,
+\end{align*}
+which implies that $c_1 = 0$. Similarly, we can show that $c_2 = c_3 = \cdots = c_n = 0$. Thus, by contradiction, we can show that the set $S$ is linearly independent. \qed
+\begin{definition}
+    An \textbf{orthogonal basis} for a subspace $V$ of $\R^n$ is a basis for $V$ that is also an orthogonal set.
+\end{definition}
+\begin{proposition}
+    If $S=\{\vt{v}_1, \vt{v}_2, \cdots, \vt{v}_n\}$ is an orthogonal basis for a subspace $V$ of $\R^n$. For each $\vt{y} \in V$, the weights in the linear combination\[
+    \vt{y} = c_1\vt{v}_1 + c_2\vt{v}_2 + \cdots + c_n\vt{v}_n
+    \]
+    are given by\[
+    c_i = \frac{\vt{y} \cdot \vt{v}_i}{\vt{v}_i \cdot \vt{v}_i}, \quad i = 1, 2, \cdots, n.
+    \]
+\end{proposition}
+\indent The proof is trivial by multiplying $\vt{v}_i$ on both sides of the equation above, but always keep in mind that if the basis were not orthogonal, it would be necessary to solve a system of linear equations in order to find the weights.\\
+\indent In the 2D Cartesian coordinate system we have learnt before, we covered the concept of projection vectors. Here, we discuss the similar idea in the context of orthogonal sets and expand it to $\R^n$.
+\begin{definition}
+    Let $\vt{u}\in\R^n$ and $\vt{y}\in\R^n$, and denote\[
+    L \equiv \text{span}\{\vt{u}\} \text{, the line parralel to $\vt{u}$}.
+    \]
+     Write $\vt{y}$ as $$\vt{y} = \hat{\vt{y}}+\vt{w}$$ such that $\hat{\vt{y}}=c\vt{u}$ (parallel to $\vt{u}$) and $\vt{w}$ is orthogonal to $\vt{u}$. 
+    Then $\hat{\vt{y}}$ is called the \textbf{orthogonal projection} of $\vt{y}$ onto $\vt{u}$, denoted by $\text{proj}_{\vt{u}}\vt{y}$ or $\text{proj}_{L}\vt{y}$.
+     and $\vt{w}$ is called the component of $\vt{y}$ orthogonal to $\vt{u}$.
+\end{definition}
+Just like the projection vector in 2D, we can calculate the orthogonal projection by the following formula:\[
+\hat{\vt{y}} = \text{proj}_{\vt{u}}\vt{y} = \frac{\vt{y}\cdot\vt{u}}{\vt{u}\cdot\vt{u}}\vt{u}, \quad \vt{w} = \vt{y} - \hat{\vt{y}}.
+\]
+\indent Recall that in the Cartesian coordinate system, we require the basis to be not only orthogonal, but also normalized. In the context of $\R^n$, we have the word of "orthonormality" to describe such basis.
+\begin{definition}
+    A set of vectors $\{\vt{v}_1, \vt{v}_2, \cdots, \vt{v}_n\}$ in $\R^n$ is said to be an \textbf{orthonormal set} if it is an orthogonal set and each vector in the set has unit length, that is, $\|\vt{v}_i\| = 1$ for all $i$.\\
+    If $W$ is a subspace spanned by an orthonormal set, then the set is called an \textbf{orthonormal basis} for $W$.
+\end{definition}
+\begin{proposition}
+    An $n\times n$ matrix $U$ has orthonormal columns if and only if $U^TU = I$.
+\end{proposition}
+\indent The proof of this proposition follows directly from how we calculate the product of two matrices, and the readers can try to prove it by themselves. 
+This reveals the relationship between orthonormal sets and square matrices, and next, we will discuss some properties of general $m\times n$ matrices.
+\begin{proposition}
+    Let $U$ be an $m\times n$ matrix with orthonormal columns, and let $\vt{x}$ and $\vt{y}$ be vectors in $\R^n$. Then
+    \begin{itemize}
+        \item $||U\vt{x}||=||\vt{x}||$
+        \item $(U\vt{x})\cdot(U\vt{y}) = \vt{x}\cdot\vt{y}$
+        \item $(U\vt{x})\cdot(U\vt{y}) = \vt{0} \text{ if and only if } \vt{x}\cdot\vt{y} = 0$
+    \end{itemize}
+    Remark: Properties a and c say that the linear mapping $\vt{x} \mapsto U \vt{x}$ preserves lengths and orthogonality.
+\end{proposition}
+\indent To bring this section to an end, we introduce the following lemmma of the propositions above, whose proof is left as an exercise to the readers.
+\begin{quotation}
+    Let $U$ be an $n\times n$ matrix with orthonormal columns, show that det$U$ = $\pm 1$.
+\end{quotation}
+
+\subsection{Orthogonal Projections}
+\indent In the previous section, we have introduced the concept of orthogonal projection onto a vector, as well as the orthonormal set. Now let's combine them together and introduce the orthogonal projection onto a subspace.
+\begin{example}
+    Let $W$ to be the xy-plane, and $\vt{u_1}\in W,\vt{u_2}\in W^\perp$, then we can decomposit the vector $\vt{u}=(a,b,c)$ into two parts:\[
+    \vt{u}=(a,b,c)=(a,b,0)+(0,0,c)=\vt{u_1}+\vt{u_2}
+    \]
+\end{example}
+In general, we want to find a decomposition of a vector $\vt{y}$ in $\R^n$ into two parts, one in the subspace $W$ and the other in the orthogonal complement $W^\perp$.
+\begin{proposition}
+    \textbf{Orthogonal Decomposition Theorem}\\
+     Let $W$ be a subspace of $\R^n$, then each $\vt{y}\in\R^n$ can be uniquely written as\[
+    \vt{y} = \hat{\vt{y}} + \vt{z}
+    \]
+    where $\hat{\vt{y}}\in W$ and $\vt{z}\in W^\perp$. In fact, if $\{\vt{u_1},\cdots,\vt{u_p}\}$ is any orthogonal basis for $W$, then\[
+    \hat{\vt{y}} = \frac{\vt{y}\cdot\vt{u_1}}{\vt{u_1}\cdot\vt{u_1}}\vt{u_1}+\cdots+\frac{\vt{y}\cdot\vt{u_p}}{\vt{u_p}\cdot\vt{u_p}}\vt{u_p}
+    \]
+    and $\vt{z} = \vt{y} - \hat{\vt{y}}$.\\
+    Here, $\hat{\vt{y}}$ is called the \textbf{orthogonal projection} of $\vt{y}$ onto $W$, denoted by $\text{proj}_W\vt{y}$.
+\end{proposition}
+\indent We may inteprete the the orthogonal projection onto a orthogonal basis as a generalization of the orthogonal projection onto a vector. Hence, the proof of this propositon is similar that to the latter. 
+Since the correctness of a decomposition can be easily verified, by checking whether $\vt{z}$ is orthogonal to each $\vt{u_i}$, we will not provide examples here. Readers can randomly choose a vector and a subspace as exercises and verify the correctness by themselves.\\
+\indent \textit{Proof.} The proof of this proposition can be slipped into two parts, i.e., the existence and uniqueness, and here is an outline of the proof:
+\begin{itemize}
+    \item \textbf{Existence:} First we observe that $\hat{\vt{y}}$ is in $W$, since it's a linear combination of the basis vectors, and next we only need to show that $\vt{z}$ is orthogonal to $W$. This can be done by calculating the dot product of $\vt{z}$ and $\vt{u_i}$, and we can show that $\vt{z}$ is orthogonal to each $\vt{u_i}$.
+    \item \textbf{Uniqueness:} Suppose that there are two, then $\hat{\vt{y}}=\hat{\vt{y_1}}+\hat{\vt{z_1}}=\hat{\vt{y_2}}+\hat{\vt{z_2}}$, and \[
+    (\hat{\vt{y_1}}-\hat{\vt{y_2}})=-(\hat{\vt{z_1}}-\hat{\vt{z_2}})
+    \]
+    Multiplying both sides by $\hat{\vt{y_1}}-\hat{\vt{y_2}}$ and using the fact that $\hat{\vt{y_1}}-\hat{\vt{y_2}} \perp \hat{\vt{z_1}}-\hat{\vt{z_2}}$,
+    we can show that $||\hat{\vt{y_1}}-\hat{\vt{y_2}}||$ and therefore the result.
+\end{itemize}
+\indent\indent From these concepts, we can easily get the following lemma:
+\begin{quotation}
+    Let $W=\operatorname*{span} \{\vt{u}_1, \vt{u}_2, \cdots, \vt{u}_p\}$ be an orthogonal basis for $W$. If $\vt{y}\in W$, then $\text{proj}_W\vt{y} = \vt{y}$.
+\end{quotation}
+\begin{proposition}
+    \textbf{The Best Approximation Theorem}\\
+    Let $W$ be a subspace of $\R^n$. Let $\vt{y}$ be any vector in $\R^n$, and let $\hat{\vt{y}}$ be the orthogonal projection of $\vt{y}$ onto $W$. Then $\hat{\vt{y}}$ is the closest point in $W$ to $\vt{y}$, that is, for any $\vt{w}\in W$,\[
+    ||\vt{y}-\hat{\vt{y}}||\leq||\vt{y}-\vt{w}||
+    \]
+    Remark: The vector $\hat{\vt{y}}$ is called \textbf{the best approximation} to $\vt{y}$ from $W$.
+\end{proposition}
+\indent\indent \textit{Proof.} We write $\vt{y}-\vt{w}=(\vt{y}-\hat{\vt{y}})+(\hat{\vt{y}}-\vt{w})$, and the result follows from the Pythagorean theorem. 
+\indent Following this proposition, we are safe to define the distance between a vector and a subspace.
+\begin{definition}
+    The \textbf{distance} from a vector $\vt{y}$ to a subspace $W$ is defined as the distance from $\vt{y}$ to the closest point in $W$, that is,\[
+    \text{dist}(\vt{y},W) = ||\vt{y}-\hat{\vt{y}}||
+    \]
+    where $\hat{\vt{y}}$ is the orthogonal projection of $\vt{y}$ onto $W$.
+\end{definition}
+\begin{example}
+    Find the distance from $\vt{y}$ to $W=\operatorname*{span}\{\vt{u_1},\vt{u_2}\}$, where\[
+    \vt{y}=\begin{bmatrix}
+        -1\\-5\\10
+    \end{bmatrix}, \quad \vt{u_1}=\begin{bmatrix}
+        5\\-2\\1
+    \end{bmatrix}, \quad \vt{u_2}=\begin{bmatrix}
+        1\\2\\-1
+    \end{bmatrix}.
+    \]
+    \textbf{Solution.} $3\sqrt{5}$
+\end{example}
+\indent Lastly, from the Orthogonal Decomposition Theorem, for the case when the set is an orthonormal basis, we can easily get the following lemma:
+\begin{quotation}
+    Let $W$ be a subspace of $\R^n$ spanned by an orthonormal basis $\{\vt{u}_1, \vt{u}_2, \cdots, \vt{u}_p\}$. If $\vt{y}\in\R^n$, then $$\text{proj}_W\vt{y} = \vt{y}\cdot\vt{u}_1\vt{u}_1+\cdots+\vt{y}\cdot\vt{u}_p\vt{u}_p.$$
+    If $U=[\vt{u_1}\; \vt{u_2}\; \cdots \; \vt{u_p}]$, then $$\text{proj}_W\vt{y} = UU^T\vt{y} \text{ for all }\vt{y}\in \R^n$$
+\end{quotation}
+\indent Also, we may show the following lemma to be true, which involves the linear combination:
+\begin{quotation}
+    Let $W$ be a subspace of $\R^n$, and $\vt{x},\vt{y}$ are vectors in $\R^n$. If $\vt{z}=\vt{x}+\vt{y}$, then\[
+    \text{proj}_W\vt{z} = \text{proj}_W\vt{x} + \text{proj}_W\vt{y}.
+    \]
+\end{quotation}
+
+\subsection{Gram-Schmidt Process}
+\indent After having the concepts of orthogonal and orthonormal sets, the thing left is to find such sets. Although we may be provided with a basis of a subspace, it may not be orthogonal or orthonormal, which limits its applications. For example, try the following exercise:
+\begin{example}
+    Let $W$ be the subspace of $\R^3$ spanned by the vectors\[
+    \vt{v}_1 = \begin{pmatrix}
+        3\\6\\0
+    \end{pmatrix}, \quad \vt{v}_2 = \begin{pmatrix}
+        1\\2\\2
+    \end{pmatrix}.
+    \]
+    Find an orthogonal basis for $W$.
+\end{example}
+\indent In this example, it is quite easy to "guess out" an answer, but in general, we need a systematic way to find the orthogonal basis. The Gram-Schmidt process is such a simple algorithm to find an orthogonal basis for a nonzero subspace $W$ of $\R^n$ given a basis for $W$.
+\indent \textcolor{Green}{Remark}: There should have been some reasoning behind the Gram-Schmidt process.
+\begin{proposition}
+    \textbf{The Gram-Schmidt Process}\\
+    Given a basis $\{\vt{x_1}, \vt{x_2}, \cdots, \vt{x_p}\}$ for a nonzero subspace $W$ of $\R^n$, define\[\vt{v}_i = 
+    \begin{cases}
+        \vt{x}_1 & \text{if } i = 1,\\
+        \vt{x}_i - \sum_{j=1}^{i-1}\operatorname*{proj}_{\vt{v}_j}\vt{x}_i & \text{if } i > 1.
+    \end{cases}
+    \]
+    Then $\{\vt{v}_1, \vt{v}_2, \cdots, \vt{v}_p\}$ is an orthogonal basis for $W$, and \[
+    \operatorname*{Span}\{ \vt{v}_1, \vt{v}_2, \cdots, \vt{v}_p\} = \operatorname*{Span}\{ \vt{x}_1, \vt{x}_2, \cdots, \vt{x}_p\}.
+    \]
+\end{proposition}
+\indent After getting an \textbf{orthogonal basis} through the algorithm above, we can easily construct a \textbf{orthonormal basis} by normalizing each vector in the basis.
+\begin{proposition}
+    \textbf{The QR Factorization}\\
+    Let $A$ be an $m\times n$ matrix with linearly independent columns. Then there exists an $m\times n$ matrix $Q$ with orthonormal columns and an $n\times n$ upper triangular matrix $R$ such that $A=QR$, and
+    The $Q$'s columns form an orthonormal basis for the column space of $A$, and $R$ is an $n\times n$ upper triangular invertible matrix with positive diagonal entries.
+\end{proposition}
+\indent The proof remains to be completed. Furthermore, if columns of $A$ are linearly dependent and $A=QR$, then $R$ will have zero entries on its diagonal.\\
+
+\subsection{Least Squares Problems}
+\subsubsection*{Least Squares Solutions}
+\indent In real application, sometimes $A\vt{x}=\vt{b}$ has no solution, and we want to find $\hat{\vt{x}}$ such that $A\vt{x}$ is as close as possible to $\vt{b}$, which is called the \textbf{least squares problem}.
+\begin{definition}
+    If $A$ is $m\times n$ and $\vt{b}$ is in $\R^m$, then the \textbf{least squares solution} to the inconsistent system $A\vt{x}=\vt{b}$ is the vector $\hat{\vt{x}}$ in $\R^n$ such that\[
+    ||A\hat{\vt{x}}-\vt{b}|| \leq ||A\vt{x}-\vt{b}||
+    \]
+    for all $\vt{x}$ in $\R^n$.
+\end{definition}
+\begin{proposition}
+    \textbf{The Least Squares Solution}\\
+    The set of least-squares solutions of $A\vt{x}=\vt{b}$ coincides with the nonempty set of solutions of the equations \[
+    A^TA\vt{x} = A^T\vt{b},
+    \]
+    which is called the \textbf{normal equation} for the system $A\vt{x}=\vt{b}$.
+\end{proposition}
+\indent \textit{Proof.} First we prove that such $\hat{\vt{x}}$ exists. Denote $\hat{\vt{b}}=\text{proj}_{\text{Col}A}\vt{b}$, then since $\hat{\vt{b}}$ is a combination of column vectors of $A$, 
+the system $A\hat{\vt{x}}=\hat{\vt{b}}$ has a solution $\hat{\vt{x}}$, which satisfies\[
+||\vt{b}-A\hat{\vt{x}}||=||\vt{b}-\hat{\vt{b}}||\leq||\vt{b}-A\vt{x}||.
+\]
+\indent Next, we prove that the solution set of $A^TA\vt{x}=A^T\vt{b}$ (1) is the same as the solution set of $A\vt{x}=\hat{\vt{b}}$ (2). 
+According to the definition of orthogonal projection, $\vt{b}-\vt{\hat{b}}\perp \text{Col}A$, which indicates that $$A^T(\vt{b}-\vt{\hat{b}})=\vt{0}.$$ 
+By substituting $\vt{\hat{b}}=A\hat{\vt{x}}$ into the equation above, we can get (1). 
+Conversly, from (1) we can get $0=A^T(A\vt{x}-\vt{b})$, which implies that $(\vt{b}-A\vt{x})\perp \text{Col}A$, so $\vt{b}-A\vt{x}\in (\text{Col}A)^\perp$.
+ Here by the uniqueness of orthogonal decomposition, we must have $\vt{b}-A\vt{x}=\vt{b}-\hat{\vt{b}}$, which directly leads to (2). \qed\\
+\indent From the reasoning arguments above, we can easily find that for an $m\times n$ matrix $A$ the following statements are logically equivalent:
+\begin{itemize}
+    \item The equation $A\vt{x}=\vt{b}$ has a unique least-squares solution for every $\vt{b}$ in $\R^m$.
+    \item The columns of $A$ are linearly independent.
+    \item The matrix $A^TA$ is invertible.
+\end{itemize}
+
+\subsubsection*{Alternative ways for finding the least squares solution}
+\begin{itemize}
+    \item[(1)] When the columns of $A$ are orthogonal.\\
+    Since Col$A$ is an orthogonal subspace, by definition we can write the orthogonal projection of $\vt{b}$ onto Col$A$ as\[
+    \hat{\vt{b}} = \text{proj}_{\text{Col}A}\vt{b} = \frac{\vt{b}\cdot\vt{a}_1}{\vt{a}_1\cdot\vt{a}_1}\vt{a}_1 + \cdots + \frac{\vt{b}\cdot\vt{a}_n}{\vt{a}_n\cdot\vt{a}_n}\vt{a}_n = A\cdot (x_1, x_2, \cdots, x_n)^T,
+    \]
+    where $x_i=\frac{\vt{b}\cdot\vt{a}_i}{\vt{a}_i\cdot\vt{a}_i}$. Hence the least squares solution is $\hat{\vt{x}}=(x_1, x_2, \cdots, x_n)^T$.
+    \item[(2)] When columns of $A$ are linearly independent.\\
+    Here the least-squares solution can often be computed more reliable through a QR factorization of $A$. Let $A=QR$ be a QR factorization of $A$.
+    Then, for each $\vt{b}$ in $\R^m$, the least-squares solution of $A\vt{x}=\vt{b}$ is given by\[
+    \hat{\vt{x}} = R^{-1}Q^T\vt{b}.
+    \]
+    \indent\textit{Proof.} Let $\hat{\vt{x}}=R^{-1}Q^T\vt{b}$, then\[
+    A\hat{\vt{x}}=QR\hat{\vt{x}}=QRR^{-1}Q^T\vt{b}=QQ^T\vt{b}.
+    \]
+    Note that the columns of $Q$ form an orthonormal basis for Col$A$, so $QQ^T\vt{b}$ is the orthogonal projection of $\vt{b}$ onto Col$A$ - \textcolor{red}{Why?}. So $\hat{\vt{x}}$ is the least-squares solution. The uniqueness follows from the fact that the columns of $A$ are linearly independent.
+\end{itemize}
+
+\indent These methods requires lots of exercise to get familiar with, and the readers are encouraged to try more exercises to get a better understanding of the least squares problem. For example, following is an example which involves different methods covered in these chapters. (Please calculate this!)
+\begin{example}
+    Find the least square solution using QR factorization for the following system:\[
+    \begin{pmatrix}
+        1&3&5\\1&1&0\\1&1&2\\1&3&3
+    \end{pmatrix}\begin{pmatrix}
+        x_1\\x_2\\x_3
+    \end{pmatrix}=\begin{pmatrix}
+        3\\5\\7\\-3
+    \end{pmatrix}
+    \]
+\end{example}
+This blank is left for the rough work of the example above.\\
+\newpage
+
+\subsection{Applications}
+\subsubsection*{Linear Regression (Least Squares lines)}
+\indent In the context of linear regression, we are given a set of data points $(x_1, y_1), (x_2, y_2), \cdots, (x_n, y_n)$, and we want to find the best-fitting line $y = mx + b$ to the data, where we want to minimize \[
+\sum_{i=1}^{n}(y_i - (mx_i + b))^2. 
+\]
+Given the description above, we can always write $$y_i=mx_i+b+\epsilon_i,$$ where $\epsilon_i$ is the error in the $i$th measurement. Hence, we can use the matrix form to represent the problem as\[
+\begin{pmatrix}
+    y_1\\y_2\\\vdots\\y_n
+\end{pmatrix}=\begin{pmatrix}
+    1&x_1\\1&x_2\\\vdots&\vdots\\1&x_n
+\end{pmatrix}\begin{pmatrix}
+    b\\m
+\end{pmatrix}+\begin{pmatrix}
+    \epsilon_1\\\epsilon_2\\\vdots\\\epsilon_n
+\end{pmatrix}.
+\]
+Now we want to minimize $||\vt{x}\vt{\beta}-\vt{y}||$, where\[
+\vt{x}=\begin{pmatrix}
+    1&x_1\\1&x_2\\\vdots&\vdots\\1&x_n
+\end{pmatrix}, \quad \vt{\beta}=\begin{pmatrix}
+    b\\m
+\end{pmatrix}, \quad \vt{y}=\begin{pmatrix}
+    y_1\\y_2\\\vdots\\y_n
+\end{pmatrix},
+\]
+which is equivalent to find the least squares solution of the system $\vt{x}\vt{\beta}=\vt{y}$.
+\subsubsection*{General Linear Model}
+\indent Fit data by curves that have the form\[
+y = \beta_0 f_0(x) + \beta_1 f_1(x) + \cdots + \beta_n f_n(x),
+\]
+where $f_0(x), f_1(x), \cdots, f_n(x)$ are known functions of $x$. The goal is to find the coefficients $\beta_0, \beta_1, \cdots, \beta_n$ that minimize the sum of the squares of the errors.
+\begin{example}
+    Given the data $(x_1,y_1), (x_2,y_2), \cdots, (x_n,y_n)$ that comes from a company's total costs. The equation of the form \[
+    y = \beta_0 + \beta_1x + \beta_2x^2 + \beta_3x^3
+    \]
+    is an appropriate model for the data. Describe the linear model that gives a best fit to the data.\\
+    \textbf{Solution.} $\vt{y}=\vt{x}\beta+\varepsilon$, where\[
+    \vt{y}=\begin{pmatrix}
+        y_1\\y_2\\\vdots\\y_n
+    \end{pmatrix}, \quad \beta=\begin{pmatrix}
+        \beta_0\\\beta_1\\\beta_2\\\beta_3
+    \end{pmatrix}, \quad \vt{x}=\begin{pmatrix}
+        1&x_1&x_1^2&x_1^3\\1&x_2&x_2^2&x_2^3\\\vdots&\vdots&\vdots&\vdots\\1&x_n&x_n^2&x_n^3
+    \end{pmatrix}.
+    \]
+    Now we can solve the least squares solution of $\vt{x}\beta=\vt{y}$ to get $\beta$.
+\end{example}
+\indent Note that when we have more than one independent variable, we can use the same method to find the best-fitting plane or hyperplane, such as \[
+y=\beta_0+\beta_1 u + \beta_2 v + \beta_3 w.
+\]
+
+\end{document}

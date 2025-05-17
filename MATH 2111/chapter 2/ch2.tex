@@ -1,0 +1,376 @@
+\documentclass[10pt, a4paper]{article}
+\hbadness=10000
+\usepackage{listings}
+\usepackage{ulem}
+\usepackage{appendix}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage[top=2.5cm, bottom=3.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{ctex}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{sectsty}
+
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+\colorlet{LightBlue}{Cyan!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Example,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{example}
+\tcolorboxenvironment{example}{colback=LightBlue, boxrule=0pt}
+
+\declaretheoremstyle[name=Principle,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{principle}
+\tcolorboxenvironment{principle}{colback=LightGreen, boxrule=0pt}
+
+\declaretheoremstyle[name=Proposition,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{proposition}
+\tcolorboxenvironment{proposition}{colback=LightGray, boxrule=0pt}
+
+\declaretheoremstyle[name=Definition,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{definition}
+\tcolorboxenvironment{definition}{colback=LightOrange, boxrule=0pt}
+
+
+\newenvironment{Solution}{\textbf{Solution.}}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},  
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,        
+    breaklines=true,                
+    captionpos=b,                    
+    keepspaces=true,                
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\setlength{\parindent}{2em}
+\subsubsectionfont{\color{Blue}}
+
+
+% ------------------------------------------------------------------------------
+\setstretch{1.0}
+% ------------------------------------------------------------------------------
+\begin{document}
+\title{ \normalsize \textsc{}
+\\ [2.0cm]
+\HRule{1.5pt} \\ [0.3cm]
+\LARGE {\textbf{Matrix Algebra and Applications}
+\HRule{1.5pt} \\ [0.6cm]
+\LARGE{\textbf{MATH 2111 Lecture Notes}} \vspace*{10\baselineskip}}
+}
+\date{\today}
+\author{\textbf{LI, Hongrui}}  %template borrowed from hlx
+\maketitle
+
+\clearpage
+\tableofcontents
+\newpage
+
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 1
+% ------------------------------------------------------------------------------
+\section{Systems of Linear Equations}
+\newpage
+
+
+% ------------------------------------------------------------------------------    
+% Start of Chapter 2
+% ------------------------------------------------------------------------------
+\section{Matrix Algebra}
+\subsection{Matrix Operations}
+\subsubsection*{Sums and Scalar Multiplication}
+\begin{example}
+    \textbf{Matrix Addition}
+    \begin{enumerate}
+        \item $A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$, $B = \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix}$, then $A + B = \begin{bmatrix} 6 & 8 \\ 10 & 12 \end{bmatrix}$
+        \item $A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$, $B = \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix}$, then $A - B = \begin{bmatrix} -4 & -4 \\ -4 & -4 \end{bmatrix}$
+    \end{enumerate}
+\end{example}
+Given two matrices $A$ and $B$ of the same size, the sum of $A$ and $B$ is the matrix obtained by adding corresponding elements of $A$ and $B$. The difference of $A$ and $B$ is the matrix obtained by subtracting corresponding elements of $A$ and $B$.
+\begin{example}
+    \textbf{Scalar Multiplication}
+    \begin{enumerate}
+        \item $A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$, $k = 2$, then $kA = \begin{bmatrix} 2 & 4 \\ 6 & 8 \end{bmatrix}$
+        \item $A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$, $k = -1$, then $kA = \begin{bmatrix} -1 & -2 \\ -3 & -4 \end{bmatrix}$
+    \end{enumerate}
+\end{example}
+Given a matrix $A$ and a scalar $k$, the product of $k$ and $A$ is the matrix whose colums are r times the corresponding columns of $A$.
+\begin{proposition}
+    \textbf{Properties of Matrix Addition and Scalar Multiplication}
+    \begin{enumerate}
+        \item $A + B = B + A$
+        \item $(A + B) + C = A + (B + C)$
+        \item $A + 0 = A$
+        \item $A + (-A) = 0$
+        \item $k(A + B) = kA + kB$
+        \item $(k + l)A = kA + lA$
+        \item $k(lA) = (kl)A$
+        \item $1A = A$
+    \end{enumerate}
+\end{proposition}
+\textit{Proof.} To prove Prop. 2.1, just consider the definition of matrix addition and scalar multiplication, and apply the Principles of numeral Addition and Multiplication.
+
+\subsubsection*{Matrix Multiplication}
+Given two matrices $A$ and $B$, for any vector $\mathbf{x}$, we want to make sure that $(AB)\mathbf{x} = A(B\mathbf{x})$.
+Starting from this point of view, we can define the matrix multiplication. \textcolor{red}{Justification of this defination remains to be solved.}
+\begin{definition}
+    \textbf{Matrix Multiplication}\\
+    Let $A$ be an $m\times n$ matrix and $B$ be an $n\times p$ matrix, we now define that $$A B = C = (A\mathbf{b_1}, \cdots, A\mathbf{b_p}).$$
+    \textbf{Remark:} The product $AB$ is defined if and only if the number of columns of $A$ is equal to the number of rows of $B$, and the size of the product is $m\times p$.
+\end{definition}
+\begin{example}
+    Find the product of the $AB$, where\[
+        A = \begin{pmatrix} -2 & 5 & 0 \\ -1 & 3 & 4 \\ 6 & -8 & -7 \\ -3 & 0 & 9 \end{pmatrix}, B = \begin{pmatrix} 4 & -6 \\ 7 & 1 \\ 3 & 2 \end{pmatrix}.
+    \]
+    \textbf{Solution:} To avoid making mistaks or losing points, follow strictly this defination and write in steps, or write down the calculation details of each elements.
+\end{example}
+Note that this defination actually uses the defination of matrix-vector multiplication, which is defined as the linear combination of the columns of the matrix.
+In many textbooks, the defination of matrix multiplication is defined in the following way, which is equivalent to the defination above and we regard it as Row-Column Rule for Matrix Multiplication in the context of MATH2111.
+In general, we have the following properties of matrix multiplication.
+\begin{proposition}
+    \textbf{Row-Column Rule for Matrix Multiplication}\\
+    Let $A$ be an $m\times n$ matrix and $B$ be an $n\times p$ matrix, we now define that the product $AB$ is the $m\times p$ matrix whose $(i,j)$-entry is the dot product of the $i$-th row of $A$ and the $j$-th column of $B$, that is, $$(AB)_{ij} = \sum_{k=1}^n a_{ik}b_{kj},$$
+    where $A=\begin{pmatrix}
+            a_{11} & \cdots & a_{1n} \\
+            \vdots & \ddots & \vdots \\
+            a_{m1} & \cdots & a_{mn}
+        \end{pmatrix}, B=\begin{pmatrix}
+            b_{11} & \cdots & b_{1p} \\
+            \vdots & \ddots & \vdots \\
+            b_{n1} & \cdots & b_{np}
+        \end{pmatrix}.$
+\end{proposition}
+\begin{proposition}
+    \textbf{Properties of Matrix Multiplication}
+    \begin{enumerate}
+        \item $A(BC) = (AB)C$
+        \item $A(B + C) = AB + AC$
+        \item $(A + B)C = AC + BC$
+        \item $k(AB) = (kA)B = A(kB)$
+        \item $I_mA = A = AI_n$
+    \end{enumerate}
+    \textcolor{red}{\textbf{Warning:}} \\
+    (1)  In general, $AB\neq BA$, that is, the multiplication of matrices is not communtive. Moreover, the product of two matrices may not be defined, that is, $AB$ may not be defined even if $BA$ is defined.\\
+    (2)  In general, $AB=AC$ does not imply $B=C$.\\
+    (3)  In general, $AB=0$ does not imply $A=0$ or $B=0$.
+\end{proposition}
+
+\subsubsection*{Powers and Transpose of a Matrix}
+\begin{definition}
+    \textbf{Powers of a Matrix}\\
+    Let $A$ be a $n\times n$ matrix, then we define the power of $A$ as follows:
+    \begin{align*}
+        A^0 & = I_n             \\
+        A^1 & = A               \\
+        A^2 & = A\cdot A        \\
+        A^3 & = A\cdot A\cdot A \\
+            & \cdots
+    \end{align*}
+\end{definition}
+\begin{definition}
+    \textbf{Transpose of a Matrix}\\
+    Let $A$ be a $m\times n$ matrix, then the transpose of $A$, denoted by $A^T$, is the $n\times m$ matrix whose $(i,j)$-entry is the $(j,i)$-entry of $A$, that is, $$(A^T)_{ij} = A_{ji}.$$
+\end{definition}
+\begin{example}
+    Find the transpose of the matrix $A = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}$.\\
+    \textbf{Solution:} We have $A^T = \begin{pmatrix} 1 & 4 \\ 2 & 5 \\ 3 & 6 \end{pmatrix}$.
+\end{example}
+\begin{proposition}
+    \textbf{Properties of Transpose of a Matrix}
+    Let $A$ and $B$ be matrices whose sizes are appropriate for the following operations, and let $k$ be a scalar, then we have
+    \begin{enumerate}
+        \item $(A^T)^T = A$
+        \item $(kA)^T = kA^T$
+        \item $(A + B)^T = A^T + B^T$
+              \textcolor{Orange}{\item $(AB)^T = B^TA^T$}
+        \item $(A^k)^T = (A^T)^k$
+    \end{enumerate}
+\end{proposition}
+\; \; \textit{Proof.} For Prop. 2.4.4, we have $(AB)_{ij} = \sum_{k=1}^n a_{ik}b_{kj}$, then $$(AB)^T_{ij} = (AB)_{ji} = \sum_{k=1}^n a_{jk}b_{ki} = \sum_{k=1}^n b_{ki}a_{jk} = (B^TA^T)_{ij}.$$
+Note that in Prop. 2.4.4, $A^T B^T$ may not even be defined if $A$ and $B$ are not square matrices.
+
+\subsection{Inverses of Matrices and Elementary Matrices}
+\subsubsection*{Inverses of Matrices}
+In many situations, we need to solve the equation $A\mathbf{x} = B$, where $A$ is a matrix and $\mathbf{x}$ is a vector. For numeral calculation, it's natural to find the solution by multiplying both sides by $A^{-1}$ to get $\mathbf{x} = A^{-1}B$. In matrices, in order to solve this equation, we introduce the concept of the inverse of a matrix.
+\begin{definition}
+    \textbf{Identity Matrices}\\
+    The $n\times n$ identity matrix, denoted by $I_n$, is the matrix whose $(i,j)$-entry is 1 if $i=j$ and 0 otherwise, that is, $$(I_n)_{ij} = \begin{cases} 1 & \text{if } i=j \\ 0 & \text{if } i\neq j \end{cases}.$$
+\end{definition}
+\begin{definition}
+    \textbf{Inverses of Matrices}\\
+    Let $A$ be a square matrix. If there exists a matrix $B$ such that $$AB = BA = I_n$$, then $B$ is called the inverse of $A$, denoted by $A^{-1}$.\\
+    Otherwise, if $A$ does not have an inverse, then $A$ is called singular.
+\end{definition}
+Note that the inverse of a matrix is unique if it exists, which can be proved by contradiction. Assume that $B$ and $C$ are both inverses of $A$, then we have $$B = BI_n = B(AC) = (BA)C = I_nC = C,$$ which shows that $B=C$. To find the unique inverse of a matrix, we can use the following method.
+\begin{example}
+    Find the inverse of the matrix $A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$.\\
+    \textbf{Solution:} We have $A^{-1} = \frac{1}{ad-bc}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$, where $a=1$, $b=2$, $c=3$, $d=4$. Thus, $A^{-1} = \frac{1}{1\cdot 4 - 2\cdot 3}\begin{pmatrix} 4 & -2 \\ -3 & 1 \end{pmatrix} = \begin{pmatrix} -2 & 1 \\ 1.5 & -0.5 \end{pmatrix}$.
+\end{example}
+\textit{Theorem.} From this example, we can derive a general formula for the inverse of a $2\times 2$ matrix. Let $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$, then we have $$A^{-1} = \frac{1}{ad-bc}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}.$$ 
+If $ad-bc=0$, then $A$ is singular and does not have an inverse. In general, we can use the Gauss-Jordan method to find the inverse of a matrix, which will be explained later.
+No matter whether a matrix is $2 \times 2$ or not, however, we have the following properties covered in the lectures.
+\begin{proposition}
+    \textbf{Properties of Inverses of Matrices}
+    Let $A$ and $B$ be invertible matrices of the same size, and let $k$ be a scalar, then we have
+    \begin{enumerate}
+        \item $A^{-1}$ is invertible, and $(A^{-1})^{-1} = A$
+        \item $(kA)^{-1} = \frac{1}{k}A^{-1}$
+        \item $(A^T)^{-1} = (A^{-1})^T$
+        \item $(AB)^{-1} = B^{-1}A^{-1}$
+    \end{enumerate}
+\end{proposition}
+\textit{Proof.} For Prop. 2.5.3, just consider using the Properties of Transpose. For Prop. 2.5.4, we have $$(AB)(B^{-1}A^{-1}) = A(BB^{-1})A^{-1} = AIA^{-1} = AA^{-1} = I.$$
+\; \; \;In the end, let's recall the problem of solving the equation $A\mathbf{x} = B$. With the concept of invertible matrices, we can now give a general solution. If $A$ is invertible, then we can multiply both sides by $A^{-1}$ to get $\mathbf{x} = A^{-1}B$. If $A\sigma $ is not invertible, then we can use the Gauss-Jordan method to solve the equation (which will be presented right after this part).
+\begin{proposition}
+    \textbf{Solution of the Equation $A\mathbf{x} = \mathbf{b}$}\\
+    If $A$ is an invertible matrix, then the equation $A\mathbf{x} = \mathbf{b}$ has \textbf{unique} solution $\mathbf{x} = A^{-1} \mathbf{b}$
+\end{proposition}
+\subsubsection*{Elementry Matrices}
+Recall the elementary row operations in Chapter 1, which are the following three operations: (1) Interchange two rows, (2) Multiply a row by a nonzero scalar, (3) Add a multiple of one row to another row. 
+If an elementary row operation is performed on the $m\times n$ matrix $A$, the resulting matrix can be written as $EA$, where $E$ is the $m\times m$ elementary matrix created by performing the elementary row operation on the $m\times m$ identity matrix $I_m$.\\
+\indent Each elementary matrix $E$ is invertible, and its inverse is also an elementary matrix. The inverse of $E$ is the elementary matrix of the same type that transforms $E$ back to $I_m$.
+\begin{proposition}
+    An $n\times n$ matrix $A$ is invertible if and only if $A$ is row equivalent to the $n\times n$ identity matrix $I_n$. In this case, any sequence of elementary row operations that reduces $A$ to $I_n$ will also transform $I_n$ into $A^{-1}$.
+\end{proposition}
+\textit{Proof.} All the following statements are equivalent:
+\begin{align*}
+    & A \text{ is invertible}                                                                                   \\
+    \Leftrightarrow & \text{The equation } A\mathbf{x} = \mathbf{b} \text{ has a unique solution for all vectors } \mathbf{b} \\
+    \Leftrightarrow & \text{The equation } A\mathbf{x} = \mathbf{0} \text{ has only the trivial solution}                 \\
+    \Leftrightarrow & \text{The reduced row echelon form of } A \text{ is } I_n \; \; (A \sim I_n).                                        \\
+\end{align*}
+Conversly, if $A\sim I_n$, each row operation corresponds to multiplying A by an elementary matrix, so $E_p \cdots E_2 E_1A=I_n$, where $E_1, E_2, \cdots, E_p$ are elementary matrices. Thus we have $$A^{-1} = E_p \cdots E_2 E_1.$$
+\begin{proposition}
+    \textbf{An algorithm for finding the inverse of a matrix (Gauss-Jordan method)}\\
+    Row operation reduce the matrix $\begin{pmatrix} A & I_n \end{pmatrix}$. If $A$ is row equivalent to $I_n$, then $\begin{pmatrix} A & I_n \end{pmatrix}$ is row equivalent to $\begin{pmatrix} I_n & A^{-1} \end{pmatrix}$. Otherwise, $A$ is not invertible.
+\end{proposition}
+\begin{example}
+    Find the inverse of the matrix $A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$.\\
+    \textbf{Solution:} We can use the following method to find the inverse of a matrix.\\
+    \textbf{Step 1:} Write down the augmented matrix $\begin{pmatrix} A & I_2 \end{pmatrix} = \begin{pmatrix} 1 & 2 & 1 & 0 \\ 3 & 4 & 0 & 1 \end{pmatrix}$.\\
+    \textbf{Step 2:} Use the row operations to transform the left side of the augmented matrix into the identity matrix: 
+    \(\begin{pmatrix} 1 & 2 & 1 & 0 \\ 3 & 4 & 0 & 1 \end{pmatrix} \rightarrow \begin{pmatrix} 1 & 2 & 1 & 0 \\ 0 & -2 & -3 & 1 \end{pmatrix} \rightarrow \begin{pmatrix} 1 & 2 & 1 & 0 \\ 0 & 1 & 3/2 & -1/2 \end{pmatrix} \rightarrow \begin{pmatrix} 1 & 0 & -1 & 1 \\ 0 & 1 & 3/2 & -1/2 \end{pmatrix}.\)\\
+    \textbf{Step 3:} The right side of the augmented matrix is the inverse of the matrix $A$.
+\end{example}
+\indent \textit{Proof.} $E_p \cdots E_1\begin{pmatrix} A & I_n \end{pmatrix} = \begin{pmatrix}E_p \cdots E_1 A & E_p \cdots E_1 I_n \end{pmatrix} = \begin{pmatrix} I_n & A^{-1} \end{pmatrix}$ 
+
+\subsection{Characterization of Invertible Matrices}
+\begin{proposition}
+    Let $A$ be an $n\times n$ matrix. The following statements are equivalent:
+    \begin{enumerate}
+        \item $A$ is invertible.
+        \item $A$ is row equivalent to $I_n$.
+        \item $A$ has $n$ pivot positions.
+        \item The equation $A\mathbf{x} = \mathbf{0}$ has only the trivial solution.
+        \item The equation $A\mathbf{x} = \mathbf{b}$ has a unique solution for all vectors $\mathbf{b}$.
+        \item The columns of $A$ form a linearly independent set.
+        \item The columns of $A$ span $\mathbb{R}^n$.
+        \item The linear transformation $\mathbf{x} \mapsto A\mathbf{x}$ is one-to-one.
+        \item The linear transformation $\mathbf{x} \mapsto A\mathbf{x}$ is onto.
+        \item There exists an $n\times n$ matrix $C$ such that $CA = I_n$.
+        \item There exists an $n\times n$ matrix $D$ such that $AD = I_n$.
+        \item $A^T$ is invertible.
+    \end{enumerate}
+\end{proposition}
+\textit{Proof.} The equivalence of the statements can be proved by the following chain of implications:
+\begin{align*}
+    & (1) \Rightarrow (2) \Rightarrow (3) \Rightarrow (4) \Rightarrow (5) \Rightarrow (6) \Rightarrow (7) \Rightarrow (8) \Rightarrow (9) \Rightarrow (10) \Rightarrow (11) \Rightarrow (12) \Rightarrow (1) \\
+    & (1) \Rightarrow (12) \Rightarrow (11) \Rightarrow (10) \Rightarrow (9) \Rightarrow (8) \Rightarrow (7) \Rightarrow (6) \Rightarrow (5) \Rightarrow (4) \Rightarrow (3) \Rightarrow (2) \Rightarrow (1)
+\end{align*}
+\subsubsection*{Invertible Linear transformations}
+A linear transformation $T: \mathbb{R}^n \rightarrow \mathbb{R}^n$ is invertible if and only if there exists a map $S: \mathbb{R}^n \rightarrow \mathbb{R}^n$ such that $T\circ S (\mathbf{x}) = S\circ T (\mathbf{x}) = \mathbf{x}$ for all $\mathbf{x} \in \mathbb{R}^n$. In this case, $S$ is called the inverse of $T$, denoted by $T^{-1}$.\\
+\indent Let $A$ be the standard matrix of the linear transformation $T$, then $T$ is invertible if and only if $A$ is invertible. In this case, the standard matrix of $T^{-1}$ is $A^{-1}$.\\
+\indent To bring this chapter to an end, we show the following proposition given by \textit{Github Copilot}.
+\begin{proposition}
+    Let $T: \mathbb{R}^n \rightarrow \mathbb{R}^n$ be a linear transformation. The following statements are equivalent:
+    \begin{enumerate}
+        \item $T$ is invertible.
+        \item $T$ is one-to-one.
+        \item $T$ is onto.
+    \end{enumerate}
+\end{proposition}
+
+
+
+\newpage
+\section{Determinants}
+\subsection{Introduction to Determinants}
+\begin{definition}
+    \textbf{Determinant of a Matrix}\\
+    Let $A$ be a $2\times 2$ matrix, then the determinant of $A$, denoted by $\det(A)$ or $|A|$, is defined as the following $$\det(A) = \begin{vmatrix} a & b \\ c & d \end{vmatrix} = ad - bc$$
+    In general, the determinant of an $n\times n$ matrix $A$, and $A_{ij}$ is the $(n-1)\times (n-1)$ matrix obtained by deleting the $i$-th row and $j$-th column of $A$, is defined as $\det(A) = \sum_{j=1}^n (-1)^{i+j}a_{ij}\det(A_{ij}).$
+    \textbf{Cofactor}\\
+    The $(i,j)$-cofactor of $A$ is defined as $C_{ij} = (-1)^{i+j}\det(A_{ij})$.\\
+\end{definition}
+The defination of determinant is a recursive defination, which is based on the defination of determinant of $2\times 2$ matrix. The determinant of a matrix can be calculated by the following formula:
+\begin{proposition}
+    \textbf{Calculation of Determinant}\\
+    Let $A$ be an $n\times n$ matrix, then the determinant of $A$ can be computed by a cofactor expansion across any row or down any column, that is, 
+    \begin{align*}
+        \det(A) & = \sum_{j=1}^n a_{ij}C_{ij} \text{ (expansion across the $i$-th row)} \\
+                & = \sum_{i=1}^n a_{ij}C_{ij} \text{ (expansion down the $j$-th column)}.
+    \end{align*}
+    \textbf{Thm for triangular matrix}\\
+    If $A$ is a triangular matrix, then $\det(A)$ is the product of the main diagonal entries of $A$.\[
+        \begin{pmatrix}
+            * & * & * &  \cdots & * \\
+            0 & * & * & \cdots & * \\
+            0 & 0 & * & \cdots & * \\
+            \vdots & \vdots & \vdots & \ddots & \vdots \\
+            0 & 0 & 0 & \cdots & *
+        \end{pmatrix}
+        \text{ or }
+        \begin{pmatrix}
+            * & 0 & 0 &  \cdots & 0 \\
+            * & * & 0 & \cdots & 0 \\
+            * & * & * & \cdots & 0 \\
+            \vdots & \vdots & \vdots & \ddots & \vdots \\
+            * & * & * & \cdots & *
+        \end{pmatrix}
+    \]
+    \color{red}{\textbf{Warning:}} Mind the sign of the cofactor expansion - indexes changed after each recursive call !!
+\end{proposition}
+
+\subsection{Properties of Determinants}
+\begin{proposition}
+    \textbf{Row Operations}\\
+    Let $A$ be an $n\times n$ matrix.
+    \begin{itemize}
+        \item If a multiple of one row of $A$ is added to another row to produce a matrix $B$, then $\det(B) = \det(A)$.
+        \item If two rows of $A$ are interchanged to produce a matrix $B$, then $\det(B) = -\det(A)$.
+        \item If one row of $A$ is multiplied by $k$ to produce a matrix $B$, then $\det(B) = k\det(A)$.
+    \end{itemize}
+\end{proposition}
+    
+
+\end{document}

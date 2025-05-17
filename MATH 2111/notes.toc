@@ -1,0 +1,37 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Systems of Linear Equations}{3}{section.1}%
+\contentsline {subsection}{\numberline {1.1}Systems of Linear Equations}{3}{subsection.1.1}%
+\contentsline {subsection}{\numberline {1.2}Row Reduction and Echelon Forms}{4}{subsection.1.2}%
+\contentsline {subsection}{\numberline {1.3}Vector Equations}{6}{subsection.1.3}%
+\contentsline {subsection}{\numberline {1.4}The Matrix Equation}{8}{subsection.1.4}%
+\contentsline {subsection}{\numberline {1.5}Solution Sets of Linear Systems}{10}{subsection.1.5}%
+\contentsline {subsection}{\numberline {1.6}Linear Independence}{13}{subsection.1.6}%
+\contentsline {subsection}{\numberline {1.7}Introduction to Linear Transformations}{14}{subsection.1.7}%
+\contentsline {subsection}{\numberline {1.8}The Matrix of a Linear Transformation}{15}{subsection.1.8}%
+\contentsline {section}{\numberline {2}Matrix Algebra}{16}{section.2}%
+\contentsline {subsection}{\numberline {2.1}Matrix Operations}{16}{subsection.2.1}%
+\contentsline {subsection}{\numberline {2.2}Inverses of Matrices and Elementary Matrices}{18}{subsection.2.2}%
+\contentsline {subsection}{\numberline {2.3}Characterization of Invertible Matrices}{21}{subsection.2.3}%
+\contentsline {section}{\numberline {3}Determinants}{22}{section.3}%
+\contentsline {subsection}{\numberline {3.1}Introduction to Determinants}{22}{subsection.3.1}%
+\contentsline {subsection}{\numberline {3.2}Properties of Determinants}{23}{subsection.3.2}%
+\contentsline {subsection}{\numberline {3.3}Cramer's Rule, Volume, and Linear Transformations}{24}{subsection.3.3}%
+\contentsline {section}{\numberline {4}Vector Spaces}{27}{section.4}%
+\contentsline {subsection}{\numberline {4.1}Vector Spaces and Subspaces}{27}{subsection.4.1}%
+\contentsline {subsection}{\numberline {4.2}Null Space, Column Space and Linear Transformation}{29}{subsection.4.2}%
+\contentsline {subsection}{\numberline {4.3}Linearly Independent Sets; Bases}{30}{subsection.4.3}%
+\contentsline {subsection}{\numberline {4.4}Coordinate Systems}{32}{subsection.4.4}%
+\contentsline {subsection}{\numberline {4.5}Dimensions of a Vector Space}{34}{subsection.4.5}%
+\contentsline {subsection}{\numberline {4.6}Rank}{36}{subsection.4.6}%
+\contentsline {section}{\numberline {5}Eigenvalues and Eigenvectors}{38}{section.5}%
+\contentsline {subsection}{\numberline {5.1}Eigenvalues and Eigenvectors}{38}{subsection.5.1}%
+\contentsline {subsection}{\numberline {5.2}Characteristic Equation}{39}{subsection.5.2}%
+\contentsline {subsection}{\numberline {5.3}Diagonalization}{41}{subsection.5.3}%
+\contentsline {subsection}{\numberline {5.4}Applications to Differential Equations}{43}{subsection.5.4}%
+\contentsline {section}{\numberline {6}Inner Product Spaces}{46}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Inner Product, Length, and Orthogonality}{46}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Orthogonal Sets}{46}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Orthogonal Projections}{48}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Gram-Schmidt Process}{49}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Least Squares Problems}{51}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}Applications}{53}{subsection.6.6}%

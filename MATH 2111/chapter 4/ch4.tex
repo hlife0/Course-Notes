@@ -1,0 +1,591 @@
+\documentclass[10pt, a4paper]{article}
+\hbadness=10000
+\usepackage{listings}
+\usepackage{ulem}
+\usepackage{appendix}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage[top=2.5cm, bottom=3.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{ctex}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{sectsty}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\vt}[1]{\mathbf{#1}}
+
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+\colorlet{LightBlue}{Cyan!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Example,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{example}
+\tcolorboxenvironment{example}{colback=LightBlue, boxrule=0pt}
+
+\declaretheoremstyle[name=Principle,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{principle}
+\tcolorboxenvironment{principle}{colback=LightGreen, boxrule=0pt}
+
+\declaretheoremstyle[name=Proposition,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{proposition}
+\tcolorboxenvironment{proposition}{colback=LightGray, boxrule=0pt}
+
+\declaretheoremstyle[name=Definition,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{definition}
+\tcolorboxenvironment{definition}{colback=LightOrange, boxrule=0pt}
+
+
+\newenvironment{Solution}{\textbf{Solution.}}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},  
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,        
+    breaklines=true,                
+    captionpos=b,                    
+    keepspaces=true,                
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\setlength{\parindent}{2em}
+\subsubsectionfont{\color{Blue}}
+
+
+% ------------------------------------------------------------------------------
+\setstretch{1.0}
+% ------------------------------------------------------------------------------
+\begin{document}
+\title{ \normalsize \textsc{}
+\\ [2.0cm]
+\HRule{1.5pt} \\ [0.3cm]
+\LARGE {\textbf{Matrix Algebra and Applications}
+\HRule{1.5pt} \\ [0.6cm]
+\LARGE{\textbf{MATH 2111 Lecture Notes}} \vspace*{10\baselineskip}}
+}
+\date{\today}
+\author{\textbf{LI, Hongrui}}  %template borrowed from hlx
+\maketitle
+
+\clearpage
+\tableofcontents
+\newpage
+
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 1
+% ------------------------------------------------------------------------------
+\section{Systems of Linear Equations}
+\section{Matrix Algebra}
+\section{Determinants}
+\newpage
+
+
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 4
+% ------------------------------------------------------------------------------
+\section{Vector Spaces}
+\subsection{Vector Spaces and Subspaces}
+By observing the vectors we have previously encountered, we may find that all vectos in $\R^n$ have some common properties. For example, the sum of two vectors in $\R^n$ is still a vector in $\R^n$. In this section, we will introduce the concept of vector spaces, which is a generalization of the properties of vectors.
+\begin{example}
+    \textbf{Vector Space of Polynomials}\\
+    Let $P_n$ be the set of all polynomials of degree at most $n$, where any element in $P_n$ can be written as
+    \begin{equation}
+        f(x) = a_0 + a_1x + a_2x^2 + \cdots + a_nx^n,
+    \end{equation}
+    where $a_0, a_1, \cdots, a_n$ are real numbers. For any two polynomials $f(x)$ and $g(x)$ in $P_n$, we can add them together to get another polynomial in $P_n$:
+    \begin{equation}
+        (f+g)(x) = (a_0 + b_0) + (a_1 + b_1)x + (a_2 + b_2)x^2 + \cdots + (a_n + b_n)x^n.
+    \end{equation}
+    For any element $f(x)$  in $P_n$, we can multiply it by a scalar $\alpha$ to get another element in $P_n$:
+    \begin{equation}
+        (\alpha f)(x) = \alpha a_0 + \alpha a_1x + \alpha a_2x^2 + \cdots + \alpha a_nx^n.
+    \end{equation}
+    Therefore, $P_n$ has two operations "addition" and "scalar multiplication". These operations satisfy the sme rules as those on vectors in $\R^n$. \\
+\end{example}
+\begin{example}
+    \textbf{Vector Space of Matrices}\\
+    Let $M_{m\times n}$ be the set of all $m\times n$ matrices, where any element in $M_{m\times n}$ can be written as
+    \begin{equation}
+        A = \begin{bmatrix}
+            a_{11} & a_{12} & \cdots & a_{1n} \\
+            a_{21} & a_{22} & \cdots & a_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            a_{m1} & a_{m2} & \cdots & a_{mn}
+        \end{bmatrix},
+    \end{equation}
+    where $a_{ij}$ are real numbers. For any two matrices $A$ and $B$ in $M_{m\times n}$, we can add them together to get another matrix in $M_{m\times n}$:
+    \begin{equation}
+        A + B = \begin{bmatrix}
+            a_{11} + b_{11} & a_{12} + b_{12} & \cdots & a_{1n} + b_{1n} \\
+            a_{21} + b_{21} & a_{22} + b_{22} & \cdots & a_{2n} + b_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            a_{m1} + b_{m1} & a_{m2} + b_{m2} & \cdots & a_{mn} + b_{mn}
+        \end{bmatrix}.
+    \end{equation}
+    For any element $A$ in $M_{m\times n}$, we can multiply it by a scalar $\alpha$ to get another element in $M_{m\times n}$:
+    \begin{equation}
+        \alpha A = \begin{bmatrix}
+            \alpha a_{11} & \alpha a_{12} & \cdots & \alpha a_{1n} \\
+            \alpha a_{21} & \alpha a_{22} & \cdots & \alpha a_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            \alpha a_{m1} & \alpha a_{m2} & \cdots & \alpha a_{mn}
+        \end{bmatrix}.
+    \end{equation}
+\end{example}
+
+Now we see that $R^n$, $P_n$ and $M_{m\times n}$ have some common properties, even if they look totally different. Regarding these shared properties, we give the defination of vector spaces.
+
+\begin{definition}
+    A \textbf{vector space} is a nonempty set $V$ of elements called \textbf{vectors}, on which are defined two operations, called \textbf{addition} and \textbf{scalar multiplication}, subject to the ten axioms listed below. The axioms must hold for all vectors $u, v, w$ in $V$ and all scalars $\alpha, \beta$.
+    \begin{enumerate}
+        \item \textbf{Closure under Addition}: The sum $u + v$ is a vector in $V$.
+        \item \textbf{Commutative Law of Addition}: $u + v = v + u$.
+        \item \textbf{Associative Law of Addition}: $(u + v) + w = u + (v + w)$.
+        \item \textbf{Existence of Zero Vector}: There exists a vector $0$ in $V$ such that $u + 0 = u$ for all $u$ in $V$.
+        \item \textbf{Existence of Additive Inverse}: For each $u$ in $V$, there exists a vector $-u$ in $V$ such that $u + (-u) = 0$.
+        \item \textbf{Closure under Scalar Multiplication}: The product $\alpha u$ is a vector in $V$.
+        \item \textbf{Distributive Law of Scalar Multiplication over Vector Addition}: $\alpha(u + v) = \alpha u + \alpha v$.
+        \item \textbf{Distributive Law of Scalar Multiplication over Scalar Addition}: $(\alpha + \beta)u = \alpha u + \beta u$.
+        \item \textbf{Associative Law of Scalar Multiplication}: $\alpha(\beta u) = (\alpha\beta)u$.
+        \item \textbf{Identity Law of Scalar Multiplication}: $1u = u$.
+    \end{enumerate}
+\end{definition}
+
+Furthermore, we have the concept of \textbf{subspace} of a vector space.
+\begin{definition}
+    A \textbf{subspace} of a vector space $V$ is a nonempty subset $H$ of $V$ that has the following three properties:
+    \begin{enumerate}
+        \item The zero vector of $V$ is in $H$.
+        \item $H$ is closed under addition.
+        \item $H$ is closed under scalar multiplication.
+    \end{enumerate}
+    An equivalent definition, $H$ is a subspace of V if and only if for all $u, v$ in $H$ and all scalars $\alpha, \beta$, we have $\alpha u + \beta v$ in $H$.
+\end{definition}
+For example, the set consisting of zero vector only in a vector space is a subspace of the vector space, called the \textbf{zero subspace}. In addition, we can observe that a subset of a vector space in the form of $$
+[f_1(x), f_2(x), \cdots, f_n(x)]
+$$
+can never be a subspace of the vector space if any of the $f_i(x)$ is a constant other than zero. To further determine whether a subset is a subspace of a vector space, we can use the following theorem, whose proof directly follows the defination above.
+\begin{proposition}
+    If $\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}$ are vectors in a vector space $V$, then the set of all linear combinations of $\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}$, i.e. $\operatorname*{span}\{\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}\}$ is a subspace of $V$.\\
+    Here $H$ is called the subspace of $V$ spanned by $\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}$.
+\end{proposition}
+\begin{example}
+    Let $H = \{(a-3b,b-a,a,b) | a,b\in \R\}$, show that $H$ is a subspace of $\R^4$.\\
+\end{example}
+\indent \textbf{Solution.} 
+    We can rewrite the set $H$ as $$
+    H = \{a(1,0,1,0) + b(-3,-1,0,1) | a,b\in \R\}.
+    $$
+    Therefore, $H$ is the span of the vectors $(1,0,1,0)$ and $(-3,-1,0,1)$. According to the previous proposition, $H$ is a subspace of $\R^4$.
+\begin{example}
+    For what values of h will $\mathbf{y}$ be in the subspaces of $\R^3$ spanned by $\mathbf{v_1}, \mathbf{v_2}, \mathbf{v_3} $, if\[
+    \mathbf{v_1} = \begin{pmatrix}
+        1\\-1\\-2
+    \end{pmatrix},
+    \mathbf{v_2} = \begin{pmatrix}
+        5\\-4\\-7
+    \end{pmatrix},
+    \mathbf{v_3} = \begin{pmatrix}
+        -3\\1\\0
+    \end{pmatrix},
+    \mathbf{y} = \begin{pmatrix}
+        -4\\3\\h
+    \end{pmatrix}?
+    \]
+\end{example}
+\indent\textbf{Solution.} $\mathbf{y}=x_1\mathbf{v_1} + x_2\mathbf{v_2} + x_3\mathbf{v_3}$ has a solution for $(x_1,x_2,x_3)^T$ if and only if $\mathbf{y}$ is in the subspace spanned by $\mathbf{v_1}, \mathbf{v_2}, \mathbf{v_3}$. Thus, we can simply solve the system of equations (omitted here) to get the result $h=5$.
+
+\subsection{Null Space, Column Space and Linear Transformation}
+\subsubsection*{The null space of a matrix}
+\begin{definition}
+    \textbf{Null Space of a Matrix} The null space of an $m\times n$ matrix $A$, denoted by $\operatorname{Nul} A$, is the set of all solutions to the homogeneous equation $A\mathbf{x} = \mathbf{0}$. In set notation, we have $$
+    \operatorname{Nul} A = \{\mathbf{x} | \mathbf{x}\in\R^n A\mathbf{x} = \mathbf{0}\}.
+    $$
+    $\operatorname*{Nul}A$ is the set of all $\mathbf{x}\in\R^n$ that are mapped into the zero vector of $\R^m$ via the transformation $\mathbf{x}\mapsto A\mathbf{x}$.
+\end{definition}
+\begin{proposition}
+    The null space of an $m\times n$ matrix $A$ is a subspace of $\R^n$.
+\end{proposition}
+\indent\textit{Proof.} We can see that $\mathbf{0}$ is in $\operatorname*{Nul}A$ since $A\mathbf{0} = \mathbf{0}$. For any $\mathbf{x}, \mathbf{y}$ in $\operatorname*{Nul}A$ and any scalar $\alpha$, we have $A(\mathbf{x} + \mathbf{y}) = A\mathbf{x} + A\mathbf{y} = \mathbf{0} + \mathbf{0} = \mathbf{0}$ and $A(\alpha\mathbf{x}) = \alpha A\mathbf{x} = \alpha\mathbf{0} = \mathbf{0}$. Therefore, $\operatorname*{Nul}A$ is a subspace of $\R^n$.
+\begin{example}
+    Let $H = \{(a,b,c,d)|a-2b+5c=d, c-a=b\}$. Show that $H$ is a subspace of $\R^4$.
+\end{example}
+\indent\textbf{Solution.} Let $A = \begin{bmatrix}
+    1 & -2 & 5 & -1\\
+    -1 & 1 & 1 & 0
+\end{bmatrix}$. Then $H = \operatorname*{Nul}A$. Since $\operatorname*{Nul}A$ is a subspace of $\R^4$, $H$ is a subspace of $\R^4$. Of course, this problem can also be solved by the proposition in the previous section.
+\indent From this example, we may find that there seem to exist an relationship between the null space of a matrix and the subspace spanned by the vectors in the matrix. 
+Actually, for each proper matrix $A$, it's easy to find that its null space is exactly the solution set of the homogeneous equation $A\mathbf{x} = \mathbf{0}$ by definition (another trivial result treated as a subsection in MATH2111). 
+Hence, we can also conclude that when $\operatorname*{Nul}A$ contains nonzero vectors, the number of vectors in the spanning set for $\operatorname*{Nul}A$ equals the number of free variables in the solution set of $A\mathbf{x} = \mathbf{0}$.\\
+\indent\textbf{Remark.} The handwritten notes summarized this as a method called "An Explicit Description of Null A" and provided an example asking readers to find a spanning set for the null space of a given matrix, which is simply solving the homogeneous equation $A\mathbf{x} = \mathbf{0}$ and writing the solution set in the form of a linear combination of vectors.\\
+
+\subsubsection*{The column space of a matrix}
+\begin{definition}
+    The \textbf{column space} of an $m\times n$ matrix $A$, denoted by $\operatorname*{Col}A$, is the set of all linear combinations of the columns of $A$. In set notation, we have $$
+    \operatorname*{Col}A = \{\mathbf{b} | \mathbf{b} = A\mathbf{x} \text{ for some } \mathbf{x}\in\R^n\}.
+    $$
+    $\operatorname*{Col}A$ is the set of all $\mathbf{b}\in\R^m$ that can be expressed as $A\mathbf{x}$ for some $\mathbf{x}\in\R^n$.
+\end{definition}
+\indent Following this definition, we can easily get the following proposition.
+\begin{proposition}
+    The column space of an $m\times n$ matrix $A$ is a subspace of $\R^m$.
+\end{proposition}
+\indent The handwritten notes provides an example of finding a matrix $A$ such that its column space is a given subset of $\R^m$. To solve this kind of problems, the standart steps are to first write the subset as a linear combination of vectors, and then a span of n vectors. Finally, augment the vectors to form an $m\times n$ matrix.\\
+Furthermore, please note that the column space of an $m \times n$ matrix $A$ is all of $\mathbb{R}^m$ if and only if the equation $A\mathbf{x} = \mathbf{b}$ has a solution for each $\mathbf{b}$ in $\mathbb{R}^m$.
+
+\subsubsection*{Kernel and Range of a Linear Transformation}
+Recall that a linear transformation $T$ from $\R^n$ to $\R^m$ is a function that satisfies the following two properties:
+\begin{enumerate}
+    \item $T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$ for all $\mathbf{u}, \mathbf{v}$ in $\R^n$, and
+    \item $T(\alpha\mathbf{u}) = \alpha T(\mathbf{u})$ for all $\mathbf{u}$ in $\R^n$ and all scalars $\alpha$.
+\end{enumerate} 
+Now we expand the concept of linear transformation to a more general form.
+\begin{definition}
+    A \textbf{linear transformation} $T$ from a vector space $V$ to a vector space $W$ is a function that satisfies the following two properties:
+    \begin{enumerate}
+        \item $T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$ for all $\mathbf{u}, \mathbf{v}$ in $V$, and
+        \item $T(\alpha\mathbf{u}) = \alpha T(\mathbf{u})$ for all $\mathbf{u}$ in $V$ and all scalars $\alpha$.
+    \end{enumerate}
+    Equivalently, $T$ is a linear transformation if and only if $T(\alpha\mathbf{u} + \beta\mathbf{v}) = \alpha T(\mathbf{u}) + \beta T(\mathbf{v})$ for all $\mathbf{u}, \mathbf{v}$ in $V$ and all scalars $\alpha, \beta$.
+\end{definition}
+Also, recall that for each linear transformation $T$, there exists a unique $m\times n$ matrix $A$ such that $T(\mathbf{x}) = A\mathbf{x}$ for all $\mathbf{x}$ in $\R^n$. 
+In previous chapters, we have discussed some relationships between the linear transformation and its corresponding matrix. Similarly, for null spaces and column spaces of a matrix, we also have the corresponding concepts for a linear transformation (the expanded version).
+\begin{definition}
+    The \textbf{kernel} (or Null space) of a linear transformation $T$ is \[
+    \{\mathbf{x} | T(\mathbf{x}) = \mathbf{0}\}.
+    \]
+    The \textbf{range} of a linear transformation $T$ is \[
+    \{\mathbf{b} | \mathbf{b} = T(\mathbf{x}) \text{ for some } \mathbf{x}\}.
+    \]
+\end{definition}
+
+\subsection{Linearly Independent Sets; Bases}
+\subsubsection*{Linear Independence}
+\begin{definition}
+    An indexed set of vectors $\{\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}\}$ in a vector space $V$ is said to be \textbf{linearly independent} if the vector equation \[
+    x_1\mathbf{v_1} + x_2\mathbf{v_2} + \cdots + x_p\mathbf{v_p} = \mathbf{0}
+    \] has only the trivial solution $x_1 = x_2 = \cdots = x_p = 0$. 
+\end{definition}
+\indent\textbf{Remark.} The set $\{\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}\}$ is linearly dependent if there exist weights $c_1, c_2, \cdots, c_p$, not all zero, such that $c_1\mathbf{v_1} + c_2\mathbf{v_2} + \cdots + c_p\mathbf{v_p} = \mathbf{0}$. 
+In such a case, $c_1\mathbf{v_1} + c_2\mathbf{v_2} + \cdots + c_p\mathbf{v_p}$ is called a \textbf{linear dependence relation} among $\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}$. Directly following this, we get the theorem similar to the version for linear transformation $\R^n\mapsto\R^m$.
+\begin{proposition}
+    An indexed set of vectors $\{\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}\}$ of two or more vectors in a vector space $V$, with $\mathbf{v_1}\neq \mathbf{0}$ is linearly dependent \textit{if and only if} at least one of the vectors in the set is a linear combination of the others.
+\end{proposition}
+\indent\textbf{Remark.} The proof of the throrem above is quite trivial and can be done by simply following the definition. However, when trying to prove the "only if" part, remember to consider the situation where all coefficients are zero (which is imposible since $\mathbf{v_1}\neq \mathbf{0}$), following which we can construct some $\mathbf{v_j}$ with $c_j\neq0$ as a linear combination of the other vectors.\\
+\indent For example, let $P_1(t)=1\; P_2(t)=t\; P_3(t)=4-t$, then $P_1(t), P_2(t), P_3(t)$ are linearly dependent since $P_3(t) = 4P_1(t) - P_2(t)$.
+
+\subsubsection*{Basis}
+\begin{definition}
+    Let H be a subspace of a vector space $V$. A \textbf{basis} for $H$ is a linearly independent set in $H$ that spans $H$. In other words, a set of vectors $B=\{\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}\}$ in $V$ is a basis for $H$ if
+    \begin{enumerate}
+        \item $B$ is linearly independent, and
+        \item The subspace spanned by $B$ coincides with $H$, that is, $\operatorname*{Span}B = H$.
+    \end{enumerate}
+    Remark: The basis for the zero subspace is the empty set. Every subspace of a vector space has a basis, \textcolor{Green}{which remains to be proved}.
+\end{definition}
+\indent For example, an $n\times n$ matrix, $A=[\vt{a_1}, \vt{a_2}, \cdots, \vt{a_n}]$. If $A$ is invertible, then the columns of $A$ are linearly independent and form a basis for $\R^n$.\\
+\indent Another example is that the set of all polynomials of degree at most $n$, denoted by $P_n$, has a basis $S=\{1, x, x^2, \cdots, x^n\}$. This can be proved by the argument that
+any $f(x)\in P_n, \; f(t) = a_0 + a_1t + a_2t^2 + \cdots + a_nt^n$ can be written as a linear combination of the elements in $S$, and that if $a_0 + a_1t + a_2t^2 + \cdots + a_nt^n = 0$ as a polynomial, then $a_0 = a_1 = \cdots = a_n = 0$, which implies that $S$ is linearly independent.\\
+
+\indent Although we presented the concept of basis explicitly, after reading the definition above, it may be natural to 
+note that "a set is a basis of $H$" implies "the set spans $H$", while the converse is not necessarily true. 
+However, if you have already find a set that spans $H$, which is not linearly independent, you may also wonder
+whether we can get a basis from the set by "reducing" it. You may want to remove some vectors from the set to make it linearly independent while making sure it still spans $H$. The following proposition will help you to do this.
+\begin{proposition}
+    \textbf{The Spanning Set Theorem} If $S=\{\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}\}$ spans a subspace $H$ of a vector space $V$, then 
+    \begin{enumerate}
+        \item If one of the vectors in $S$ - say, $\vt{v_k}$ - is a linear combination of the remaining vectors in $S$, then the set obtained by removing $\vt{v_k}$ from $S$ still spans $H$.
+        \item If $H\neq\{0\}$, some subset of $S$ is a basis for $H$.
+        \item If $H=\{0\}$, then $S=\emptyset$ is a basis for $H$. (The empty set is linearly independent by definition.)
+    \end{enumerate}
+\end{proposition}
+\indent Hence, once you get a set that spans $H$, you can gradually remove the vectors in the set that are linear combinations of the others, until the time when deleting any vector will make the set not span $H$. Then the remaining set is linearly independent and spans $H$, which is a basis for $H$. 
+Using this fact, we can give a corollary of the proposition above, a property of basis which the handwritten notes point out from nowhere.
+\begin{quotation}
+    $S$ is a basis of vector space $V$. If we delete one vector from $S$, the remaining set $T$ is still linearly independent, but cannot generate $V$. If we add a vector in $V$ to $S$ to get $R$, it generate $V$ but is not linearly independent.
+\end{quotation}
+Now that it's clear we can get a basis from a spanning set, the last thing is to find an efficient way to do the "reduction". Again, we can use the row reduction method to do this.
+\begin{proposition}
+    The pivot columns of a matrix A form a basis for Col$A$. \textcolor{red}{proof remains to be done (the essence of row equivalant).}
+\end{proposition}
+
+\indent Finally, the homework and examinations may ask you to do the following things:
+\begin{itemize}
+    \item Find a basis for a given subspace of a vector space.
+    \item Determine whether a given set of vectors is a basis for a given subspace of a vector space.
+\end{itemize}
+To find a basis, first solve a corresponding linear system to get the vectors that span the subspace, then verify whether the vectors are linearly independent, and reduce it if not.
+To determine whether a set of vectors is a basis, first check whether the set spans the subspace by checking pivot position, and then verify whether the set is linearly independent by calculating the determinant of the matrix formed by the vectors. Remember that a bunch of exercises is needed.
+\begin{example}
+    Find a basis for the subspace $W$ spanned by $\{\vt{v_1}, \vt{v_2}, \vt{v_3},\vt{v_4}\}$ where\[
+    \vt{v_1} = \begin{pmatrix}
+        1\\-3\\4
+    \end{pmatrix},
+    \vt{v_2} = \begin{pmatrix}
+        6\\2\\-1
+    \end{pmatrix},
+    \vt{v_3} = \begin{pmatrix}
+        2\\-2\\3
+    \end{pmatrix},
+    \vt{v_4} = \begin{pmatrix}
+        -4\\-8\\9
+    \end{pmatrix}.
+    \]
+    \textbf{Solution.}\\
+    \[
+    A\dim\begin{pmatrix}
+        1 & 6 & 2 & -4\\
+        -3 & 2 & -2 & -8\\
+        4 & -1 & 3 & 9
+    \end{pmatrix}\dim\begin{pmatrix}
+        1 & 6 & 2 & -4\\
+        0 & 20 & 4 & -20\\
+        0 & -25 & -5 & 25
+    \end{pmatrix}\dim\begin{pmatrix}
+        1 & 6 & 2 & -4\\
+        0 & 5 & 1 & -5\\
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    \]
+    The first two columns of $A$ are the pivot columns and hence form a basis of Col$A=W$. Hence $\{\vt{v_1}, \vt{v_2}\}$ is a basis for $W$.
+\end{example}
+
+\subsection{Coordinate Systems}
+\subsubsection*{The existence of coordinate system for a vector space}
+Recall the Cartesian coordinate system in $\R^2$ and $\R^3$. In these coordinate systems, each point in the plane or in space is represented by a unique ordered pair or an ordered triple of real numbers.
+We may inteperate "cartesian coordinate system" as a biversive function that maps each point in the space to a unique ordered pair or triple of real numbers. Hence, if we want to build a coordinate system for a vector space, we need to find a way that maps each vector in the space to a \textbf{unique} ordered pair or triple of real numbers.
+Luckily, we have the following theorem.
+\begin{proposition}
+    Let $B=\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_p}\}$ be a basis for a vector space $V$. Then for each $\vt{v}$ in $V$, there exists a unique set of scalars $c_1, c_2, \cdots, c_p$ such that \[
+    \vt{v} = c_1\vt{v_1} + c_2\vt{v_2} + \cdots + c_p\vt{v_p}.
+    \]
+    The scalars $c_1, c_2, \cdots, c_p$ are called the \textbf{coordinates} of $\vt{v}$ relative to the basis $B$.
+\end{proposition}
+\indent\textit{Proof.} Since B spans V, there exists scalars such that the equation above holds. Suppose $\vt{v}$ also has the coordinates $d_1, d_2, \cdots, d_p$ relative to $B$. Then we have \[
+\vt{v}-\vt{v} = (c_1-d_1)\vt{v_1} + (c_2-d_2)\vt{v_2} + \cdots + (c_p-d_p)\vt{v_p} = \vt{0}.
+\]
+Since B is linearly independent, we have $c_1=d_1, c_2=d_2, \cdots, c_p=d_p$. Hence the coordinates are unique.\\
+
+Bearing this in mind, we can define the \textbf{coordinate system} for a vector space $V$ as follows.
+\begin{definition} Coordinate System\\
+    Suppose $B=\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_p}\}$ is a basis for a vector space $V$ and $\vt{x}$ is in $V$. The \textbf{coordinates of $\vt{x}$ relative to the basis $B$} (or the B-coordinates of $\vt{x}$) are the scalars $c_1, c_2, \cdots, c_p$ such that \[
+    \vt{x} = c_1\vt{v_1} + c_2\vt{v_2} + \cdots + c_p\vt{v_p}.
+    \]
+    If $c_1, c_2, cdots, c_n$ are B-coordinates of $\vt{x}$, the the vector in $R^n$ \[
+    [\vt{x}]_B = \begin{pmatrix}
+        c_1\\c_2\\\vdots\\c_p
+    \end{pmatrix}
+    \]
+    is the \textbf{coordinate vector of $\vt{x}$ (relative to the basis $B$)}, or the \textbf{B-coordinate vector of $\vt{x}$}. The mapping \[
+    x\mapsto [\vt{x}]_B
+    \]
+    is called the \textbf{coordinate mapping} (determined by $B$).
+\end{definition}
+\indent\textbf{Remark.} A coordinate system on a set consists of a one-to-one mapping of the points in the set into the points in $\R^n$.\\
+\indent The handwritten notes gives some examples of coordinate systems in $R^3$, $P_2$, and $M_{2\times 2}$, which are quite trivial and skipped here.
+
+\subsubsection*{Change of coordinates matrix}
+Let $B=\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_p}\}$ be a basis of $\R^n$. Let $P_B = [\vt{b_1}, \vt{b_2}, \cdots, \vt{b_n}]$. 
+Then $\vt{v}=c_1\vt{b_1}+c_2\vt{b_2}+\cdots+c_n\vt{b_n}$ if and only if \[
+\vt{v}=[\vt{b_1}, \vt{b_2}, \cdots, \vt{b_n}]\begin{pmatrix}
+    c_1\\c_2\\\vdots\\c_n
+\end{pmatrix} = P_B[\vt{c}]_B.
+\]
+Here $P_B$ is called the \textbf{change of coordinates matrix} from $B$ to the standard basis in $\R^n$. 
+Since $P_B$ is invertible, we can also define the change of coordinates matrix from the standard basis to $B$ as $P_B^{-1}$.
+Simply following this definition, we can get the following proposition.
+\begin{proposition}
+    \textbf{The Coordinate Mapping Theorem} 
+    Let $B=\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_p}\}$ be a basis for a vector space $V$, and let $\vt{x}$ be in $V$. Then the coordinate mapping $\vt{x}\mapsto [\vt{x}]_B$ is a one-to-one linear transformation from $V$ onto $\R^p$. Furthermore, for each $\vt{y}=a\vt{u}+b\vt{v}$ in $V$, the equation \[
+    \vt{y} = a\vt{u}+b\vt{v}
+    \]
+\end{proposition}
+Although I don't quite understand why the handwritten notes put the following definition explicitly after the proposition above, I still write it down here. The word "isomorphism" is not necessary in the reasoning process so far, but it may be useful in the homework and exams, so it's necessary to remember it.
+In the logic of understanding, it should be put in plain text as a suplementary terminology, but here I still write it as a definition to stress the importance.
+\begin{definition}
+    A one-to-one linear transformation from a vector space $V$ a vector space $W$ is called an \textbf{isomorphism} of $V$ with $W$. 
+\end{definition}
+\begin{example}
+    Use coordinate vectors to verify that the polynomials $1+2t^2$, $4+t+5t^2$ and $3+2t$ are linearly indelendent in $P_2$.\\
+    \textbf{Solution.} Let $B=\{1, t, t^2\}$ be the basis for $P_2$. Then\begin{align*}
+        P_2 & \mapsto \R^3\\
+        P(t) & \mapsto [P(t)]_B
+    \end{align*}
+    is an isomorphism. Hence, we have \[
+    [1+2t^2]_B = \begin{pmatrix}
+        1\\0\\2
+    \end{pmatrix} = \vt{v_1},\; 
+    [4+t+5t^2]_B = \begin{pmatrix}
+        4\\1\\5
+    \end{pmatrix} = \vt{v_2},\; 
+    [3+2t]_B = \begin{pmatrix}
+        3\\2\\0
+    \end{pmatrix} = \vt{v_3}.
+    \]
+    Thus, the three polynomials are linearly independent if and only if the matrix $A = (\vt{v_1}, \vt{v_2}, \vt{v_3})$ is invertible.
+    After this, the problem can be solved in two ways: by calculating the determinant of $A$ or by row reducing $A$ to see if $A\vt{x}=0$ has only the trivial solution.
+\end{example}
+
+\subsection{Dimensions of a Vector Space}
+Recall what we have learnt in section 4.3, each vector space has a basis. And for any set of vectors that spans the vector space, it is either a basis or can be reduced to a basis by removing some vectors.
+Under this view, it's natural to regard basis as some kind of "final stage" of the sets of vectors that spans the vector space.
+While different spanning sets may be reduced to different basis, there may be some underlying properties of the vector space itself independent from the choice of spanning vectors, that is, the number of vectors in the basis.
+This observation can be stated formally as the following theorem.
+\begin{proposition}
+    If a vector space V has a basis with n vectors, then any set in V containing more than n vectors must be linearly dependent.
+\end{proposition}
+\indent\textit{Proof.} 
+One simple idea is to prove by contradiction.
+Suppose $B=\{\vt{b_1}, \vt{b_2}, \cdots, \vt{b_n}\}$ is a basis for $V$. If $S=\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_n}, \vt{v_{n+1}}, \cdots\}$ is linearly independent, then $S'=\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_n}\}$ must be linear independent.
+Hence, for any $1\leq i\leq n+1$, denote \[
+\vt{v_i} = c_{1i}\vt{b_1} + c_{2i}\vt{b_2} + \cdots + c_{ni}\vt{b_n},
+\]
+then, since $S'$ is linearly independent, we must have the set $\{\vt{c_i}:\vt{c_i}=(c_{1i}, c_{2i}, \cdots, c_{ni})^T \text{for any integer} i\in [1,n]\}$ to be linearly independent (otherwise, by the propertiy of vector spaces, we can find one vector in $S'$ to be a linear combination of the others).
+Now to determine whether $\vt{v_{n+1}}$ can be written as a linear combination of the vectors in $S'$, we can simply solve the equation \[
+x_1\vt{v_1} + x_2\vt{v_2} + \cdots + x_n\vt{v_n}=\vt{v_{n+1}} = (d_1, d_2, \cdots, d_n)^T,
+\]
+which is equivalent to \[
+\begin{pmatrix}
+    c_{11} & c_{12} & \cdots & c_{1n}\\
+    c_{21} & c_{22} & \cdots & c_{2n}\\
+    \vdots & \vdots & \ddots & \vdots\\
+    c_{n1} & c_{n2} & \cdots & c_{nn}
+\end{pmatrix}\begin{pmatrix}
+    x_1\\x_2\\\vdots\\x_n
+\end{pmatrix} = \begin{pmatrix}
+    d_1\\d_2\\\vdots\\d_n
+\end{pmatrix},
+\]
+which must have a solution since the set $\{\vt{c_i}\}$ is linearly independent. Hence, $\vt{v_{n+1}}$ can be written as a linear combination of the vectors in $S'$, which contradicts the assumption that $S$ is linearly independent.\\
+\indent The handwritten notes also provides a proof as follows. \\
+$\vt{u_1}, \cdots, \vt{u_p}$ in $V$ with $p>n$ \\
+$[\vt{u_1}]_b, \cdots, [\vt{u_n}]_B$ form a linearly dependent set in $\R^n$ because one of the columns in the matrix $[\vt{u_1}, \cdots, \vt{u_p}]$ is not a pivot column.\\
+Thus there exists $c_1, \cdots,c_p$ not all zeros such that $c_1[\vt{u_1}]_B + \cdots + c_p[\vt{u_p}]_B = \vt{0}$.\\
+Hence $[c_1\vt{u_1} + \cdots + c_p\vt{u_p}]_B = \vt{0}$, which implies that $\vt{u_1}, \cdots, \vt{u_p}$ are linearly dependent.\\
+
+\begin{proposition}
+    If a vector space V has a basis with n vectors, then every basis for V must consist of exactly n vectors.
+\end{proposition}
+\indent\textit{Proof.} If there exists two basis $B_1$ and $B_2$ for $V$ with $n_1$ and $n_2$ vectors respectively. Without loss of generosity, we can assume $n_1< n_2$. 
+Using the previous theorem, we can find that $B_2$ is linearly dependent, which contradicts the assumption that $B_2$ is a basis.\\
+
+\begin{definition}
+    If V is spanned by a finite set, then V is said to be \textbf{finite-dimensional}. The \textbf{dimension} of V, denoted by dim V, is the number of vectors in a basis for V.
+    The dimension of the zero subspace $\{0\}$ is defined to be zero.\\
+    If V is not spanned by a finite set, then V is said to be \textbf{infinite-dimensional}.
+\end{definition}
+\indent For example, the dimension of $P_n$ is $n+1$, the dimension of $M_{m\times n}$ is $mn$, and the dimension of $P$ -all polynomials in one variable- is infinite.
+\begin{example}
+    Find the dimension of the subspace \[
+    H=\{\begin{pmatrix}
+        a-3b+6c\\5a+4d\\b-2c-d\\5d
+    \end{pmatrix}: a,b,c,d\in\R\}
+    \]
+    \textbf{Solution.} 
+    \[
+        \begin{pmatrix}
+            a-3b+6c\\5a+4d\\b-2c-d\\5d
+        \end{pmatrix} = a\begin{pmatrix}
+            1\\5\\0\\0
+        \end{pmatrix} + b\begin{pmatrix}
+            -3\\0\\1\\0
+        \end{pmatrix} + c\begin{pmatrix}
+            6\\0\\-2\\0
+        \end{pmatrix} + d\begin{pmatrix}
+            0\\4\\-1\\5
+        \end{pmatrix}
+    \]
+    Hence, $H$ is spanned by the set $$\{\begin{pmatrix}
+        1\\5\\0\\0
+    \end{pmatrix}, \begin{pmatrix}
+        -3\\0\\1\\0
+    \end{pmatrix}, \begin{pmatrix}
+        6\\0\\-2\\0
+    \end{pmatrix}, \begin{pmatrix}
+        0\\4\\-1\\5
+    \end{pmatrix}\}.$$
+    Hence, we perform row reduction to the following matrix
+    \[
+    \begin{pmatrix}
+        1 & -3 & 6 & 0\\
+        5 & 0 & 0 & 4\\
+        0 & 1 & -2 & -1\\
+        0 & 0 & 0 & 5
+    \end{pmatrix}
+    \sim \begin{pmatrix}
+        1&-3&6&0\\
+        0&1&2&-1\\
+        0&0&0&1\\
+        0&0&0&0
+    \end{pmatrix}
+    \]
+    Since column 1, 2, 4 are pivot columns, the set is linearly dependent, and the dimension of $H$ is 3.
+\end{example}
+
+\indent Note that the dimension of a vector space is a property of a vector space, so we may wonder the relationship of their dimensions if two vector spaces are related in some way, especially the relationship of subspaces.
+\begin{proposition}
+    Let $H$ be a subspace of a finite-dimensional vector space $V$. Then $H$ is finite-dimensional and $\dim H\leq \dim V$. 
+\end{proposition}
+\begin{proposition}
+    \textbf{The Dimension Theorem} Let $V$ be a p-dimensional vector space ($p\geq1$), then any linearly independent set of exactly $p$ elements in $V$ is automatically a basis of $V$.
+    Any set of exactly $p$ elements that spans $V$ is automatically a basis of $V$.
+\end{proposition}
+
+\subsubsection*{The dimension of Null A and Col A}
+Facts:
+\begin{itemize}
+    \item The dimension of the null space of an $m\times n$ matrix $A$ is the number of free variables in the solution set of $A\vt{x}=\vt{0}$.
+    \item The dimension of the column space of an $m\times n$ matrix $A$ is the number of pivot columns in $A$.
+\end{itemize}
+\begin{example}
+    Find the dimension of the null space and the column space of the matrix \[
+    A = \begin{pmatrix}
+        -3 & 6 & -1 & 1 & -7\\
+        1 & -2 & 2 & 3 & -1\\
+        2 & -4 & 5 & 8 & -4
+    \end{pmatrix}.
+    \]
+    Answer: 3 and 2.
+\end{example}
+
+\begin{example}
+    Let H and K be subspaces of a vector space V. Prove that 
+    \begin{enumerate}
+        \item $H\cap K$ is a subspace of V.
+        \item $H\cup K$ is a subspace of V if and only if $H\subset K$ or $K\subset H$.
+        \item $\dim(H \cap K)\leq \dim H$.
+    \end{enumerate}
+\end{example}
+
+\subsection{Rank}
+The dimension of column vectors of a matrix.
+\end{document}

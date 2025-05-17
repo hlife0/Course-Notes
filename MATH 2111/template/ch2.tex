@@ -1,0 +1,132 @@
+\documentclass[10pt, a4paper]{article}
+
+\usepackage{listings}
+\usepackage{ulem}
+\usepackage{appendix}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage[top=2.5cm, bottom=3.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{ctex}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{indentfirst}
+
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Example,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{example}
+\tcolorboxenvironment{example}{colback=LightGray}
+
+\declaretheoremstyle[name=Principle,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{principle}
+\tcolorboxenvironment{principle}{colback=LightGreen}
+
+\newenvironment{Solution}{\textbf{Solution.}}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},  
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,        
+    breaklines=true,                
+    captionpos=b,                    
+    keepspaces=true,                
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+% ------------------------------------------------------------------------------
+\setstretch{1.0}
+% ------------------------------------------------------------------------------
+\begin{document}
+% ------------------------------------------------------------------------------
+% Cover Page and ToC
+% ------------------------------------------------------------------------------
+\title{ \normalsize \textsc{}
+\\ [2.0cm]
+\HRule{1.5pt} \\
+\LARGE {\textbf{\uppercase{Lecture Notes}}
+\HRule{2.0pt} \\ [0.6cm] \LARGE{\textbf{PHYS1112: General Physics}} \vspace*{10\baselineskip}}
+}
+\date{\today}
+\author{\textbf{HONG, Lanxuan}}
+\maketitle
+\newpage
+% ------------------------------------------------------------------------------
+Self-study module:\\
+Analysis of motion of projectile\\
+Uncertainty and significant figures\\
+sliding slope model(friction)
+
+\clearpage
+% ------------------------------------------------------------------------------
+% Table of Contents
+% ------------------------------------------------------------------------------
+\tableofcontents
+\newpage
+% ------------------------------------------------------------------------------
+% Here is the main section
+% ------------------------------------------------------------------------------
+\section{MECHANICS}
+\subsection{Units, Physical Quantities, and Vectors}
+As an experimental science, physics deals with measured quantities. We use numbers for the measurements and when doing so, we compare the observed quantities with some gauge.\footnote{pre-defined measures}\\
+
+SI system of units are commonly used in physics. Basic units includes kilogram\footnote{It is defined by comparing to the mass of a fixed "etalon" object}, meter\footnote{Lights travels exactly 299,792,485 meters in 1 second. This shows that meter is measured after precise measurement of second.} and second\footnote{Scientists use the microwave radiation with a 9,192,631,770 cycles per second of cesium-133 atom to measure the second}.\\
+
+Vector calculation is very important in physics. The note skip this part and please refer to MATH 1014 lecture note.
+\subsection{Frame of Reference \& Relative Velocity}
+Consider the case that an observer making a measurement from his view. This form the frame of reference. Based on whether they follow the Newton's motion law(second law), the frame of reference have 2 types: the inertial frame of reference and the non-inertial frame of reference. \textbf{The Inertial frame of reference} is the frame of reference in which the Newton's motion law works. By contrary, the Newton's motion law does not work in a non-inertial frame of reference. Here is an example of observing the same object from different aspect which form different frame of reference
+\begin{example}
+\textbf{Observing objects and frame of reference}
+    \begin{enumerate}
+        \item A passer-by observing a passenger sitting in a moving train.\footnote{Earth is not an inertial frame of reference. However, in most of discussion, we can say that the surface of Earth is approximately an inertial reference frame. }
+        \item Another passenger on the train observing this passenger sitting in the train.
+    \end{enumerate}
+\end{example}
+    Any reference frame, which moves with constant velocity with respect to an inertial frame is also an inertial frame.\footnote{Do vector calculation and notice that the additional vector is constant} In other word, we can consider this frame as a frame without acceleration.\\
+
+As for the \textbf{non-inertial frame of reference}, when observing from inertial frame of reference, it has certain acceleration. As a result, one may feel like being acted on by a force in a non-inertial frame of reference.\footnote{More information about non-inertial frame of reference.\href{https://zhuanlan.zhihu.com/p/62150288}{\uline{\textit{Fictitious Forces Here}}}}  One important usage of fictitious forces is using rotation to provide a sense of gravity in the space.
+\begin{example}
+    \textbf{Analysis of the motion of the projectile}
+\end{example}
+\clearpage
+\subsection{Newton's Law}
+\begin{principle}
+    \textbf{Newton's Law of Motion}
+    \begin{itemize}
+        \item Newton's First Law: A body acted on by no net force moves with constant velocity.\footnote{constant speed and straight line}
+        \item Newton's Second Law: If a net external force acts on a body, the body accelerates according to the following relation:
+    $$
+    \vec{F} = m\sum \vec{a}
+    $$
+        \item Newton's Third Law: Body A exerts a force on body B\footnote{which is called "Action"}, then the Body B exerts a force on body A.\footnote{which is called "Reaction"}
+    \end{itemize}
+\end{principle}
+In real life experience, it is hard to find an object with no force acting on. So Newton's first law also apply to bodies in equilibrium.\footnote{sum of external forces is 0} It is important to note that Newton's First and Second Law can be used only in inertial frame of reference, while Newton's Third Law can be used in both frame of reference.\\
+
+\end{document}

@@ -1,0 +1,608 @@
+\documentclass[10pt, a4paper]{article}
+\hbadness=10000
+\usepackage{listings}
+\usepackage{ulem}
+\usepackage{appendix}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage[top=2.5cm, bottom=3.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{ctex}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{sectsty}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\vt}[1]{\mathbf{#1}}
+
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+\colorlet{LightBlue}{Cyan!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Example,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{example}
+\tcolorboxenvironment{example}{colback=LightBlue, boxrule=0pt}
+
+\declaretheoremstyle[name=Principle,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{principle}
+\tcolorboxenvironment{principle}{colback=LightGreen, boxrule=0pt}
+
+\declaretheoremstyle[name=Proposition,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{proposition}
+\tcolorboxenvironment{proposition}{colback=LightGray, boxrule=0pt}
+
+\declaretheoremstyle[name=Definition,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{definition}
+\tcolorboxenvironment{definition}{colback=LightOrange, boxrule=0pt}
+
+
+\newenvironment{Solution}{\textbf{Solution.}}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},  
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,        
+    breaklines=true,                
+    captionpos=b,                    
+    keepspaces=true,                
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\setlength{\parindent}{2em}
+\subsubsectionfont{\color{Blue}}
+
+
+% ------------------------------------------------------------------------------
+\setstretch{1.0}
+% ------------------------------------------------------------------------------
+\begin{document}
+\title{ \normalsize \textsc{}
+\\ [2.0cm]
+\HRule{1.5pt} \\ [0.3cm]
+\LARGE {\textbf{Matrix Algebra and Applications}
+\HRule{1.5pt} \\ [0.6cm]
+\LARGE{\textbf{MATH 2111 Lecture Notes}} \vspace*{10\baselineskip}}
+}
+\date{\today}
+\author{\textbf{LI, Hongrui}}  %template borrowed from hlx
+\maketitle
+
+\clearpage
+\tableofcontents
+\newpage
+
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 1
+% ------------------------------------------------------------------------------
+\section{Systems of Linear Equations}
+\section{Matrix Algebra}
+\section{Determinants}
+\section{Vector Spaces}
+\newpage
+
+
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 5
+% ------------------------------------------------------------------------------
+\section{Eigenvalues and Eigenvectors}
+\subsection{Eigenvalues and Eigenvectors}
+\begin{definition}
+    Let $A$ be an $n \times n$ matrix. A scalar $\lambda$ is called an \textbf{eigenvalue} of $A$ if there exists a \textit{nonzero} vector $\vt{x}$ in $\R^n$ such that
+    \begin{equation}
+        A\vt{x} = \lambda \vt{x}
+    \end{equation}
+    The vector $\vt{x}$ is called an \textbf{eigenvector} of $A$ corresponding to $\lambda$.
+\end{definition}
+\begin{example}
+    Show that 7 is an eigenvalue of the matrix
+    \begin{equation}
+        A = \begin{bmatrix}
+            1&6\\
+            5&2
+        \end{bmatrix}
+    \end{equation}
+    and find the corresponding eigenvectors.
+    \textbf{Solution.} The scalar 7 is an eigenvalue of $A$ if and only if the equation\[A\vt{x}=7\vt{x}=7I_2\vt{x}\] has a nontrivial solution, which is equivalent to 
+    \begin{equation}
+        (A-7I_2)\vt{x} = \vt{0}.
+    \end{equation}
+    We perform the row reduction on the augmented matrix (details should be shown in the exam), and get the result that $x_1-x_2=0$. Hence, the general solution is 
+    \begin{equation}
+        \vt{x} = t\begin{bmatrix}
+            1\\
+            1
+        \end{bmatrix}
+    \end{equation}
+    So $(1,1)^T$ is an eigenvector of $A$ corresponding to the eigenvalue 7.
+\end{example}
+Instead of giving the general solution, we first consider the special case when the matrix is triangular.
+\begin{proposition}
+    Let $A$ be an $n \times n$ upper triangular matrix. Then the eigenvalues of $A$ are the diagonal entries of $A$.
+\end{proposition}
+\textit{Proof.} Let $A$ be an $n \times n$ upper triangular matrix. Then we have \[
+A=\begin{bmatrix}
+    a_{11}&a_{12}&\cdots&a_{1n}\\
+    0&a_{22}&\cdots&a_{2n}\\
+    \vdots&\vdots&\ddots&\vdots\\
+    0&0&\cdots&a_{nn}
+\end{bmatrix}
+, A-\lambda I_n = \begin{bmatrix}
+    a_{11}-\lambda&a_{12}&\cdots&a_{1n}\\
+    0&a_{22}-\lambda&\cdots&a_{2n}\\
+    \vdots&\vdots&\ddots&\vdots\\
+    0&0&\cdots&a_{nn}-\lambda
+\end{bmatrix}
+\]
+Hence we have the following statements equivalent:
+\begin{itemize}
+    \item $\lambda$ is an eigenvalue of $A$.
+    \item The system $(A-\lambda I_n)\vt{x}=\vt{0}$ has a nontrivial solution.
+    \item The system $(A-\lambda I_n)\vt{x}=\vt{0}$ has a free variable.
+    \item At least one of the entries on the diagonal of $A-\lambda I_n$ is zero.
+    \item $\lambda = a_{ii}$ for some $i$.
+\end{itemize}
+Remark: For a lower triangular matrix, the proof is similar and we have the same conclusion. 0 can also be an eigenvalue.
+
+\begin{proposition}
+    If $\vt{v_1}, \vt{v_2}, \cdots, \vt{v_k}$ are eigenvectors of a matrix $A$ corresponding to distinct eigenvalues $\lambda_1, \lambda_2, \cdots, \lambda_k$, then the set $\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_k}\}$ is linearly independent.
+\end{proposition}
+\textit{Proof.} [This proof is given by \textit{Github Copilot} to make the notes more elegent, but the correctness has not yet been verified...] Suppose that there exist scalars $c_1, c_2, \cdots, c_k$ such that \[
+c_1\vt{v_1}+c_2\vt{v_2}+\cdots+c_k\vt{v_k}=\vt{0}
+\]
+Then we have \[
+A(c_1\vt{v_1}+c_2\vt{v_2}+\cdots+c_k\vt{v_k})=c_1A\vt{v_1}+c_2A\vt{v_2}+\cdots+c_kA\vt{v_k}=\vt{0}
+\]
+Since $A\vt{v_i}=\lambda_i\vt{v_i}$, we have \[
+c_1\lambda_1\vt{v_1}+c_2\lambda_2\vt{v_2}+\cdots+c_k\lambda_k\vt{v_k}=\vt{0}
+\]
+Multiplying both sides by $\vt{v_1}^T$, we get \[
+c_1\lambda_1\vt{v_1}^T\vt{v_1}+c_2\lambda_2\vt{v_2}^T\vt{v_1}+\cdots+c_k\lambda_k\vt{v_k}^T\vt{v_1}=0
+\]
+Since $\vt{v_i}^T\vt{v_j}=0$ for $i\neq j$, we have $c_1\lambda_1\vt{v_1}^T\vt{v_1}=0$. Since $\vt{v_1}\neq \vt{0}$, we have $\vt{v_1}^T\vt{v_1}\neq 0$. Hence $c_1\lambda_1=0$. Since $\lambda_1\neq 0$, we have $c_1=0$. Similarly, we can show that $c_2=c_3=\cdots=c_k=0$. Hence the set $\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_k}\}$ is linearly independent.
+
+\begin{example}
+    Suppose that $\vt{b_1}, \vt{b_2}$ are eigenvectors corresponding to distinct eigenvalues $\lambda_1, \lambda_2$ of a matrix $A$. 
+    And suppose that $\vt{b_3},\vt{b_4}$ are linearly independent vectors corresponding to a third distince eigenvalue $\lambda_3$.
+    Show that the set $\{\vt{b_1}, \vt{b_2}, \vt{b_3}, \vt{b_4}\}$ is linearly independent.
+\end{example}
+\indent Remark: Note that under a same eigenvalue, the eigenvectors are actually the solutions to a homogeneous system of linear equations, which can be independent or dependent.
+
+\subsection{Characteristic Equation}
+\indent In the previous section, we have already tried to get the eigenvalues and eigenvectors of a matrix. 
+Recall the ways we used to find the eigenvalues and eigenvectors, we can generalize the idea behind it as follows:\\
+For any $n \times n$ matrix $A$, according to the definition of eigenvalues and eigenvectors, we have \[
+A\vt{x}=\lambda\vt{x} \Leftrightarrow (A-\lambda I_n)\vt{x}=\vt{0}.
+\]
+This equation has a nontrivial solution if and only if the matrix $A-\lambda I_n$ is singular, i.e., $\det(A-\lambda I_n)=0$. 
+Hence, all possible eigenvalues of $A$ are the roots of the equation $\det(A-\lambda I_n)=0$, which is called the \textbf{characteristic equation} of $A$, and the eigenvectors are the solutions to the system $(A-\lambda I_n)\vt{x}=\vt{0}$ with corresponding $\lambda$.
+Furthermore, we summarize this process to get a more systematic method by giving the following definition and proposition.
+\begin{definition}
+    Let $A$ be an $n \times n$ matrix, then the equation \[
+    \det(A-\lambda I_n)=0
+    \]
+    is called the \textbf{characteristic equation} of $A$.\\ 
+    The polynomial \[
+    p_A(\lambda)=\det(A-\lambda I_n)
+    \]
+    is called the \textbf{characteristic polynomial} of $A$, a polynomial of degree $n$ in variable $\lambda$.
+\end{definition}
+\begin{proposition}
+    $\lambda$ is an eigenvalue of $A$ if and only if $\lambda$ is a root of the characteristic equation $\det(A-\lambda I_n)=0$.
+\end{proposition}
+\indent This proposition has connected the concept of eigenvalues with the determinant of a matrix, and consequently, the invertibility of a matrix.
+Therefore, we give some new insights into the invertibility of a matrix.
+\begin{quotation}
+    $A:$ a $n \times n$ matrix. Then $A$ is invertible if and only if 
+    \begin{itemize}
+        \item The number 0 is not an eigenvalue of $A$.
+        \item The determinant $\det(A)\neq 0$, and 
+              \begin{equation*}
+                \det A = (-1)^r \det u = \begin{cases}
+                    (-1)^r\cdot(\text{product of pivots of $u$}) & \text{$u$ invertible};\\
+                    0 & \text{$u$ singular},
+                \end{cases}
+              \end{equation*}
+              where $u$ is an echelon form of $A$ by row replacements and row interchanges (without scaling) with $r$ row interchanges.
+    \end{itemize}
+\end{quotation}
+\begin{example}
+    The characteristic polynomial of a $6 \times 6$ matrix $A$ is given by \[
+    \lambda^6-4\lambda^5-12\lambda^4
+    \]
+    Find the eigenvalues and their multiplicities.\\
+    \textbf{Solution.} 
+    \begin{itemize}
+        \item $\lambda=0$\; multiplicity 4.
+        \item $\lambda=6$\; multiplicity 1.
+        \item $\lambda=-2$ multiplicity 1.
+    \end{itemize}
+\end{example}
+\indent Remark: The purpose of putting this example here is to show the concept of \textit{multiplicity} of an eigenvalue, which is the number of times the eigenvalue appears as a root of the characteristic polynomial.
+\begin{example}
+    Find the eigenvalues of the matrix \[
+    A = \begin{bmatrix}
+        0&2&1\\
+        3&0&3\\
+        1&2&0
+    \end{bmatrix}
+    \]
+    \textbf{Solution.} -1, 4, -3.
+\end{example}
+
+\subsection{Diagonalization}
+\begin{example}
+    Let $A$ be the matrix \(
+    A = \begin{bmatrix}
+        7&-2\\
+        -4&1
+    \end{bmatrix}
+    \).
+    Find a formula for $A^n$ for any positive integer $n$, given that $A=PDP^{-1}$, where \[
+    P = \begin{bmatrix}
+        1&1\\
+        -1&-2
+    \end{bmatrix}
+    \text{ and }
+    D = \begin{bmatrix}
+        5 & 0\\
+        0 & 3
+    \end{bmatrix}
+    \]
+    \textbf{Solution.} \\
+    Since $A=PDP^{-1}$, we have $A^2 = PD(P^{-1} P)DP^{-1} = PD^2P^{-1}$, $A^3 = PD^3P^{-1}$, and so on. In general we have \[
+    A^n = PD^nP^{-1},
+    \]
+    which can be proved by induction. Hence we have \[
+    A^n = \begin{bmatrix}
+        1&1\\
+        -1&-2
+    \end{bmatrix}
+    \begin{bmatrix}
+        5^n & 0\\
+        0 & 3^n
+    \end{bmatrix}
+    \begin{bmatrix}
+        2&1\\
+        -1&-1
+    \end{bmatrix}
+    = \begin{bmatrix}
+        2\cdot 5^n - 3^n & 5^n - 3^n\\
+        -2\cdot5^n + 2\cdot 3^n & -5^n + 2\cdot3^n
+    \end{bmatrix}
+    \]
+\end{example}
+    \begin{definition}
+        A square matrix $A$ is said to be \textbf{diagonalizable} $A$ is similar to a diagonal matrix. That is, if $A=PDP^{-1}$ for some invertible matrix $P$ and some diagonal matrix $D$.
+    \end{definition}
+    \begin{proposition}
+        An $n\times n$ matrix $A$ is diagonalizable if and only if $A$ has $n$ linearly independent eigenvectors.\\
+        $A=PDP^{-1}$ with $D$ a diagonal matrix if and only if the columns of $P$ are $n$ linearly independent eigenvectors of $A$.
+        In this case, the diagonal entries of $D$ are the eigenvalues of $A$ that correspond, respectively, to the eigenvectors in $P$.
+    \end{proposition}
+    \indent \textit{Proof.} If $A$ is diagonalizable, then $A=PDP^{-1}$. Denote $P=(\vt{v_1},\vt{v_2},\cdots,\vt{v_n})$, where $\vt{v_i}$ are column vectors. Then $AP=A(\vt{v_1},\vt{v_2},\cdots,\vt{v_n})=(A\vt{v_1},A\vt{v_2},\cdots,A\vt{v_n})$.\\
+    Since $A=PDP^{-1}$, we have \[
+    AP=PD=(A\vt{v_1},A\vt{v_2},\cdots,A\vt{v_n})
+    (\vt{v_1},\vt{v_2},\cdots,\vt{v_n})\begin{pmatrix}
+        \lambda_1&0&\cdots&0\\
+        0&\lambda_2&\cdots&0\\
+        \vdots&\vdots&\ddots&\vdots\\
+        0&0&\cdots&\lambda_n
+    \end{pmatrix}= (\lambda_1\vt{v_1},\lambda_2\vt{v_2},\cdots,\lambda_n\vt{v_n}).
+    \]
+    Hence we have $A\vt{v_i}=\lambda_i\vt{v_i}$, which means that $\vt{v_i}$ is an eigenvector of $A$ corresponding to $\lambda_i$. Since $P$ is invertible, the columns of $P$ are linearly independent, completing the proof that 
+\begin{quotation}
+    If $A$ is diagonalizable, $A$ has $n$ linearly independent eigenvectors.
+\end{quotation}
+\indent \indent Conversly, if $A$ has $n$ linearly independent eigenvectors such that $A\vt{v_i}=\lambda_i\vt{v_i}$ for any $1\leq i\leq n$ with $\{\vt{v_1},\cdots,\vt{v_n}\}$ linearly independent, then we can construct the matrix $$P=(\vt{v_1},\vt{v_2},\cdots,\vt{v_n})$$ which is invertible, and the matrix 
+\[
+D=\begin{pmatrix}
+    \lambda_1&0&\cdots&0\\
+    0&\lambda_2&\cdots&0\\
+    \vdots&\vdots&\ddots&\vdots\\
+    0&0&\cdots&\lambda_n
+\end{pmatrix}
+\]
+Then we have $AP=PD$, which indicates $A=PDP^{-1}$, completing the proof that 
+\begin{quotation}
+    If $A$ has $n$ linearly independent eigenvectors, then $A$ is diagonalizable.
+\end{quotation}
+\begin{example}
+    Diagonalizing a matrix, if possible.
+    \[
+    \begin{pmatrix}
+        2&4&3\\
+        -4&-6&-3\\
+        3&3&1
+    \end{pmatrix}
+    \]
+\end{example}
+\indent From the previous example, we can see that the matrix is not diagonalizable, since the matrix has only two linearly independent eigenvectors, which is less than the dimension of the matrix.
+From this observation, we may find that wheter a matrix is diagonalizable is related to the number of linearly independent eigenvectors, which is also related to \textit{the sum of multiplicity of the eigenvalues}.
+\textcolor{red}{[Remark] This is worth further exploration, although it is not covered in the handwritten notes.}
+Specifically, we have the following proposition.
+\begin{proposition}
+    An $n\times n$ matrix $A$ with $n$ distinct eigenvalues is diagonalizable.
+\end{proposition}
+\indent \textit{Proof.} If $A$ has $n$ distinct eigenvalues, then $A$ has at least $n$ linearly independent eigenvectors. According to the previous proposition, $A$ is diagonalizable.
+
+In a more general case, let $A$ be an $n\times n$ matrix whose distince eigenvalues are $\lambda_1,\lambda_2,\cdots,\lambda_k$ with multiplicities $m_1,m_2,\cdots,m_k$. Then we have the following proposition whose title in the handwritten notes is \textbf{Matrices Whose Eigenvalues Are Not Distinct}.
+\begin{itemize}
+    \item[(a)] For $1\leq k\leq p$, the dimension of the eigenspace for $\lambda_k$ is less than or equal to the multiplicity of the eigenvalue $\lambda_k$.
+    \item[(b)] The matrix $A$ is diagonalizable if and only if the sum of the dimensions of the eigenspaces is equal to $n$, which happens if and only If
+    \begin{itemize}
+        \item the characteristic polynomial factors completely into linear factors, and
+        \item the dimension of the eigenspace for each $\lambda_k$ is equal to the multiplicity of the eigenvalue.
+    \end{itemize}
+    \item[(c)] If $A$ is diagonalizable and $B_k$ is a basis for the eigenspace for $\lambda_k$, then the total collection of vectors in the sets $B_1,B_2,\cdots,B_k$ forms an eigenvector basis for $\R^n$.
+\end{itemize}
+\indent Finally, in the end of this section, we want to clarify the two systems of methods we have learnt: \textcolor{Red}{(Please further clarify and add details when reviewing this note)}
+\begin{itemize}
+    \item \textbf{Method 1:} Find the eigenvalues and eigenvectors of the matrix $A$.
+    \item \textbf{Method 2:} Find the matrix $P$ and the diagonal matrix $D$ such that $A=PDP^{-1}$.
+\end{itemize}
+\indent The handwritten notes provides some reasoning exercises for the two methods, i.e., the following examples.
+\begin{example}
+    \begin{enumerate}
+        \item Show that if $A$ is both diagonalizable and invertible, then $A^{-1}$ is also diagonalizable.
+        \item Show that if $A$ has $n$ distinct eigenvalues, then so does $A^T$.
+        \item Find the range of $a$ where the matrix \[
+        A = \begin{bmatrix}
+            1&a\\
+            1&1
+        \end{bmatrix}
+        \]
+        has no real eigenvalues. (Ans: $a<0$)
+    \end{enumerate}
+\end{example}
+\begin{example}
+    \textbf{Discrete Dynamical Systems.} We provides a "real-life" problem regarding the growth of owl and wood rad populations in a forest, denoted by $O_k$ and $R_k$ respectively, where $k$ is the time in months.
+    Suppose that \[
+    \vt{x_k}=\begin{bmatrix}
+        O_k\\
+        R_k
+    \end{bmatrix}
+    = \begin{bmatrix}
+        0.5Q_{k-1} + 0.4R_{k-1}\\
+        -0.104Q_{k-1} + 1.1R_{k-1}
+    \end{bmatrix}.
+    \]
+    Determine the evolution of the system $\vt{x_k}$.\\
+    \textbf{Solution.} \\
+    Let $A=\begin{bmatrix}
+        0.5&0.4\\
+        -0.104&1.1
+    \end{bmatrix}$. Then we have $\vt{x_{k+1}}=A\vt{x_k}$.\\
+    It's easy to find that the eigenvalues for $A$ are $\lambda_1=1.02,\;\lambda_2=0.58$. The corresponding eigenvectors are $\vt{v_1}=\begin{bmatrix}
+        10\\
+        13
+    \end{bmatrix}$ and $\vt{v_2}=\begin{bmatrix}
+        5\\
+        1
+    \end{bmatrix}$.\\
+    Obviously, $\vt{v_1}$ and $\vt{v_2}$ form a basis in $\R^2$, and $A$ is diagonalizable. For any initial $x_0$, there exists $c_1,c_2$ such that \[
+    x_0=c_1\vt{v_1}+c_2\vt{v_2}
+    \]
+    Hence we have \[
+    x_k = A^k x_0 = A^k(c_1\vt{v_1}+c_2\vt{v_2}) = c_1\lambda_1^k\vt{v_1}+c_2\lambda_2^k\vt{v_2}
+    \]
+    After substituting the values of $\lambda_1,\lambda_2$ and $\vt{v_1},\vt{v_2}$, for very large $k$, we have \[
+    \vt{x_{k+1}}\approx 1.02 \vt{x_k},
+    \]
+    which indicates that eventually both entries of $\vt{x_k}$ will increase by 2\% each month.
+\end{example}
+
+\subsection{Applications to Differential Equations}
+\subsubsection{System of Linear Differential Equations}
+\begin{equation*}
+    \begin{cases}
+        x_1'(t) = a_{11} x_1(t) + a_{12} x_2(t) + \cdots + a_{1n} x_n(t)\\
+        x_2'(t) = a_{21} x_1(t) + a_{22} x_2(t) + \cdots + a_{2n} x_n(t)\\
+        \vdots\\
+        x_n'(t) = a_{n1} x_1(t) + a_{n2} x_2(t) + \cdots + a_{nn} x_n(t)
+    \end{cases}
+\end{equation*}
+Let \[
+\vt{x(t)}=\begin{bmatrix}
+    x_1(t)\\
+    x_2(t)\\
+    \vdots\\
+    x_n(t)
+\end{bmatrix}
+, A=\begin{bmatrix}
+    a_{11}&a_{12}&\cdots&a_{1n}\\
+    a_{21}&a_{22}&\cdots&a_{2n}\\
+    \vdots&\vdots&\ddots&\vdots\\
+    a_{n1}&a_{n2}&\cdots&a_{nn}
+\end{bmatrix}
+\]
+Then $\vt{x'(t)}=A\vt{x(t)}$.\\
+
+\subsubsection*{When $A$ is a diagonal matrix}
+\indent Since \[
+\begin{bmatrix}
+    x_1'(t)\\
+    x_2'(t)\\
+    \vdots\\
+    x_n'(t)
+\end{bmatrix}
+= \begin{bmatrix}
+    a_{11}&0&\cdots&0\\
+    0&a_{22}&\cdots&0\\
+    \vdots&\vdots&\ddots&\vdots\\
+    0&0&\cdots&a_{nn}
+\end{bmatrix}
+\begin{bmatrix}
+    x_1(t)\\
+    x_2(t)\\
+    \vdots\\
+    x_n(t)
+\end{bmatrix},
+\]
+it can be decoupled into $n$ independent equations:\[
+\begin{cases}
+    x_1'(t) = a_{11} x_1(t)\\
+    x_2'(t) = a_{22} x_2(t)\\
+    \vdots\\
+    x_n'(t) = a_{nn} x_n(t)
+\end{cases}
+\]
+The solution to each equation is of the form $x_i(t)=c_i e^{a_{ii}t}$, where $c_i$ is a constant. Hence the general solution to the system is \[
+\vt{x(t)} = c_1 e^{a_{11}t}\begin{bmatrix}
+    1\\
+    0\\
+    \vdots\\
+    0
+\end{bmatrix} + c_2 e^{a_{22}t}\begin{bmatrix}
+    0\\
+    1\\
+    \vdots\\
+    0
+\end{bmatrix} + \cdots + c_n e^{a_{nn}t}\begin{bmatrix}
+    0\\
+    0\\
+    \vdots\\
+    1
+\end{bmatrix}
+\]
+
+\subsubsection*{For general equation $x'(t)=Ax(t)$}
+
+\indent The solution is \[
+\vt{x(t)} = c_1 e^{\lambda_1 t}\vt{v_1} + c_2 e^{\lambda_2 t}\vt{v_2} + \cdots + c_n e^{\lambda_n t}\vt{v_n}
+\]
+where $\lambda_1,\lambda_2,\cdots,\lambda_n$ are the eigenvalues of $A$ and $\vt{v_1},\vt{v_2},\cdots,\vt{v_n}$ are the corresponding eigenvectors. 
+Here $\vt{v_i}e^{\lambda_i t}$ are called eigenfunctions of the differential equation system.
+\begin{example}
+    \[
+    \vt{x'(t)} = \begin{bmatrix}
+        -1.5&0.5\\
+        1&-1
+    \end{bmatrix}
+    \vt{x(t)}
+    ,\;\;
+    \vt{x(0)} = \begin{bmatrix}
+        5\\
+        4
+    \end{bmatrix}
+    \]
+    \textbf{Solution.} The eigenvalues are $\lambda_1=-0.5,\lambda_2=-2$, and the corresponding eigenvectors are $\vt{v_1}=\begin{bmatrix}
+        1\\
+        2
+    \end{bmatrix}$ and $\vt{v_2}=\begin{bmatrix}
+        -1\\
+        1
+    \end{bmatrix}$. The eigenfunctions $x_1(t)=\vt{v_1}e^{\lambda_1 t}$ and $x_2(t)=\vt{v_2}e^{\lambda_2 t}$ both satisfy $\vt{x'(t)} = A\vt{x(t)}$. Hence we write\[
+    \vt{x(t)} = c_1 e^{-0.5t}\begin{bmatrix}
+        1\\
+        2
+    \end{bmatrix} + c_2 e^{-2t}\begin{bmatrix}
+        -1\\
+        1
+    \end{bmatrix}
+    \]
+    Let $t=0$, we have $\vt{x(0)}=c_1\begin{bmatrix}
+        1\\
+        2
+    \end{bmatrix} + c_2\begin{bmatrix}
+        -1\\
+        1
+    \end{bmatrix} = \begin{bmatrix}
+        5\\
+        4
+    \end{bmatrix}$. Solving this system of equations, we get $c_1=3,c_2=-2$. Hence the solution is \[
+    \vt{x(t)} = 3e^{-0.5t}\begin{bmatrix}
+        1\\
+        2
+    \end{bmatrix} - 2e^{-2t}\begin{bmatrix}
+        -1\\
+        1
+    \end{bmatrix}
+    \]
+\end{example}
+\indent \textit{Proof.} [This proof is given by \textit{Github Copilot}, and a proof may also be found in handwritten lecture 20] 
+To prove the general solution to the system of linear differential equations $\vt{x'(t)} = A\vt{x(t)}$, we can use the method of decoupling the system by diagonalizing the matrix $A$.
+
+Assume that $A$ is diagonalizable, i.e., there exists an invertible matrix $P$ and a diagonal matrix $D$ such that $A = PDP^{-1}$. Let $\vt{y(t)} = P^{-1}\vt{x(t)}$. Then we have:
+\[
+\vt{x(t)} = P\vt{y(t)}
+\]
+Differentiating both sides with respect to $t$, we get:
+\[
+\vt{x'(t)} = P\vt{y'(t)}
+\]
+Since $\vt{x'(t)} = A\vt{x(t)}$, we have:
+\[
+P\vt{y'(t)} = AP\vt{y(t)}
+\]
+Substituting $A = PDP^{-1}$, we get:
+\[
+P\vt{y'(t)} = PDP^{-1}P\vt{y(t)} = PD\vt{y(t)}
+\]
+Multiplying both sides by $P^{-1}$, we obtain:
+\[
+\vt{y'(t)} = D\vt{y(t)}
+\]
+Since $D$ is a diagonal matrix, the system $\vt{y'(t)} = D\vt{y(t)}$ is decoupled into $n$ independent differential equations:
+\[
+\begin{cases}
+y_1'(t) = \lambda_1 y_1(t)\\
+y_2'(t) = \lambda_2 y_2(t)\\
+\vdots\\
+y_n'(t) = \lambda_n y_n(t)
+\end{cases}
+\]
+where $\lambda_1, \lambda_2, \ldots, \lambda_n$ are the diagonal entries of $D$, which are the eigenvalues of $A$. The solution to each equation is of the form:
+\[
+y_i(t) = c_i e^{\lambda_i t}
+\]
+where $c_i$ is a constant. Hence, the general solution to the system $\vt{y'(t)} = D\vt{y(t)}$ is:
+\[
+\vt{y(t)} = \begin{bmatrix}
+c_1 e^{\lambda_1 t}\\
+c_2 e^{\lambda_2 t}\\
+\vdots\\
+c_n e^{\lambda_n t}
+\end{bmatrix}
+\]
+Finally, transforming back to the original variables, we get the general solution to the system $\vt{x'(t)} = A\vt{x(t)}$:
+\[
+\vt{x(t)} = P\vt{y(t)} = P \begin{bmatrix}
+c_1 e^{\lambda_1 t}\\
+c_2 e^{\lambda_2 t}\\
+\vdots\\
+c_n e^{\lambda_n t}
+\end{bmatrix} = c_1 e^{\lambda_1 t} \vt{v_1} + c_2 e^{\lambda_2 t} \vt{v_2} + \cdots + c_n e^{\lambda_n t} \vt{v_n}
+\]
+where $\vt{v_1}, \vt{v_2}, \ldots, \vt{v_n}$ are the columns of $P$, which are the eigenvectors of $A$.
+
+
+\end{document}

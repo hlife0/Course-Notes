@@ -1,0 +1,2508 @@
+\documentclass[10pt, a4paper]{article}
+\hbadness=10000
+\usepackage{listings}
+\usepackage{ulem}
+\usepackage{appendix}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage[top=2.5cm, bottom=3.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{ctex}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{sectsty}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\vt}[1]{\mathbf{#1}}
+
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+\colorlet{LightBlue}{Cyan!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Example,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{example}
+\tcolorboxenvironment{example}{colback=LightBlue, boxrule=0pt}
+
+\declaretheoremstyle[name=Principle,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{principle}
+\tcolorboxenvironment{principle}{colback=LightGreen, boxrule=0pt}
+
+\declaretheoremstyle[name=Proposition,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{proposition}
+\tcolorboxenvironment{proposition}{colback=LightGray, boxrule=0pt}
+
+\declaretheoremstyle[name=Definition,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{definition}
+\tcolorboxenvironment{definition}{colback=LightOrange, boxrule=0pt}
+
+
+\newenvironment{Solution}{\textbf{Solution.}}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},  
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,        
+    breaklines=true,                
+    captionpos=b,                    
+    keepspaces=true,                
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\setlength{\parindent}{2em}
+\subsubsectionfont{\color{Blue}}
+
+
+% ------------------------------------------------------------------------------
+\setstretch{1.0}
+% ------------------------------------------------------------------------------
+\begin{document}
+\title{ \normalsize \textsc{}
+\\ [2.0cm]
+\HRule{1.5pt} \\ [0.3cm]
+\LARGE {\textbf{Matrix Algebra and Applications}
+\HRule{1.5pt} \\ [0.6cm]
+\LARGE{\textbf{MATH 2111 Lecture Notes}} \vspace*{10\baselineskip}}
+}
+\date{\today}
+\author{\textbf{LI, Hongrui}}  %template borrowed from hlx
+\maketitle
+
+\clearpage
+\tableofcontents
+\newpage
+
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 1
+% ------------------------------------------------------------------------------
+\section{Systems of Linear Equations}
+
+\subsection{Systems of Linear Equations}
+\indent At the start of this course, let's take a look at the word "Linear". 
+Among all the types of single-variable functions and equations we have learnt before, the most simple and basic one is exactly the linear function, which is a function that can be written in the form $f(x)=mx+b$. The graph of a linear function is a straight line, and the slope of the line is $m$.
+In general, when we have more than one variable, a linear equation is an equation that can be written in the form $$a_1x_1+a_2x_2+\cdots+a_nx_n=b$$, where $a_1, a_2, \cdots, a_n$ and $b$ are constants (which we call coefficients), and $x_1, x_2, \cdots, x_n$ are variables.\\
+\indent A system of linear equations is a set of two or more linear equations with the same variables. The solution to a system of linear equations is the set of all values of the variables that satisfy all the equations in the system. And a system of linear equations can have 
+\begin{enumerate}
+    \item No solution, or
+    \item Exactly one solution, or
+    \item Infinitely many solutions.
+\end{enumerate}
+If there is no solution, we say the system is \textbf{inconsistent}; otherwise, we say the system is \textbf{consistent}.
+If there is exactly one solution, we say the system is \textbf{consistent and independent}. If there are infinitely many solutions, we say the system is \textbf{consistent and dependent}.\\
+\indent Previously, we have learnt how to solve a system of linear equations by using the method of substitution or elimination, which can be quite tedious and time-consuming when the number of equations and variables is large.
+Hence, we need to find a systematic and efficient way to solve a system of linear equations\\
+\indent In this course, we will use the language of matrices and vectors to represent and solve systems of linear equations. In particular, we will use the following notation:
+\begin{itemize}
+    \item A system of linear equations will be represented by a matrix equation $A\mathbf{x}=\mathbf{b}$, where $A$ is a matrix, $\mathbf{x}$ is a vector of variables, and $\mathbf{b}$ is a vector of constants.
+    \item The solution to a system of linear equations will be represented by a set of vectors.
+    \item The solution set of a system of linear equations will be represented by a subspace of $\mathbb{R}^n$, which can be denoted by a linear combination of vectors, a parametric vector form, or a set of vectors.
+\end{itemize}
+We will cover all the topics above in this chapter, and let's start with the matrix notation of a system of linear equations, coefficient matrix and augmented matrix. 
+\begin{example}
+    \textbf{Matrix Notation of a System of Linear Equations}\\
+    Consider the following system of linear equations:
+    \begin{align*}
+        2x_1+3x_2&=5 \\
+        4x_1+5x_2&=6
+    \end{align*}
+    We can write this system of linear equations in matrix notation as
+    \begin{align*}
+        \begin{pmatrix}
+            2 & 3 \\
+            4 & 5
+        \end{pmatrix} \begin{pmatrix}
+            x_1 \\ x_2
+        \end{pmatrix} = \begin{pmatrix}
+            5 \\ 6
+        \end{pmatrix}
+    \end{align*}
+    where the matrix on the left side is called the \textbf{coefficient matrix}, the matrix on the right side is called the \textbf{constant matrix}.
+    Furthermore, we can write the \textbf{augmented matrix} of this system of linear equations as
+    \begin{align*}
+        \begin{pmatrix}
+            2 & 3 & 5 \\
+            4 & 5 & 6
+        \end{pmatrix}
+    \end{align*}
+\end{example}
+\begin{definition}
+    \textbf{Size of a Matrix}\\
+    The size of a matrix is denoted by the number of rows and columns in the matrix. For example, a matrix with $m$ rows and $n$ columns is called an $m\times n$ matrix.
+    \[\begin{pmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn}
+    \end{pmatrix}\]
+\end{definition}
+\indent Recall how we solve a system of linear equations by using the method of substitution or elimination before. Representing the rules we follow previously in the language of matrices, we have the \textbf{Elementary Row Operations} as follows:
+\begin{enumerate}
+    \item \textbf{Interchange} Interchange the i-th row and the j-th row.\[
+        \begin{pmatrix}
+            \vdots & \vdots & \vdots & \vdots \\
+            a_{i1} & a_{i2} & \cdots & a_{in} \\
+            \vdots & \vdots & \vdots & \vdots \\
+            a_{j1} & a_{j2} & \cdots & a_{jn} \\
+            \vdots & \vdots & \vdots & \vdots \\
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            \vdots & \vdots & \vdots & \vdots \\
+            a_{j1} & a_{j2} & \cdots & a_{jn} \\
+            \vdots & \vdots & \vdots & \vdots \\
+            a_{i1} & a_{i2} & \cdots & a_{in} \\
+            \vdots & \vdots & \vdots & \vdots \\
+        \end{pmatrix}
+        \]
+        \item \textbf{Scaling} Multiply the i-th row by a nonzero constant $c$.\[
+        \begin{pmatrix}
+            \vdots & \vdots & \vdots & \vdots \\
+            a_{i1} & a_{i2} & \cdots & a_{in} \\
+            \vdots & \vdots & \vdots & \vdots \\
+        \end{pmatrix}
+        \rightarrow
+        \begin{pmatrix}
+            \vdots & \vdots & \vdots & \vdots \\
+            ca_{i1} & ca_{i2} & \cdots & ca_{in} \\
+            \vdots & \vdots & \vdots & \vdots \\
+        \end{pmatrix}
+        \]
+    \item \textbf{Replacement} Replace the i-th row by the sum of the i-th row and a multiple of the j-th row.\[
+    \begin{pmatrix}
+        \vdots & \vdots & \vdots & \vdots \\
+        a_{i1} & a_{i2} & \cdots & a_{in} \\
+        \vdots & \vdots & \vdots & \vdots \\
+        a_{j1} & a_{j2} & \cdots & a_{jn} \\
+        \vdots & \vdots & \vdots & \vdots
+    \end{pmatrix}
+    \rightarrow
+    \begin{pmatrix}
+        \vdots & \vdots & \vdots & \vdots \\
+        a_{i1} + c a_{j1} & a_{i2} + c a_{j2} & \cdots & a_{in} + c a_{jn} \\
+        \vdots & \vdots & \vdots & \vdots \\
+        a_{j1} & a_{j2} & \cdots & a_{jn} \\
+        \vdots & \vdots & \vdots & \vdots
+    \end{pmatrix}
+    \]
+\end{enumerate}
+\begin{proposition}
+    The solution set of a system of linear equations is unchanged if we perform the following operations (\textbf{Elementary Row Operations}) on the augmented matrix of the system:
+    \begin{enumerate}
+        \item Interchange two rows.
+        \item Multiply a row by a nonzero constant.
+        \item Replace a row by the sum of that row and a multiple of another row.
+    \end{enumerate}
+\end{proposition}
+
+\subsection{Row Reduction and Echelon Forms}
+Previously, after solving a system of linear equations we may represent the solution set by 
+\begin{align*}
+x &= m\\
+y &= n
+\end{align*}
+, a simple form of linear equations where $m$ and $n$ are constants. The ultimate goal of all your efforts spent in solving the problem is to write $x,y$ like something above.\\
+\indent Similarly, when solving by using the matrix notation, we want to get a matrix in a form that is as simple as possible. 
+\begin{definition}
+    \textbf{Row Echelon Form}\\
+    A rectangular matrix is in\textbf{echelon form} or \textbf{row echelon form} if it has the following three properties:
+    \begin{enumerate}
+        \item All zero rows are at the bottom of the matrix.
+        \item Each leading entry of a row is in a column to the right of the leading entry of the previous row.
+        \item All entries in a column below a leading entry are zeros.
+    \end{enumerate}
+    If a matrix in echelon form satisfies the following additional properties, it is said to be in \textbf{reduced row echelon form}:
+    \begin{enumerate}
+        \item The leading entry in each nonzero row is 1.
+        \item Each leading 1 is the only nonzero entry in its column.
+    \end{enumerate}
+    Note that \textbf{leading entry} is the first nonzero entry in a row.
+\end{definition}
+\begin{definition}
+    \textbf{Pivot Position}\\
+    A \textbf{pivot position} in a matrix is a location in the matrix that corresponds to a leading 1 in the reduced row echelon form of the matrix.
+    A \textbf{pivot column} is a column that contains a pivot position.
+\end{definition}
+\indent We have a theorem that each matrix is row equivalent to one and only one reduced echelon matrix. If an echelon matrix $U$ can be achieved by row operations from a matrix $A$, we say $U$ is called an echelon form of $A$.\\ 
+\indent So far, we have all the theoretical fundations needed for introducing the \textbf{Row Reduction Algorithm}, the key of solving a system of linear equations by using the matrix notation.
+\begin{example}
+    Apply elementary row operations to transform the following matrix first into echelon form and then into reduced echelon form:
+    \begin{align*}
+        \begin{pmatrix}
+            0 & 3 & -6 & 6 & 4 & -5 \\
+            3 & -7 & 8 & -5 & 8 & 9 \\
+            3 & -9 & 12 & -9 & 6 & 15
+        \end{pmatrix}
+    \end{align*}
+    \begin{Solution}
+        Step 1: Begin with the leftmost nonzero column. This is a pivot column. The pivot position is at the top.\\
+        Step 2: Select a nonzero entry in the pivot column as a pivot. If necessary, interchange rows to move this entry into the pivot position.
+        \[
+        \begin{pmatrix}
+            3 & -9 & 12 & -9 & 6 & 15\\
+            3 & -7 & 8 & -5 & 8 & 9 \\
+            0 & 3 & -6 & 6 & 4 & -5 \\   
+        \end{pmatrix}
+        \]
+        Step 3: Use row replacement operations to create zeros in all positions below the pivot.
+        \[
+        \begin{pmatrix}
+            3 & -9 & 12 & -9 & 6 & 15\\
+            0 & 2 & -4 & 4 & 2 & -6\\
+            0 & 3 & -6 & 6 & 4 & -5 \\
+        \end{pmatrix}
+        \]
+        Step 4: Cover (or ignore) the row containing the pivot position and cover all rows, if any, above it. Apply steps 1-3 to the submatrix that remains. Repeat the process until there are no more nonzero rows to modify.
+        \[
+        \begin{pmatrix}
+            3 & -9 & 12 & -9 & 6 & 15\\
+            0 & 2 & -4 & 4 & 2 & -6\\
+            0 & 0 & 0 & 0 & 1 & 4 \\
+        \end{pmatrix}
+        \]
+        Step 5: Begin with the rightmost pivot and create zeros above it.
+        \[
+        \begin{pmatrix}
+            3 & -9 & 12 & -9 & 0 & -9\\
+            0 & 2 & -4 & 4 & 0 & -14\\
+            0 & 0 & 0 & 0 & 1 & 4 \\
+        \end{pmatrix}
+        \rightarrow\cdots\rightarrow
+        \begin{pmatrix}
+            1 & 0 & -2 & 3 & 0 & -24\\
+            0 & 1 & -2 & 2 & 0 & -7\\
+            0 & 0 & 0 & 0 & 1 & 4 \\
+        \end{pmatrix}
+        \]
+    \end{Solution}
+\end{example}
+\indent \textit{Remark.} Step 1-4 are the steps to transform the matrix into echelon form, which is called the forward phase of the row reduction algorithm, and step 5 is the step to transform the matrix into reduced echelon form, which is called the backward phase.\\
+
+\subsection{Vector Equations}
+As we know, Vectors in $\mathbb{R}^n$ is an ordered list of n numbers. The handwriten notes spend a lot of time on the arithmetic of vectors, which is quite trivial. This note will skip this part and start from the Linear combinations.
+\begin{definition}
+    In general, given vectors $\mathbf{v}_1, \mathbf{v}_2, \cdots, \mathbf{v}_p$ in $\mathbb{R}^n$ and given scalars $c_1, c_2, \cdots, c_p$, the vector $\mathbf{w}$ $$
+    \mathbf{w}=c_1 \mathbf{v}_1+c_2 \mathbf{v}_2+\cdots+c_p \mathbf{v}_p
+    $$
+    is called a \textbf{linear combination} of $\mathbf{v}_1, \mathbf{v}_2, \cdots, \mathbf{v}_p$ with weights coefficients $c_1, c_2, \cdots, c_p$.
+\end{definition}
+\begin{example}
+    Determin whether $\mathbf{b}$ is a linear combination of $\mathbf{a}_1$ and $\mathbf{a}_2$.
+    \begin{align*}
+        \mathbf{a}_1=\begin{pmatrix}
+            1 \\ 2
+        \end{pmatrix}, \mathbf{a}_2=\begin{pmatrix}
+            3 \\ 4
+        \end{pmatrix}, \mathbf{b}=\begin{pmatrix}
+            5 \\ 6
+        \end{pmatrix}
+    \end{align*}
+    \begin{Solution}
+        We need to find $c_1$ and $c_2$ such that $c_1 \mathbf{a}_1+c_2 \mathbf{a}_2=\mathbf{b}$. This is equivalent to solving the following system of linear equations:
+        \begin{align*}
+            c_1+3 c_2=5 \\
+            2 c_1+4 c_2=6
+        \end{align*}
+        The augmented matrix of this system is
+        \begin{align*}
+            \begin{pmatrix}
+                1 & 3 & 5 \\
+                2 & 4 & 6
+            \end{pmatrix}
+        \end{align*}
+        We can row reduce this matrix to
+        \begin{align*}
+            \begin{pmatrix}
+                1 & 0 & -1 \\
+                0 & 1 & 2
+            \end{pmatrix}
+        \end{align*}
+        So $c_1=-1$ and $c_2=2$. Therefore, $\mathbf{b}$ is a linear combination of $\mathbf{a}_1$ and $\mathbf{a}_2$.
+    \end{Solution}
+\end{example}
+\indent In general, a vector equation $$\mathbf{b}=x_1 \mathbf{a}_1+x_2 \mathbf{a}_2+\cdots+x_p \mathbf{a}_p \quad \text { or } \quad \mathbf{b}=\sum_{i=1}^{p} x_i \mathbf{a}_i $$ has the same solution set as the linear system whose augmented matrix is $$ \begin{pmatrix} \mathbf{a}_1 & \mathbf{a}_2 & \cdots & \mathbf{a}_p & \mathbf{b} \end{pmatrix} $$
+In particular, $\mathbf{b}$ can be generated by a linear combination of $\mathbf{a}_1, \mathbf{a}_2, \cdots, \mathbf{a}_p$ if and only if there exists a solution to the linear system corresponding to the augmented matrix above.\\
+\begin{definition}
+    \textbf{Span}\\
+    If $\mathbf{v}_1, \mathbf{v}_2, \cdots, \mathbf{v}_p$ are in $\mathbb{R}^n$ and $c_1, c_2, \cdots, c_p$ are scalars, then the set of all possible linear combinations of $\mathbf{v}_1, \mathbf{v}_2, \cdots, \mathbf{v}_p$ is called the \textbf{span} of $\mathbf{v}_1, \mathbf{v}_2, \cdots, \mathbf{v}_p$ and is denoted by $\operatorname{Span}\left\{\mathbf{v}_1, \mathbf{v}_2, \cdots, \mathbf{v}_p\right\}$.
+\end{definition}
+\indent That is, $\operatorname{Span}\left\{\mathbf{v}_1, \mathbf{v}_2, \cdots, \mathbf{v}_p\right\}$ is the set of all vectors that can be written in the form $c_1 \mathbf{v}_1+c_2 \mathbf{v}_2+\cdots+c_p \mathbf{v}_p$ for some scalars $c_1, c_2, \cdots, c_p$.\\
+\begin{example}
+    \begin{equation*}
+        \operatorname{Span} \left\{ \begin{pmatrix}
+            1 \\ 2 \\0
+        \end{pmatrix}, \begin{pmatrix}
+            3 \\ 4 \\0
+        \end{pmatrix} \right\}
+        =\left\{ \begin{pmatrix}
+            x \\ y \\0
+        \end{pmatrix} \mid x, y \in \mathbb{R} \right\}
+    \end{equation*}
+\end{example}
+\indent Next let's discuss a geometric interpretation of the span of vectors.
+\begin{itemize}
+    \item Let $\mathbf{v}$ be a nonzero vector in $\mathbb{R}^n$. The span of $\mathbf{v}$ is the line through the origin in the direction of $\mathbf{v}$.
+    \item Let $\mathbf{v}_1$ and $\mathbf{v}_2$ be two nonzero vectors in $\mathbb{R}^n$ that are not scalar multiples of each other. The span of $\mathbf{v}_1$ and $\mathbf{v}_2$ is the plane through the origin that contains $\mathbf{v}_1$ and $\mathbf{v}_2$.
+\end{itemize}
+\begin{example}
+    For what values of $h$ will $\mathbf{y}$ be in the $\operatorname{Span}\left\{\mathbf{v_1}, \mathbf{v_2}, \mathbf{v_3}\right\}$, if\[
+    \mathbf{\textbf{v}}_1=\begin{pmatrix}1 \\ -1 \\ 2\end{pmatrix}, \mathbf{v}_2=\begin{pmatrix}5 \\ -4 \\ -7\end{pmatrix}, \mathbf{v}_3=\begin{pmatrix}-3 \\ 1 \\ 0 \end{pmatrix} \text{, and } \mathbf{y}=\begin{pmatrix}-4 \\ 3 \\ h\end{pmatrix}
+    \]
+    \begin{Solution}
+        The vector $\mathbf{y}$ belongs to $\operatorname{Span}\left\{\mathbf{v}_1, \mathbf{v}_2, \mathbf{v}_3\right\}$ if and only if there exist scalars $x_1, x_2, x_3$ such that$$
+        x_1 \begin{pmatrix} 1 \\ -1 \\ 2 \end{pmatrix}+x_2 \begin{pmatrix} 5 \\ -4 \\ -7 \end{pmatrix}+x_3 \begin{pmatrix} -3 \\ 1 \\ 0 \end{pmatrix}=\begin{pmatrix} -4 \\ 3 \\ h \end{pmatrix},
+        $$
+    \end{Solution}
+    which indicates that the following system of linear equations must have a solution:
+    \begin{align*}
+        x_1+5 x_2-3 x_3=-4 \\
+        -x_1-4 x_2+x_3=3 \\
+        2 x_1-7 x_2=h
+    \end{align*}
+    The augmented matrix of this system is
+    \begin{align*}
+        \begin{pmatrix}
+            1 & 5 & -3 & -4 \\
+            -1 & -4 & 1 & 3 \\
+            2 & -7 & 0 & h
+        \end{pmatrix}
+    \end{align*}
+    We can row reduce this matrix to
+    \begin{align*}
+        \begin{pmatrix}
+            1&5&-3&-4\\
+            0&1&-2&-1\\
+            0&0&0&h-5
+        \end{pmatrix}
+    \end{align*}
+    So the system has a solution if and only if $h-5=0$, i.e. $h=5$.
+\end{example}
+\begin{example}
+    The handwritten notes also provide examples about the application in "reality scenarios", please refer to \href{run: file1.1.pdf}{file1.1}
+\end{example}
+
+\subsection{The Matrix Equation}
+\subsubsection*{Study of the Matrix Equation}
+\begin{definition}
+    \textbf{Matrix-Vector Product}\\
+    $A$ is a $m\times n$ matrix with column $\mathbf{a}_1, \mathbf{a}_2, \cdots, \mathbf{a}_n \in \mathbb{R}^m$, i.e. $A=[\mathbf{a}_1, \cdots, \mathbf{a}_n]$, and $\mathbf{x}$ is a vector in $\mathbb{R}^n$. Then we have \[
+        A\cdot \mathbf{x} = \begin{bmatrix}\mathbf{a}_1 & \mathbf{a}_2 & \cdots & \mathbf{a}_n\end{bmatrix} \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix} = x_1 \mathbf{a}_1+x_2 \mathbf{a}_2+\cdots+x_n \mathbf{a}_n.
+    \]
+    i.e. the product $A\cdot \mathbf{x}$ is a linear combination of the columns of $A$ with weights given by the entries of $\mathbf{x}$.\\
+    The form $A\mathbf{x} = \mathbf{b}$ is called a \textbf{matrix equation}.
+\end{definition}
+\begin{example}
+    Let $A=\begin{pmatrix} 1 & 2 \\ 3 & 4 \\ 5 & 6 \end{pmatrix}$ and $\mathbf{x}=\begin{pmatrix} 2 \\ 1 \end{pmatrix}$. Then \[
+        A\cdot \mathbf{x} = \begin{pmatrix} 1 & 2 \\ 3 & 4 \\ 5 & 6 \end{pmatrix} \begin{pmatrix} 2 \\ 1 \end{pmatrix} = 2\begin{pmatrix}
+            1 \\ 3 \\ 5
+        \end{pmatrix}
+        +1\begin{pmatrix}
+            2 \\ 4 \\ 6
+        \end{pmatrix} = \begin{pmatrix}
+            4 \\ 10 \\ 16
+        \end{pmatrix}
+    \]
+\end{example}
+\indent In the example above, we calculated the matrix-vector Multiplication by strictly following the defination, which is a good way to avoid making mistakes in calculations or losing marks due to the steps issue. \\
+\indent From the defination, the equivalance of the matrix-vector multiplication and the linear combination of the columns of the matrix is quite trivial, and it's quite clear that the equation $A\cdot \mathbf{x}=\mathbf{b}$ has the same solution set as the vector equation $$\mathbf{b}=x_1 \mathbf{a}_1+x_2 \mathbf{a}_2+\cdots+x_n \mathbf{a}_n,$$ which, in turn, has the same solution set as the linear system whose augmented matrix is $$\begin{bmatrix} \mathbf{a}_1 & \mathbf{a}_2 & \cdots & \mathbf{a}_n & \mathbf{b} \end{bmatrix}.$$
+Simply following this defination, we have the following theorem.
+\begin{proposition}
+    Let $A$ be an $m\times n$ matrix, $\mathbf{b}$ be a vector in $\mathbb{R}^m$, and $\mathbf{x}$ be a vector in $\mathbb{R}^n$. Then the following statements are equivalent:
+    \begin{enumerate}
+        \item For each $\mathbf{b}$ in $\mathbb{R}^m$, the equation $A\cdot \mathbf{x}=\mathbf{b}$ has a solution.
+        \item Each $\mathbf{b}$ in $\mathbb{R}^m$ is a linear combination of the columns of $A$.
+        \item The columns of $A$ span $\mathbb{R}^m$.
+        \item $A$ has a pivot position in every row.
+    \end{enumerate}
+\end{proposition}
+\indent \textit{Proof.} The proof of $1. \iff 2. \iff 3.$ is quite trivial, and the proof of $2. \iff 4.$ has already been included in previous chapters. The handwritten lecture notes present a proof of $(1.) \iff (4.)$, but it seems to have assumed that $(1.)\iff(2.)$ and $(2.)\iff(4.)$ are true, and is not very clear in the perspective of rigorous reasoning.\\
+
+\subsubsection*{Computation of Matrix-Vector Multiplication}
+\indent So far, we have been regarding $A\mathbf{x}$ as a linear combination of the columns of $A$. Following this rule, we can write down the matrix-vector multiplication concisely where the i-th row, j-th column number in $A$ is denoted by $a_{ij}$:
+\begin{equation*}
+    A\mathbf{x} = \begin{pmatrix}
+        a_{11} & a_{12} & \cdots & a_{1n} \\
+        a_{21} & a_{22} & \cdots & a_{2n} \\
+        \vdots & \vdots & \ddots & \vdots \\
+        a_{m1} & a_{m2} & \cdots & a_{mn}
+    \end{pmatrix} \begin{pmatrix}
+        x_1 \\ x_2 \\ \vdots \\ x_n
+    \end{pmatrix} = \begin{pmatrix}
+        a_{11}x_1+a_{12}x_2+\cdots+a_{1n}x_n \\
+        a_{21}x_1+a_{22}x_2+\cdots+a_{2n}x_n \\
+        \vdots \\
+        a_{m1}x_1+a_{m2}x_2+\cdots+a_{mn}x_n
+    \end{pmatrix}.
+\end{equation*}
+Take a closer look at each element in the result vector, we can see that the i-th element in the result vector is the dot product of the i-th row of $A$ and the vector $\mathbf{x}$. Therefore, we can also write the matrix-vector multiplication as
+\begin{proposition}
+    \textbf{Row vector Rule for Matrix-Vector Product}\\
+    \begin{equation*}
+        A\mathbf{x} = \begin{pmatrix}
+            \mathbf{a}_1\cdot \mathbf{x} \\
+            \mathbf{a}_2\cdot \mathbf{x} \\
+            \vdots \\
+            \mathbf{a}_m\cdot \mathbf{x}
+        \end{pmatrix}, \text{ where } \mathbf{a}_i \text{ is the i-th row of } A.
+    \end{equation*}
+\end{proposition}
+\indent As all other operational rules, in the end of this subchapter, we present the properties of matrix-vector product as follows, which can be easily proved by examining each element in the result vector.
+\begin{proposition}
+    \textbf{Properties of Matrix-Vector Product}\\
+    Let $A$ and $B$ be matrices, and let $\mathbf{x}$ and $\mathbf{y}$ be vectors in $\mathbb{R}^n$. Then the following properties hold:
+    \begin{enumerate}
+        \item $A(\mathbf{x}+\mathbf{y})=A\mathbf{x}+A\mathbf{y}$.
+        \item $A(c\mathbf{x})=c(A\mathbf{x})$.
+        \item $(A+B)\mathbf{x}=A\mathbf{x}+B\mathbf{x}$.
+        \item $A(B\mathbf{x})=(AB)\mathbf{x}$.
+        \item $I\mathbf{x}=\mathbf{x}$, where $I$ is the identity matrix.
+    \end{enumerate}
+    Remark: Property 3-5 are to be explained after defining the matrix-matrix operational rules in the next chapter.
+\end{proposition}
+
+\subsection{Solution Sets of Linear Systems}
+\subsubsection*{Homogeneous Linear Systems}
+\begin{definition}
+    \textbf{Homogeneous Linear System}\\
+    A linear system $A\mathbf{x}=\mathbf{0}$ is called \textbf{homogeneous} if the vector of constants on the right side of the equation is the zero vector.
+\end{definition}
+\indent The solution set of a homogeneous linear system is a subspace of $\mathbb{R}^n$. It's obvious that the Homogeneous Linear System always has a solution $\mathbf{x}=\mathbf{0}$, which is called the \textbf{trivial solution}.\\
+\indent The homogeneous linear system $A\mathbf{x}=\mathbf{0}$ has a nontrivial solution \textit{if and only if} the system has at least one free variable.\\
+\begin{example}
+    Determine whether the following homogeneous linear system has a nontrivial solution:
+    \begin{align*}
+        3x_1+5x_2-4x_3&=0 \\
+        -3x_1-2x_2+4x_3&=0 \\
+        6x_1+x_2-8x_3&=0
+    \end{align*}
+    \begin{Solution}
+        The augmented matrix of this system is
+        \begin{align*}
+            \begin{pmatrix}
+                3 & 5 & -4 & 0 \\
+                -3 & -2 & 4 & 0 \\
+                6 & 1 & -8 & 0
+            \end{pmatrix}
+        \end{align*}
+        We can row reduce this matrix to
+        \begin{align*}
+            \begin{pmatrix}
+                1 & 0 & -\frac{4}{3} & 0 \\
+                0 & 1 & 0 & 0 \\
+                0 & 0 & 0 & 0
+            \end{pmatrix}
+        \end{align*}
+        Hence, we get \[ \begin{aligned}
+            x_1&=\frac{4}{3}x_3 \\
+            x_2&=0 \\
+            x_3& \text{ is a free variable}
+        \end{aligned}\]
+        Therefore, the system has a nontrivial solution, and the solution set is \[ \begin{pmatrix}
+            x_1 \\ x_2 \\ x_3
+        \end{pmatrix}
+        =\begin{pmatrix}
+            \frac{4}{3}x_3 \\ 0 \\ x_3
+        \end{pmatrix}
+        =x_3\begin{pmatrix}
+            \frac{4}{3} \\ 0 \\ 1
+        \end{pmatrix}.\]
+    \end{Solution}
+\end{example}
+\indent \textcolor{red}{\textbf{Note. }} \textbf{Parametric Vector Form} of the solution set of a homogeneous linear system is the form of the solution set that is expressed as a linear combination of one or more vectors, like $$
+    \mathbf{x} = s\mathbf{\textbf{v}}_1+t\mathbf{\textbf{v}}_2+\cdots \; \; (s, t, \cdots \in \mathbb{R})
+$$
+\subsubsection*{Solutions of Nonhomogeneous Linear Systems}
+\begin{example}
+    Change the right side of the previous example to $\begin{pmatrix} 7 \\ -1 \\ -4 \end{pmatrix}$, and determine whether the system has a solution.\\
+    \begin{Solution}
+        Skip the row reduction part, we get\begin{align*}
+            x_1-\frac{4}{3}x_3&=-1 \\
+            x_2&=2 \\
+            x_3& \text{ is a free variable}
+        \end{align*}
+        Therefore, the system has a solution, and the solution set is \[ \begin{pmatrix}
+            x_1 \\ x_2 \\ x_3
+        \end{pmatrix}
+        =\begin{pmatrix}
+            -1+\frac{4}{3}x_3 \\ 2 \\ x_3
+        \end{pmatrix}
+        =\begin{pmatrix}
+            -1 \\ 2 \\ 0
+        \end{pmatrix}+x_3\begin{pmatrix}
+            \frac{4}{3} \\ 0 \\ 1
+        \end{pmatrix}.\]
+    \end{Solution}
+\end{example}
+\indent In this example, we wrote in the form of $$
+\mathbf{x}=\mathbf{p}+t\mathbf{v} \; \; \text{where} \; \; t=x_3,
+$$
+in which:
+\begin{itemize}
+    \item $\mathbf{p}$ is a particular solution of the non-homogeneous equation $A\mathbf{x}=\mathbf{0}$, and
+    \item $\mathbf{v}$ is the general solution of the corresponding homogeneous equation $A\mathbf{x}=\mathbf{0}$.
+\end{itemize}
+Now we can generalize this to the following theorem.
+\begin{proposition}
+    \textbf{General Solution of a Nonhomogeneous Linear System}\\
+    Suppose $A\mathbf{x}=\mathbf{b}$ is consistent for some given vector $\mathbf{b}$, and let $\mathbf{p}$ be a particular solution.
+    Then the general solution set of $A\mathbf{x}=\mathbf{b}$ is the set of all vectors of the form $$\mathbf{p}+t\mathbf{v_n}$$, where $\mathbf{v_n}$ is any solution of the corresponding homogeneous equation $A\mathbf{x}=\mathbf{0}$.
+\end{proposition}
+\indent Hence, we end this topic by showing the following summary given in the handwritten notes.
+\begin{itemize}
+    \item Row reduce the augmented matrix of the system to reduced row-echelon form.
+    \item Express each basic variable in terms of any free variables.
+    \item Write a typical solution $\mathbf{x}$ as a vector whose entries depend on the free variables, if any.
+    \item Decompose $\mathbf{x}$ into a linear combination of vectors (with numeric entries) using the free variables as parameters.
+\end{itemize}
+\indent \textit{P.S.} For situations with more than 1 free variables, the handwritten notes present the solution in this way $$
+\cdots = x_2\begin{pmatrix}
+    4\\1\\0\\0\\0\\0
+\end{pmatrix}+x_4\begin{pmatrix}
+    0\\0\\1\\0\\0\\0
+\end{pmatrix}+x_6\begin{pmatrix}
+    -5\\0\\1\\0\\4\\1
+\end{pmatrix}
+$$
+
+\subsection{Linear Independence}
+\begin{example}$$
+    \mathbf{v_1} = \begin{pmatrix}
+        1 \\ 2 \\ 3
+    \end{pmatrix}, \mathbf{v_2} = \begin{pmatrix}
+        4 \\ 5 \\ 6
+    \end{pmatrix}, \mathbf{v_3} = \begin{pmatrix}
+        2\\1\\0
+    \end{pmatrix}
+    $$
+    If $x_1 \mathbf{v_1}+x_2 \mathbf{v_2}+x_3 \mathbf{v_3}=\mathbf{0}$, are the solutions unique?
+    \\
+    \begin{Solution}
+        The vector equation $x_1 \mathbf{v_1}+x_2 \mathbf{v_2}+x_3 \mathbf{v_3}=\mathbf{0}$ is equivalent to the homogeneous linear system whose augmented matrix is
+        \begin{align*}
+            \begin{pmatrix}
+                1 & 4 & 2 & 0 \\
+                2 & 5 & 1 & 0 \\
+                3 & 6 & 0 & 0
+            \end{pmatrix}
+        \end{align*}
+        We can row reduce this matrix to
+        \begin{align*}
+            \begin{pmatrix}
+                1 & 0 & -2 & 0 \\
+                0 & 1 & 1 & 0 \\
+                0 & 0 & 0 & 0
+            \end{pmatrix}
+        \end{align*}
+        Hence, we have
+        \begin{align*}
+            x_1 &= 2x_3 \\
+            x_2 &= -x_3
+        \end{align*}
+        In particular, we can write $\mathbf{v_3} = -2\mathbf{v_1}+\mathbf{v_2}$, which means $\operatorname*{Span}\{\mathbf{v_1}, \mathbf{v_2}\} = \operatorname*{Span}\{\mathbf{v_1}, \mathbf{v_2}, \mathbf{v_3}\}$ is a plane. Therefore, $\mathbf{v_1}, \mathbf{v_2}, \mathbf{v_3}$ are linearly dependent.
+    \end{Solution}
+\end{example}
+\indent From the example above, we can see that the vectors $\mathbf{v_1}, \mathbf{v_2}, \mathbf{v_3}$ are linearly dependent, which means that at least one of the vectors can be written as a linear combination of the others. From this observation, we can generalize the following definition.
+\begin{definition}
+    \textbf{Linear Independence}\\
+    A set of vectors $\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}$ in $\mathbb{R}^n$ is said to be \textbf{linearly independent} if the vector equation $$x_1 \mathbf{v_1}+x_2 \mathbf{v_2}+\cdots+x_p \mathbf{v_p}=\mathbf{0}$$ has only the trivial solution $x_1=x_2=\cdots=x_p=0$.\\
+    A set of vectors that is said to be \textbf{linearly dependent} if there exist weights $c_1, c_2, \cdots, c_p$, not all zero, such that $$c_1 \mathbf{v_1}+c_2 \mathbf{v_2}+\cdots+c_p \mathbf{v_p}=\mathbf{0}.$$
+\end{definition}
+\indent For particular situations of the general defination above, we'll discuss the sets of one or two vectors as follows, the \textit{proof} of which just follows the defination.
+\begin{itemize}
+    \item A set of one vector $\mathbf{v}$ is linearly independent if and only if $\mathbf{v}\neq \mathbf{0}$.
+    \item A set of two vectors $\mathbf{v_1}$ and $\mathbf{v_2}$ is linearly independent if and only if neither vector is a scalar multiple of the other. i.e. $\{\mathbf{v_1}, \mathbf{v_2}\}$ are linearly dependent if at least one of them is a scalar multiple of the other.
+\end{itemize}
+Moreover, for a set of three or more vectors, we can use the following proposition to determine whether they are linearly independent.
+\begin{proposition}
+    A set of three or more vectors $\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}$ is linearly dependent if and only if at least one of the vectors can be written as a linear combination of the others.
+\end{proposition}
+\indent Given the deductions above, if we want to prove a set of vectors are linearly dependent, one simple way is to find one vector that can be written as a multiple of another (for system with 2 vectors) or a linear combination of the others (for system with 3 or more vectors).\\
+\indent After getting familiar with the basic concepts, lets move on to some specific situations.
+\begin{proposition} Theorems for determining linear dependence
+    \begin{itemize}
+        \item For $\{\mathbf{v_1}, \cdots, \mathbf{v_p}\}_{p\geq 2}$, where $\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}$ are vectors in $\mathbb{R}^n$, if \textbf{$p>n$}, then $\{\mathbf{v_1}, \cdots, \mathbf{v_p}\}$ must be linearly dependent.
+        \item If a set of vectors $\{\mathbf{v_1}, \cdots, \mathbf{v_p}\}$ in $\mathbb{R}^n$ contains the zero vector, then $\{\mathbf{v_1}, \cdots, \mathbf{v_p}\}$ is linearly dependent.
+    \end{itemize}
+\end{proposition}
+
+\subsection{Introduction to Linear Transformations}
+\begin{definition}
+    \textbf{Transformation}\\
+    A transformation from $\mathbb{R}^n$ to $\mathbb{R}^m$, $T: \mathbb{R}^n \mapsto \mathbb{R}^m$, is a rule that assigns to each vector $\mathbf{x}$ in $\mathbb{R}^n$ to a vector $T(\mathbf{x})$ in $\mathbb{R}^m$. We call 
+    \begin{align*}
+        &\mathbb{R}^n \text{ the \textbf{domain} of } T, \\
+        &\mathbb{R}^m \text{ the \textbf{codomain} of } T.
+    \end{align*}
+    For $\mathbf{x}\in\mathbb{R}^n$, $T(\mathbf{x})$ is called the \textbf{image} of $\mathbf{x}$ under $T$, and the set of all images $T(\mathbf{x})$ is called the \textbf{range} of $T$.
+    \\
+    For example, \[
+    A: \text{matrix}\; m\times n , \quad \mathbf{x}\in \mathbb{R}^n, \quad T: \mathbb{R}^n \mapsto \mathbb{R}^m, \quad T(\mathbf{x})\triangleq A\mathbf{x}
+    \]
+\end{definition}
+\indent \textit{Note.} The handwritten notes provide an example of $T: \mathbb{R}^2 \mapsto \mathbb{R}^2$ regarding the geometric interpretation of the transformation, please refer to \href{run: file1.2.pdf}{file1.2}. The key ideas are:
+\begin{itemize}
+    \item $T$ deforms the unit square into a parallelogram.
+    \item $T$ maps a line segment to a line segment.
+\end{itemize}
+\begin{definition} 
+    \textbf{Linear Transformation}\\
+    A transformation $T: \mathbb{R}^n \mapsto \mathbb{R}^m$ is called a \textbf{linear transformation} if
+    \begin{align*}
+        &T(\mathbf{u}+\mathbf{v})=T(\mathbf{u})+T(\mathbf{v}) \quad \text{for all } \mathbf{u}, \mathbf{v} \in \mathbb{R}^n, \\
+        &T(c\mathbf{u})=cT(\mathbf{u}) \quad \text{for all } \mathbf{u} \in \mathbb{R}^n \text{ and all scalars } c.
+    \end{align*}
+    i.e. a transformation $T$ is linear if it preserves vector addition and scalar multiplication.
+\end{definition}
+
+\indent \textit{Deduction.} If $T$ is a linear transformation, then 
+\begin{align*}
+    T(\mathbf{0})&=\mathbf{0}, \\
+    T(c_1\mathbf{v}_1+c_2\mathbf{v}_2)&=c_1T(\mathbf{v}_1)+c_2T(\mathbf{v}_2), \\
+    T(c_1\mathbf{v}_1+c_2\mathbf{v}_2+\cdots+c_p\mathbf{v}_p)&=c_1T(\mathbf{v}_1)+c_2T(\mathbf{v}_2)+\cdots+c_pT(\mathbf{v}_p).
+\end{align*}
+
+\begin{example}
+    \textbf{Geometric meaning of linear transformation}\\
+    \begin{itemize}
+        \item  Given a scalar, define $T: \mathbb{R}^2\mapsto\mathbb{R}^2$ by $T(\mathbf{x})=r\mathbf{x}$. $T$ is called contraction if $0<r<1$, and dilation if $r>1$.
+        \item Define $T: \mathbb{R}^2\mapsto\mathbb{R}^2$ by $T(\mathbf{x})=A\mathbf{x}$, where $A=\begin{pmatrix} 0 & -1 \\ 1 & 0 \end{pmatrix}$. Here $T$ is a rotation.
+    \end{itemize}
+\end{example}
+
+\subsection{The Matrix of a Linear Transformation}
+\begin{proposition}
+    \textbf{Matrix of a Linear Transformation}\\
+    Let $T: \mathbb{R}^n \mapsto \mathbb{R}^m$ be a linear transformation. Then there exists a unique $m\times n$ matrix $A$ such that $T(\mathbf{x})=A\mathbf{x}$ for all $\mathbf{x}$ in $\mathbb{R}^n$.\\
+    In fact, $A=[T(\mathbf{e}_1), T(\mathbf{e}_2), \cdots, T(\mathbf{e}_n)]$, where $\mathbf{e}_1, \mathbf{e}_2, \cdots, \mathbf{e}_n$ are the standard unit vectors in $\mathbb{R}^n$, which means
+    \[
+    \mathbf{e_1} = \begin{pmatrix} 1 \\ 0 \\ \vdots \\ 0 \end{pmatrix}, \mathbf{e_2} = \begin{pmatrix} 0 \\ 1 \\ \vdots \\ 0 \end{pmatrix}, \cdots, \mathbf{e_n} = \begin{pmatrix} 0 \\ 0 \\ \vdots \\ 1 \end{pmatrix}.
+    \]
+\end{proposition}
+\indent \textit{Proof.} The key of this proof is to make use of the linearity of $T$ stated in the Defination of Linear Transformation. 
+Denote $\mathbf{x} = (x_1, x_2, \cdots, x_n)^T$, then we have
+\begin{align*}
+    T(\mathbf{x}) &= T(x_1\mathbf{e}_1+x_2\mathbf{e}_2+\cdots+x_n\mathbf{e}_n) \\
+    &= x_1T(\mathbf{e}_1)+x_2T(\mathbf{e}_2)+\cdots+x_nT(\mathbf{e}_n) \\
+    &= \begin{pmatrix} T(\mathbf{e}_1) & T(\mathbf{e}_2) & \cdots & T(\mathbf{e}_n) \end{pmatrix} \begin{pmatrix} x_1 \\ x_2 \\ \vdots \\ x_n \end{pmatrix} \\
+    &= A\mathbf{x}.
+\end{align*}    
+
+\newpage
+
+% ------------------------------------------------------------------------------    
+% Start of Chapter 2
+% ------------------------------------------------------------------------------
+\section{Matrix Algebra}
+\subsection{Matrix Operations}
+\subsubsection*{Sums and Scalar Multiplication}
+\begin{example}
+    \textbf{Matrix Addition}
+    \begin{enumerate}
+        \item $A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$, $B = \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix}$, then $A + B = \begin{bmatrix} 6 & 8 \\ 10 & 12 \end{bmatrix}$
+        \item $A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$, $B = \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix}$, then $A - B = \begin{bmatrix} -4 & -4 \\ -4 & -4 \end{bmatrix}$
+    \end{enumerate}
+\end{example}
+Given two matrices $A$ and $B$ of the same size, the sum of $A$ and $B$ is the matrix obtained by adding corresponding elements of $A$ and $B$. The difference of $A$ and $B$ is the matrix obtained by subtracting corresponding elements of $A$ and $B$.
+\begin{example}
+    \textbf{Scalar Multiplication}
+    \begin{enumerate}
+        \item $A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$, $k = 2$, then $kA = \begin{bmatrix} 2 & 4 \\ 6 & 8 \end{bmatrix}$
+        \item $A = \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix}$, $k = -1$, then $kA = \begin{bmatrix} -1 & -2 \\ -3 & -4 \end{bmatrix}$
+    \end{enumerate}
+\end{example}
+Given a matrix $A$ and a scalar $k$, the product of $k$ and $A$ is the matrix whose colums are r times the corresponding columns of $A$.
+\begin{proposition}
+    \textbf{Properties of Matrix Addition and Scalar Multiplication}
+    \begin{enumerate}
+        \item $A + B = B + A$
+        \item $(A + B) + C = A + (B + C)$
+        \item $A + 0 = A$
+        \item $A + (-A) = 0$
+        \item $k(A + B) = kA + kB$
+        \item $(k + l)A = kA + lA$
+        \item $k(lA) = (kl)A$
+        \item $1A = A$
+    \end{enumerate}
+\end{proposition}
+\textit{Proof.} To prove Prop. 2.1, just consider the definition of matrix addition and scalar multiplication, and apply the Principles of numeral Addition and Multiplication.
+
+\subsubsection*{Matrix Multiplication}
+Given two matrices $A$ and $B$, for any vector $\mathbf{x}$, we want to make sure that $(AB)\mathbf{x} = A(B\mathbf{x})$.
+Starting from this point of view, we can define the matrix multiplication. \textcolor{red}{Justification of this defination remains to be solved.}
+\begin{definition}
+    \textbf{Matrix Multiplication}\\
+    Let $A$ be an $m\times n$ matrix and $B$ be an $n\times p$ matrix, we now define that $$A B = C = (A\mathbf{b_1}, \cdots, A\mathbf{b_p}).$$
+    \textbf{Remark:} The product $AB$ is defined if and only if the number of columns of $A$ is equal to the number of rows of $B$, and the size of the product is $m\times p$.
+\end{definition}
+\begin{example}
+    Find the product of the $AB$, where\[
+        A = \begin{pmatrix} -2 & 5 & 0 \\ -1 & 3 & 4 \\ 6 & -8 & -7 \\ -3 & 0 & 9 \end{pmatrix}, B = \begin{pmatrix} 4 & -6 \\ 7 & 1 \\ 3 & 2 \end{pmatrix}.
+    \]
+    \textbf{Solution:} To avoid making mistaks or losing points, follow strictly this defination and write in steps, or write down the calculation details of each elements.
+\end{example}
+Note that this defination actually uses the defination of matrix-vector multiplication, which is defined as the linear combination of the columns of the matrix.
+In many textbooks, the defination of matrix multiplication is defined in the following way, which is equivalent to the defination above and we regard it as Row-Column Rule for Matrix Multiplication in the context of MATH2111.
+In general, we have the following properties of matrix multiplication.
+\begin{proposition}
+    \textbf{Row-Column Rule for Matrix Multiplication}\\
+    Let $A$ be an $m\times n$ matrix and $B$ be an $n\times p$ matrix, we now define that the product $AB$ is the $m\times p$ matrix whose $(i,j)$-entry is the dot product of the $i$-th row of $A$ and the $j$-th column of $B$, that is, $$(AB)_{ij} = \sum_{k=1}^n a_{ik}b_{kj},$$
+    where $A=\begin{pmatrix}
+            a_{11} & \cdots & a_{1n} \\
+            \vdots & \ddots & \vdots \\
+            a_{m1} & \cdots & a_{mn}
+        \end{pmatrix}, B=\begin{pmatrix}
+            b_{11} & \cdots & b_{1p} \\
+            \vdots & \ddots & \vdots \\
+            b_{n1} & \cdots & b_{np}
+        \end{pmatrix}.$
+\end{proposition}
+\begin{proposition}
+    \textbf{Properties of Matrix Multiplication}
+    \begin{enumerate}
+        \item $A(BC) = (AB)C$
+        \item $A(B + C) = AB + AC$
+        \item $(A + B)C = AC + BC$
+        \item $k(AB) = (kA)B = A(kB)$
+        \item $I_mA = A = AI_n$
+    \end{enumerate}
+    \textcolor{red}{\textbf{Warning:}} \\
+    (1)  In general, $AB\neq BA$, that is, the multiplication of matrices is not communtive. Moreover, the product of two matrices may not be defined, that is, $AB$ may not be defined even if $BA$ is defined.\\
+    (2)  In general, $AB=AC$ does not imply $B=C$.\\
+    (3)  In general, $AB=0$ does not imply $A=0$ or $B=0$.
+\end{proposition}
+
+\subsubsection*{Powers and Transpose of a Matrix}
+\begin{definition}
+    \textbf{Powers of a Matrix}\\
+    Let $A$ be a $n\times n$ matrix, then we define the power of $A$ as follows:
+    \begin{align*}
+        A^0 & = I_n             \\
+        A^1 & = A               \\
+        A^2 & = A\cdot A        \\
+        A^3 & = A\cdot A\cdot A \\
+            & \cdots
+    \end{align*}
+\end{definition}
+\begin{definition}
+    \textbf{Transpose of a Matrix}\\
+    Let $A$ be a $m\times n$ matrix, then the transpose of $A$, denoted by $A^T$, is the $n\times m$ matrix whose $(i,j)$-entry is the $(j,i)$-entry of $A$, that is, $$(A^T)_{ij} = A_{ji}.$$
+\end{definition}
+\begin{example}
+    Find the transpose of the matrix $A = \begin{pmatrix} 1 & 2 & 3 \\ 4 & 5 & 6 \end{pmatrix}$.\\
+    \textbf{Solution:} We have $A^T = \begin{pmatrix} 1 & 4 \\ 2 & 5 \\ 3 & 6 \end{pmatrix}$.
+\end{example}
+\begin{proposition}
+    \textbf{Properties of Transpose of a Matrix}
+    Let $A$ and $B$ be matrices whose sizes are appropriate for the following operations, and let $k$ be a scalar, then we have
+    \begin{enumerate}
+        \item $(A^T)^T = A$
+        \item $(kA)^T = kA^T$
+        \item $(A + B)^T = A^T + B^T$
+              \textcolor{Orange}{\item $(AB)^T = B^TA^T$}
+        \item $(A^k)^T = (A^T)^k$
+    \end{enumerate}
+\end{proposition}
+\; \; \textit{Proof.} For Prop. 2.4.4, we have $(AB)_{ij} = \sum_{k=1}^n a_{ik}b_{kj}$, then $$(AB)^T_{ij} = (AB)_{ji} = \sum_{k=1}^n a_{jk}b_{ki} = \sum_{k=1}^n b_{ki}a_{jk} = (B^TA^T)_{ij}.$$
+Note that in Prop. 2.4.4, $A^T B^T$ may not even be defined if $A$ and $B$ are not square matrices.
+
+\subsection{Inverses of Matrices and Elementary Matrices}
+\subsubsection*{Inverses of Matrices}
+In many situations, we need to solve the equation $A\mathbf{x} = B$, where $A$ is a matrix and $\mathbf{x}$ is a vector. For numeral calculation, it's natural to find the solution by multiplying both sides by $A^{-1}$ to get $\mathbf{x} = A^{-1}B$. In matrices, in order to solve this equation, we introduce the concept of the inverse of a matrix.
+\begin{definition}
+    \textbf{Identity Matrices}\\
+    The $n\times n$ identity matrix, denoted by $I_n$, is the matrix whose $(i,j)$-entry is 1 if $i=j$ and 0 otherwise, that is, $$(I_n)_{ij} = \begin{cases} 1 & \text{if } i=j \\ 0 & \text{if } i\neq j \end{cases}.$$
+\end{definition}
+\begin{definition}
+    \textbf{Inverses of Matrices}\\
+    Let $A$ be a square matrix. If there exists a matrix $B$ such that $$AB = BA = I_n$$, then $B$ is called the inverse of $A$, denoted by $A^{-1}$.\\
+    Otherwise, if $A$ does not have an inverse, then $A$ is called singular.
+\end{definition}
+Note that the inverse of a matrix is unique if it exists, which can be proved by contradiction. Assume that $B$ and $C$ are both inverses of $A$, then we have $$B = BI_n = B(AC) = (BA)C = I_nC = C,$$ which shows that $B=C$. To find the unique inverse of a matrix, we can use the following method.
+\begin{example}
+    Find the inverse of the matrix $A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$.\\
+    \textbf{Solution:} We have $A^{-1} = \frac{1}{ad-bc}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}$, where $a=1$, $b=2$, $c=3$, $d=4$. Thus, $A^{-1} = \frac{1}{1\cdot 4 - 2\cdot 3}\begin{pmatrix} 4 & -2 \\ -3 & 1 \end{pmatrix} = \begin{pmatrix} -2 & 1 \\ 1.5 & -0.5 \end{pmatrix}$.
+\end{example}
+\textit{Theorem.} From this example, we can derive a general formula for the inverse of a $2\times 2$ matrix. Let $A = \begin{pmatrix} a & b \\ c & d \end{pmatrix}$, then we have $$A^{-1} = \frac{1}{ad-bc}\begin{pmatrix} d & -b \\ -c & a \end{pmatrix}.$$ 
+If $ad-bc=0$, then $A$ is singular and does not have an inverse. In general, we can use the Gauss-Jordan method to find the inverse of a matrix, which will be explained later.
+No matter whether a matrix is $2 \times 2$ or not, however, we have the following properties covered in the lectures.
+\begin{proposition}
+    \textbf{Properties of Inverses of Matrices}
+    Let $A$ and $B$ be invertible matrices of the same size, and let $k$ be a scalar, then we have
+    \begin{enumerate}
+        \item $A^{-1}$ is invertible, and $(A^{-1})^{-1} = A$
+        \item $(kA)^{-1} = \frac{1}{k}A^{-1}$
+        \item $(A^T)^{-1} = (A^{-1})^T$
+        \item $(AB)^{-1} = B^{-1}A^{-1}$
+    \end{enumerate}
+\end{proposition}
+\textit{Proof.} For Prop. 2.5.3, just consider using the Properties of Transpose. For Prop. 2.5.4, we have $$(AB)(B^{-1}A^{-1}) = A(BB^{-1})A^{-1} = AIA^{-1} = AA^{-1} = I.$$
+\; \; \;In the end, let's recall the problem of solving the equation $A\mathbf{x} = B$. With the concept of invertible matrices, we can now give a general solution. If $A$ is invertible, then we can multiply both sides by $A^{-1}$ to get $\mathbf{x} = A^{-1}B$. If $A\sigma $ is not invertible, then we can use the Gauss-Jordan method to solve the equation (which will be presented right after this part).
+\begin{proposition}
+    \textbf{Solution of the Equation $A\mathbf{x} = \mathbf{b}$}\\
+    If $A$ is an invertible matrix, then the equation $A\mathbf{x} = \mathbf{b}$ has \textbf{unique} solution $\mathbf{x} = A^{-1} \mathbf{b}$
+\end{proposition}
+\subsubsection*{Elementry Matrices}
+Recall the elementary row operations in Chapter 1, which are the following three operations: (1) Interchange two rows, (2) Multiply a row by a nonzero scalar, (3) Add a multiple of one row to another row. 
+If an elementary row operation is performed on the $m\times n$ matrix $A$, the resulting matrix can be written as $EA$, where $E$ is the $m\times m$ elementary matrix created by performing the elementary row operation on the $m\times m$ identity matrix $I_m$.\\
+\indent Each elementary matrix $E$ is invertible, and its inverse is also an elementary matrix. The inverse of $E$ is the elementary matrix of the same type that transforms $E$ back to $I_m$.
+\begin{proposition}
+    An $n\times n$ matrix $A$ is invertible if and only if $A$ is row equivalent to the $n\times n$ identity matrix $I_n$. In this case, any sequence of elementary row operations that reduces $A$ to $I_n$ will also transform $I_n$ into $A^{-1}$.
+\end{proposition}
+\textit{Proof.} All the following statements are equivalent:
+\begin{align*}
+    & A \text{ is invertible}                                                                                   \\
+    \Leftrightarrow & \text{The equation } A\mathbf{x} = \mathbf{b} \text{ has a unique solution for all vectors } \mathbf{b} \\
+    \Leftrightarrow & \text{The equation } A\mathbf{x} = \mathbf{0} \text{ has only the trivial solution}                 \\
+    \Leftrightarrow & \text{The reduced row echelon form of } A \text{ is } I_n \; \; (A \sim I_n).                                        \\
+\end{align*}
+Conversly, if $A\sim I_n$, each row operation corresponds to multiplying A by an elementary matrix, so $E_p \cdots E_2 E_1A=I_n$, where $E_1, E_2, \cdots, E_p$ are elementary matrices. Thus we have $$A^{-1} = E_p \cdots E_2 E_1.$$
+\begin{proposition}
+    \textbf{An algorithm for finding the inverse of a matrix (Gauss-Jordan method)}\\
+    Row operation reduce the matrix $\begin{pmatrix} A & I_n \end{pmatrix}$. If $A$ is row equivalent to $I_n$, then $\begin{pmatrix} A & I_n \end{pmatrix}$ is row equivalent to $\begin{pmatrix} I_n & A^{-1} \end{pmatrix}$. Otherwise, $A$ is not invertible.
+\end{proposition}
+\begin{example}
+    Find the inverse of the matrix $A = \begin{pmatrix} 1 & 2 \\ 3 & 4 \end{pmatrix}$.\\
+    \textbf{Solution:} We can use the following method to find the inverse of a matrix.\\
+    \textbf{Step 1:} Write down the augmented matrix $\begin{pmatrix} A & I_2 \end{pmatrix} = \begin{pmatrix} 1 & 2 & 1 & 0 \\ 3 & 4 & 0 & 1 \end{pmatrix}$.\\
+    \textbf{Step 2:} Use the row operations to transform the left side of the augmented matrix into the identity matrix: 
+    \(\begin{pmatrix} 1 & 2 & 1 & 0 \\ 3 & 4 & 0 & 1 \end{pmatrix} \rightarrow \begin{pmatrix} 1 & 2 & 1 & 0 \\ 0 & -2 & -3 & 1 \end{pmatrix} \rightarrow \begin{pmatrix} 1 & 2 & 1 & 0 \\ 0 & 1 & 3/2 & -1/2 \end{pmatrix} \rightarrow \begin{pmatrix} 1 & 0 & -1 & 1 \\ 0 & 1 & 3/2 & -1/2 \end{pmatrix}.\)\\
+    \textbf{Step 3:} The right side of the augmented matrix is the inverse of the matrix $A$.
+\end{example}
+\indent \textit{Proof.} $E_p \cdots E_1\begin{pmatrix} A & I_n \end{pmatrix} = \begin{pmatrix}E_p \cdots E_1 A & E_p \cdots E_1 I_n \end{pmatrix} = \begin{pmatrix} I_n & A^{-1} \end{pmatrix}$ 
+
+\subsection{Characterization of Invertible Matrices}
+\begin{proposition}
+    Let $A$ be an $n\times n$ matrix. The following statements are equivalent:
+    \begin{enumerate}
+        \item $A$ is invertible.
+        \item $A$ is row equivalent to $I_n$.
+        \item $A$ has $n$ pivot positions.
+        \item The equation $A\mathbf{x} = \mathbf{0}$ has only the trivial solution.
+        \item The equation $A\mathbf{x} = \mathbf{b}$ has a unique solution for all vectors $\mathbf{b}$.
+        \item The columns of $A$ form a linearly independent set.
+        \item The columns of $A$ span $\mathbb{R}^n$.
+        \item The linear transformation $\mathbf{x} \mapsto A\mathbf{x}$ is one-to-one.
+        \item The linear transformation $\mathbf{x} \mapsto A\mathbf{x}$ is onto.
+        \item There exists an $n\times n$ matrix $C$ such that $CA = I_n$.
+        \item There exists an $n\times n$ matrix $D$ such that $AD = I_n$.
+        \item $A^T$ is invertible.
+    \end{enumerate}
+\end{proposition}
+\textit{Proof.} The equivalence of the statements can be proved by the following chain of implications:
+\begin{align*}
+    & (1) \Rightarrow (2) \Rightarrow (3) \Rightarrow (4) \Rightarrow (5) \Rightarrow (6) \Rightarrow (7) \Rightarrow (8) \Rightarrow (9) \Rightarrow (10) \Rightarrow (11) \Rightarrow (12) \Rightarrow (1) \\
+    & (1) \Rightarrow (12) \Rightarrow (11) \Rightarrow (10) \Rightarrow (9) \Rightarrow (8) \Rightarrow (7) \Rightarrow (6) \Rightarrow (5) \Rightarrow (4) \Rightarrow (3) \Rightarrow (2) \Rightarrow (1)
+\end{align*}
+\subsubsection*{Invertible Linear transformations}
+A linear transformation $T: \mathbb{R}^n \rightarrow \mathbb{R}^n$ is invertible if and only if there exists a map $S: \mathbb{R}^n \rightarrow \mathbb{R}^n$ such that $T\circ S (\mathbf{x}) = S\circ T (\mathbf{x}) = \mathbf{x}$ for all $\mathbf{x} \in \mathbb{R}^n$. In this case, $S$ is called the inverse of $T$, denoted by $T^{-1}$.\\
+\indent Let $A$ be the standard matrix of the linear transformation $T$, then $T$ is invertible if and only if $A$ is invertible. In this case, the standard matrix of $T^{-1}$ is $A^{-1}$.\\
+\indent To bring this chapter to an end, we show the following proposition given by \textit{Github Copilot}.
+\begin{proposition}
+    Let $T: \mathbb{R}^n \rightarrow \mathbb{R}^n$ be a linear transformation. The following statements are equivalent:
+    \begin{enumerate}
+        \item $T$ is invertible.
+        \item $T$ is one-to-one.
+        \item $T$ is onto.
+    \end{enumerate}
+\end{proposition}
+
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 3
+% ------------------------------------------------------------------------------
+\section{Determinants}
+\subsection{Introduction to Determinants}
+At the end of Chapter 2, we have discussed the invertibility of a linear transfermation $T:\R^T\mapsto\R^T$, whose standard matrix happens to be a square matrix. In this chapter, we will introduce the concept of determinant, which is a scalar value that can be computed from the elements of a square matrix and encodes certain properties of the linear transformation described by the matrix. The determinant of a matrix is a fundamental concept in linear algebra, and it is used in many other areas of mathematics.\\
+Before we introduce the definition and properties of determinants, we claim that the thing called "determinant of a square matrix" has the following property:
+\begin{proposition}
+    \textbf{Invertibility and Determinants} \\
+    Let $A$ be an $n\times n$ matrix. Then $A$ is invertible if and only if $\det(A)\neq 0$.\\
+    \textbf{Corollary} \\
+    $\operatorname{det}A=0$ if and only if rows of $A$ are linearly dependent.
+\end{proposition}
+The next step is to give a defination of determinants. It's easy to observe that linear dependence is obvious when two  columns or two rows are the same, or a column or a row is zero.
+Starting from a $2\times 2$ matrix, we find the following defination of determinant will work perfectly for what we want to be, and then we extend it to $n\times n$ matrix by recursion. \\
+\indent\textcolor{red}{Remark:} The handwritten lecture notes presents the proposition above explicitly after defining the determinant of a matrix and showing it's properties. However, I think it's better to present the proposition first, since it gives a clear picture of why we need to introduce the concept of determinant. \\
+\begin{definition}
+    \textbf{Determinant of a Matrix}\\
+    Let $A$ be a $2\times 2$ matrix, then the determinant of $A$, denoted by $\det(A)$ or $|A|$, is defined as the following $$\det(A) = \begin{vmatrix} a & b \\ c & d \end{vmatrix} = ad - bc$$
+    In general, the determinant of an $n\times n$ matrix $A$, and $A_{ij}$ is the $(n-1)\times (n-1)$ matrix obtained by deleting the $i$-th row and $j$-th column of $A$, is defined as $\det(A) = \sum_{j=1}^n (-1)^{i+j}a_{ij}\det(A_{ij}).$
+    \textbf{Cofactor}\\
+    The $(i,j)$-cofactor of $A$ is defined as $C_{ij} = (-1)^{i+j}\det(A_{ij})$.\\
+\end{definition}
+\indent\textit{Proof.} Given this defination, we can easily verify Prop. 3.1. Suppose $A$ has been reduced to an echelon form $U$ by row replacement and row interchanges. If there are r interchanges, then $$
+det A = (-1)^r det U = (-1)^r \prod_{i=1}^n u_{ii}.
+$$
+\textcolor{Green}{This part to be reconsidered!}\\
+The defination of determinant is a recursive defination, which is based on the defination of determinant of $2\times 2$ matrix. The determinant of a matrix can be calculated by the following formula:
+\begin{proposition}
+    \textbf{Calculation of Determinant}\\
+    Let $A$ be an $n\times n$ matrix, then the determinant of $A$ can be computed by a cofactor expansion across any row or down any column, that is, 
+    \begin{align*}
+        \det(A) & = \sum_{j=1}^n a_{ij}C_{ij} \text{ (expansion across the $i$-th row)} \\
+                & = \sum_{i=1}^n a_{ij}C_{ij} \text{ (expansion down the $j$-th column)}.
+    \end{align*}
+    \textbf{Thm for triangular matrix}\\
+    If $A$ is a triangular matrix, then $\det(A)$ is the product of the main diagonal entries of $A$.\[
+        \begin{pmatrix}
+            * & * & * &  \cdots & * \\
+            0 & * & * & \cdots & * \\
+            0 & 0 & * & \cdots & * \\
+            \vdots & \vdots & \vdots & \ddots & \vdots \\
+            0 & 0 & 0 & \cdots & *
+        \end{pmatrix}
+        \text{ or }
+        \begin{pmatrix}
+            * & 0 & 0 &  \cdots & 0 \\
+            * & * & 0 & \cdots & 0 \\
+            * & * & * & \cdots & 0 \\
+            \vdots & \vdots & \vdots & \ddots & \vdots \\
+            * & * & * & \cdots & *
+        \end{pmatrix}
+    \]
+    \color{red}{\textbf{Warning:}} 
+    \begin{itemize}
+        \item Mind the sign of each new determinant - indexes changed after each recursive call !!
+        \item Remember to multiply the coefficient of each $a_{ij}$ in the final results !!
+    \end{itemize}
+    
+\end{proposition}
+
+\subsection{Properties of Determinants}
+\subsubsection*{Row and Column Operations}
+\begin{proposition}
+    \textbf{Row Operations}\\
+    Let $A$ be an $n\times n$ matrix.
+    \begin{itemize}
+        \item If a multiple of one row of $A$ is added to another row to produce a matrix $B$, then $\det(B) = \det(A)$.
+        \item If two rows of $A$ are interchanged to produce a matrix $B$, then $\det(B) = -\det(A)$.
+        \item If one row of $A$ is multiplied by $k$ to produce a matrix $B$, then $\det(B) = k\det(A)$.
+    \end{itemize}
+\end{proposition}
+\begin{example}
+    \textbf{Example} \\
+    Let $A = \begin{pmatrix} 
+        2 & -8 & 6 & 8\\
+        3 &-9 & 5 & 10\\
+        -3 & 0 & 1 & -2\\
+        1 & -4 & 0 & 6
+     \end{pmatrix}$. Calculate $\det(A)$.\\
+    \textbf{Solution} 
+    The answer is $-36$ (please take care of all the calculation details: every step of the row operation my cause mistakes).
+\end{example}
+Now that we have the theorems for row operations, it's natural to think about whether the same properties works for column operations. The answer is yes, and the justification just follows the following theorem:
+\begin{quote}
+    If $A$ is an $n\times n$ matrix, then $\det(A^T) = \det(A)$.
+\end{quote}
+\subsubsection*{Determinants of Products}
+\begin{proposition}
+    \textbf{Determinants of Products}\\
+    Let $A$ and $B$ be $n\times n$ matrices. Then $\det(AB) = \det(A)\det(B)$.\\
+    \textcolor{red}{Remark:} det($A+B$) is not det($A$) + det($B$).
+\end{proposition}
+\indent Using this proposition, it's easy to show that if $A$ is invertible, then $$\det(A^{-1}) = \frac{1}{\det(A)}$$
+\subsubsection*{A Linearity Property of Determinant Function}
+We have the following theorem:
+\begin{align*}
+    &\det(\mathbf{a_1},\cdots,\mathbf{a_{j-1}},\mathbf{a_j}+\mathbf{b_j},\mathbf{a_{j+1}},\cdots,\mathbf{a_n})\\
+     = &\det(\mathbf{a_1},\cdots,\mathbf{a_{j-1}},\mathbf{a_j},\mathbf{a_{j+1}},\cdots,\mathbf{a_n}) + \det(\mathbf{a_1},\cdots,\mathbf{a_{j-1}},\mathbf{b_j},\mathbf{a_{j+1}},\cdots,\mathbf{a_n}).
+\end{align*}
+
+\subsection{Cramer's Rule, Volume, and Linear Transformations}
+\subsubsection*{Cramer's Rule}
+\indent To present Cramer's Rule, we first introduce a notation: For any $n\times n$ matrix $A$ and any $\mathbf{b}$ in $\R^n$, let $A_i(\mathbf{b})$ be the matrix obtained by replacing the $i$-th column of $A$ by the column vector $b$. In other words, 
+\begin{align*}
+    A = (a_1,\cdots,a_i,\cdots,a_n) \text{ and } A_i(\mathbf{b}) = (a_1,\cdots,\mathbf{b},\cdots,a_n).
+\end{align*}
+\begin{proposition}
+    \textbf{Cramer's Rule}\\
+    Let $A$ be an $n\times n$ matrix and $\mathbf{b}$ be in $\R^n$. If $\det(A)\neq 0$, then the unique solution of $A\mathbf{x} = \mathbf{b}$ is given by 
+    \begin{align*}
+        x_i = \frac{\det(A_i(\mathbf{b}))}{\det(A)} \text{ for } i = 1,2,\cdots,n.
+    \end{align*}
+\end{proposition}
+\indent \textit{Proof.} Since the determinant of an arbitary matrix $A$ is quite a complicated problem, we try to get as many "0" as possible in the matrix when calculating the determinant. Hence, we can make use of identity matrix $I_n = (\mathbf{e_1}, \cdots, \mathbf{e_i}, \cdots, \mathbf{e_n})$ and $I_n(\mathbf{b}) = (\mathbf{e_1}, \cdots, \mathbf{b}, \cdots, \mathbf{e_n})$. Then we have
+\begin{align*}
+    A\cdot I_n(\mathbf{b}) &= (A\mathbf{e_1}, \cdots, A\mathbf{b}, \cdots, A\mathbf{e_n}) \\
+    &= (\mathbf{a_1}, \cdots, \mathbf{b}, \cdots, \mathbf{a_n}) \\
+    &= A_i(\mathbf{b}).\\
+    det(A\cdot I_n(\mathbf{b})) &= det(A)\cdot det(I_n(\mathbf{b})) 
+\end{align*}
+When calculating the of $I_n(\mathbf{b})$, simply look at the $i$-th row of $I_n$, which only have one non-zero entry $1$ to be multiplied with $x_i$, then we have $$
+det(I_n(\mathbf{b})) = (-1)^{i+i} \cdot x_i \cdot det(I_{n-1}) = x_i.
+$$
+Hence, we have $x_i = \frac{det(A_i(\mathbf{b}))}{det(A)}$.\\
+\indent There are many exercises of solving linear systems in previous chapters, so we don't give more examples here. The readers can solve the previous examples using the Cramer's Rule and check the correctness of the results.
+
+\subsubsection*{A formula for $A^{-1}$}
+\begin{proposition}
+    Let $A$ be an $n\times n$ matrix. If $\det(A)\neq 0$, then $A^{-1} = \frac{1}{\det(A)}\text{adj}(A)$, where $\text{adj}(A)$ is the adjugate matrix of $A$:
+    \begin{align*}
+        \text{adj}(A) = \begin{pmatrix}
+            C_{11} & C_{21} & \cdots & C_{n1} \\
+            C_{12} & C_{22} & \cdots & C_{n2} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            C_{1n} & C_{2n} & \cdots & C_{nn}
+        \end{pmatrix}
+    \end{align*}, where $C_{ij}$ is the $(i,j)$-cofactor of $A$, i.e. $C_{ij} = (-1)^{i+j}\det(A_{ij})$. 
+\end{proposition}
+\indent\textcolor{red}{Warning} DO NOT mistake the meaning of $C_{ij}$, which is $(-1)^{i+j}$ times the determinant of the $(n-1)\times (n-1)$ matrix obtained by deleting the $i$-th row and $j$-th column of $A$. (NOT simply $(-1)^{i+j}a_{ij}$)\\
+\indent For an example of this rule, please refer to the end of FILE Lecture 10.
+
+\subsubsection*{Determinants as Area of Volume}
+\begin{proposition}Determinants as Area or Volume\\
+    \begin{itemize} 
+        \item If $A$ is a $2\times 2$ matrix, then $|\det(A)|$ is the area of the parallelogram spanned by the columns of $A$.
+        \item If $A$ is a $3\times 3$ matrix, then $|\det(A)|$ is the volume of the parallelepiped spanned by the columns of $A$.
+    \end{itemize}
+    The sign of $\det(A)$ is determined by the orientation of the parallelogram or parallelepiped.
+\end{proposition}
+\indent\textit{Proof.} The theorem is obviously true for any $2\times 2$ diagonal matrix, since $\det A = a_{11}\times a_{22} = {\text{area of rectangle}}$. Hence, it suffice to show that any $2\times 2$ matrix can be transformed into a diagonal matrix in a way that changes neither the area of the associated parallelogram nor $|\det A|$.
+\begin{itemize}
+    \item Let $\mathbf{a_1}$ and $\mathbf{a_2}$ be nonzero vectors, Then for any scalar $c$, the area of the parallelogram determined by $\mathbf{a_1}$ and $\mathbf{a_2}$ equals the area of the parallelogram determined by $\mathbf{a_1}$ and $\mathbf{a_2}+c\mathbf{a_1}$. Column interchanges do not change the parallelogram at all. 
+    \item The absolute value of the determinant is unchanged when two columns are interchanged or a multiple of one column is added to another. Such operation suffice to transform $A$ into a diagonal matrix.
+\end{itemize}
+\begin{example}
+    \;\;\;\;\;  Calculate the area of he parallelogram determined by the points $(-2,-2),\;(0,3),\;(4,-1),\;(6,4)$\\
+    \textbf{Solution}\;\;Standard steps below:\\
+    First translate the parallelogram to one having the origin as a vertex. We substract the vertex $(-2,-2)$ from each of the other vertices to get the new vertices $(0,0),\;(2,5),\;(6,1),\;(8,6)$. The new parallelogram has the same area, and is determined by the columns of $$
+    \begin{pmatrix}
+        2 & 6 \\
+        5 & 1
+    \end{pmatrix}
+    $$
+    Since $|\det A|=|2\times 1 - 6\times 5| = |-28|$, the area of the parallelogram is 28.
+\end{example}
+
+\subsubsection*{Linear Transformations}
+\begin{proposition}Linear Transformations and Area or Volume\\
+    \begin{itemize}
+        \item Let $T:\R^2\mapsto\R^2$ be a linear transformation with standard matrix $A$. If $S$ is a parrallelogram in $\R^2$, then $$
+        {\text{area of } T(S)} = |\det(A)|\cdot {\text{area of } S}.
+        $$
+        \item Let $T:\R^3\mapsto\R^3$ be a linear transformation with standard matrix $A$. If $S$ is a parallelepiped in $\R^3$, then $$
+        {\text{volume of } T(S)} = |\det(A)|\cdot {\text{volume of } S}.
+        $$
+    \end{itemize}
+\end{proposition}
+\indent\textit{Proof.} Just follows the previous proposition.
+\begin{example}
+    Let $a$ and $b$ be positive numbers. Find the area of the region E bounded by the ellipse whose equation is $\frac{x_1^2}{a^2} + \frac{x_2^2}{b^2} = 1$.\\
+\end{example}
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 4
+% ------------------------------------------------------------------------------
+\section{Vector Spaces}
+\subsection{Vector Spaces and Subspaces}
+By observing the vectors we have previously encountered, we may find that all vectos in $\R^n$ have some common properties. For example, the sum of two vectors in $\R^n$ is still a vector in $\R^n$. In this section, we will introduce the concept of vector spaces, which is a generalization of the properties of vectors.
+\begin{example}
+    \textbf{Vector Space of Polynomials}\\
+    Let $P_n$ be the set of all polynomials of degree at most $n$, where any element in $P_n$ can be written as
+    \begin{equation}
+        f(x) = a_0 + a_1x + a_2x^2 + \cdots + a_nx^n,
+    \end{equation}
+    where $a_0, a_1, \cdots, a_n$ are real numbers. For any two polynomials $f(x)$ and $g(x)$ in $P_n$, we can add them together to get another polynomial in $P_n$:
+    \begin{equation}
+        (f+g)(x) = (a_0 + b_0) + (a_1 + b_1)x + (a_2 + b_2)x^2 + \cdots + (a_n + b_n)x^n.
+    \end{equation}
+    For any element $f(x)$  in $P_n$, we can multiply it by a scalar $\alpha$ to get another element in $P_n$:
+    \begin{equation}
+        (\alpha f)(x) = \alpha a_0 + \alpha a_1x + \alpha a_2x^2 + \cdots + \alpha a_nx^n.
+    \end{equation}
+    Therefore, $P_n$ has two operations "addition" and "scalar multiplication". These operations satisfy the sme rules as those on vectors in $\R^n$. \\
+\end{example}
+\begin{example}
+    \textbf{Vector Space of Matrices}\\
+    Let $M_{m\times n}$ be the set of all $m\times n$ matrices, where any element in $M_{m\times n}$ can be written as
+    \begin{equation}
+        A = \begin{bmatrix}
+            a_{11} & a_{12} & \cdots & a_{1n} \\
+            a_{21} & a_{22} & \cdots & a_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            a_{m1} & a_{m2} & \cdots & a_{mn}
+        \end{bmatrix},
+    \end{equation}
+    where $a_{ij}$ are real numbers. For any two matrices $A$ and $B$ in $M_{m\times n}$, we can add them together to get another matrix in $M_{m\times n}$:
+    \begin{equation}
+        A + B = \begin{bmatrix}
+            a_{11} + b_{11} & a_{12} + b_{12} & \cdots & a_{1n} + b_{1n} \\
+            a_{21} + b_{21} & a_{22} + b_{22} & \cdots & a_{2n} + b_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            a_{m1} + b_{m1} & a_{m2} + b_{m2} & \cdots & a_{mn} + b_{mn}
+        \end{bmatrix}.
+    \end{equation}
+    For any element $A$ in $M_{m\times n}$, we can multiply it by a scalar $\alpha$ to get another element in $M_{m\times n}$:
+    \begin{equation}
+        \alpha A = \begin{bmatrix}
+            \alpha a_{11} & \alpha a_{12} & \cdots & \alpha a_{1n} \\
+            \alpha a_{21} & \alpha a_{22} & \cdots & \alpha a_{2n} \\
+            \vdots & \vdots & \ddots & \vdots \\
+            \alpha a_{m1} & \alpha a_{m2} & \cdots & \alpha a_{mn}
+        \end{bmatrix}.
+    \end{equation}
+\end{example}
+
+Now we see that $R^n$, $P_n$ and $M_{m\times n}$ have some common properties, even if they look totally different. Regarding these shared properties, we give the defination of vector spaces.
+
+\begin{definition}
+    A \textbf{vector space} is a nonempty set $V$ of elements called \textbf{vectors}, on which are defined two operations, called \textbf{addition} and \textbf{scalar multiplication}, subject to the ten axioms listed below. The axioms must hold for all vectors $u, v, w$ in $V$ and all scalars $\alpha, \beta$.
+    \begin{enumerate}
+        \item \textbf{Closure under Addition}: The sum $u + v$ is a vector in $V$.
+        \item \textbf{Commutative Law of Addition}: $u + v = v + u$.
+        \item \textbf{Associative Law of Addition}: $(u + v) + w = u + (v + w)$.
+        \item \textbf{Existence of Zero Vector}: There exists a vector $0$ in $V$ such that $u + 0 = u$ for all $u$ in $V$.
+        \item \textbf{Existence of Additive Inverse}: For each $u$ in $V$, there exists a vector $-u$ in $V$ such that $u + (-u) = 0$.
+        \item \textbf{Closure under Scalar Multiplication}: The product $\alpha u$ is a vector in $V$.
+        \item \textbf{Distributive Law of Scalar Multiplication over Vector Addition}: $\alpha(u + v) = \alpha u + \alpha v$.
+        \item \textbf{Distributive Law of Scalar Multiplication over Scalar Addition}: $(\alpha + \beta)u = \alpha u + \beta u$.
+        \item \textbf{Associative Law of Scalar Multiplication}: $\alpha(\beta u) = (\alpha\beta)u$.
+        \item \textbf{Identity Law of Scalar Multiplication}: $1u = u$.
+    \end{enumerate}
+\end{definition}
+
+Furthermore, we have the concept of \textbf{subspace} of a vector space.
+\begin{definition}
+    A \textbf{subspace} of a vector space $V$ is a nonempty subset $H$ of $V$ that has the following three properties:
+    \begin{enumerate}
+        \item The zero vector of $V$ is in $H$.
+        \item $H$ is closed under addition.
+        \item $H$ is closed under scalar multiplication.
+    \end{enumerate}
+    An equivalent definition, $H$ is a subspace of V if and only if for all $u, v$ in $H$ and all scalars $\alpha, \beta$, we have $\alpha u + \beta v$ in $H$.
+\end{definition}
+For example, the set consisting of zero vector only in a vector space is a subspace of the vector space, called the \textbf{zero subspace}. In addition, we can observe that a subset of a vector space in the form of $$
+[f_1(x), f_2(x), \cdots, f_n(x)]
+$$
+can never be a subspace of the vector space if any of the $f_i(x)$ is a constant other than zero. To further determine whether a subset is a subspace of a vector space, we can use the following theorem, whose proof directly follows the defination above.
+\begin{proposition}
+    If $\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}$ are vectors in a vector space $V$, then the set of all linear combinations of $\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}$, i.e. $\operatorname*{span}\{\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}\}$ is a subspace of $V$.\\
+    Here $H$ is called the subspace of $V$ spanned by $\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}$.
+\end{proposition}
+\begin{example}
+    Let $H = \{(a-3b,b-a,a,b) | a,b\in \R\}$, show that $H$ is a subspace of $\R^4$.\\
+\end{example}
+\indent \textbf{Solution.} 
+    We can rewrite the set $H$ as $$
+    H = \{a(1,0,1,0) + b(-3,-1,0,1) | a,b\in \R\}.
+    $$
+    Therefore, $H$ is the span of the vectors $(1,0,1,0)$ and $(-3,-1,0,1)$. According to the previous proposition, $H$ is a subspace of $\R^4$.
+\begin{example}
+    For what values of h will $\mathbf{y}$ be in the subspaces of $\R^3$ spanned by $\mathbf{v_1}, \mathbf{v_2}, \mathbf{v_3} $, if\[
+    \mathbf{v_1} = \begin{pmatrix}
+        1\\-1\\-2
+    \end{pmatrix},
+    \mathbf{v_2} = \begin{pmatrix}
+        5\\-4\\-7
+    \end{pmatrix},
+    \mathbf{v_3} = \begin{pmatrix}
+        -3\\1\\0
+    \end{pmatrix},
+    \mathbf{y} = \begin{pmatrix}
+        -4\\3\\h
+    \end{pmatrix}?
+    \]
+\end{example}
+\indent\textbf{Solution.} $\mathbf{y}=x_1\mathbf{v_1} + x_2\mathbf{v_2} + x_3\mathbf{v_3}$ has a solution for $(x_1,x_2,x_3)^T$ if and only if $\mathbf{y}$ is in the subspace spanned by $\mathbf{v_1}, \mathbf{v_2}, \mathbf{v_3}$. Thus, we can simply solve the system of equations (omitted here) to get the result $h=5$.
+
+\subsection{Null Space, Column Space and Linear Transformation}
+\subsubsection*{The null space of a matrix}
+\begin{definition}
+    \textbf{Null Space of a Matrix} The null space of an $m\times n$ matrix $A$, denoted by $\operatorname{Nul} A$, is the set of all solutions to the homogeneous equation $A\mathbf{x} = \mathbf{0}$. In set notation, we have $$
+    \operatorname{Nul} A = \{\mathbf{x} | \mathbf{x}\in\R^n A\mathbf{x} = \mathbf{0}\}.
+    $$
+    $\operatorname*{Nul}A$ is the set of all $\mathbf{x}\in\R^n$ that are mapped into the zero vector of $\R^m$ via the transformation $\mathbf{x}\mapsto A\mathbf{x}$.
+\end{definition}
+\begin{proposition}
+    The null space of an $m\times n$ matrix $A$ is a subspace of $\R^n$.
+\end{proposition}
+\indent\textit{Proof.} We can see that $\mathbf{0}$ is in $\operatorname*{Nul}A$ since $A\mathbf{0} = \mathbf{0}$. For any $\mathbf{x}, \mathbf{y}$ in $\operatorname*{Nul}A$ and any scalar $\alpha$, we have $A(\mathbf{x} + \mathbf{y}) = A\mathbf{x} + A\mathbf{y} = \mathbf{0} + \mathbf{0} = \mathbf{0}$ and $A(\alpha\mathbf{x}) = \alpha A\mathbf{x} = \alpha\mathbf{0} = \mathbf{0}$. Therefore, $\operatorname*{Nul}A$ is a subspace of $\R^n$.
+\begin{example}
+    Let $H = \{(a,b,c,d)|a-2b+5c=d, c-a=b\}$. Show that $H$ is a subspace of $\R^4$.
+\end{example}
+\indent\textbf{Solution.} Let $A = \begin{bmatrix}
+    1 & -2 & 5 & -1\\
+    -1 & 1 & 1 & 0
+\end{bmatrix}$. Then $H = \operatorname*{Nul}A$. Since $\operatorname*{Nul}A$ is a subspace of $\R^4$, $H$ is a subspace of $\R^4$. Of course, this problem can also be solved by the proposition in the previous section.
+\indent From this example, we may find that there seem to exist an relationship between the null space of a matrix and the subspace spanned by the vectors in the matrix. 
+Actually, for each proper matrix $A$, it's easy to find that its null space is exactly the solution set of the homogeneous equation $A\mathbf{x} = \mathbf{0}$ by definition (another trivial result treated as a subsection in MATH2111). 
+Hence, we can also conclude that when $\operatorname*{Nul}A$ contains nonzero vectors, the number of vectors in the spanning set for $\operatorname*{Nul}A$ equals the number of free variables in the solution set of $A\mathbf{x} = \mathbf{0}$.\\
+\indent\textbf{Remark.} The handwritten notes summarized this as a method called "An Explicit Description of Null A" and provided an example asking readers to find a spanning set for the null space of a given matrix, which is simply solving the homogeneous equation $A\mathbf{x} = \mathbf{0}$ and writing the solution set in the form of a linear combination of vectors.\\
+
+\subsubsection*{The column space of a matrix}
+\begin{definition}
+    The \textbf{column space} of an $m\times n$ matrix $A$, denoted by $\operatorname*{Col}A$, is the set of all linear combinations of the columns of $A$. In set notation, we have $$
+    \operatorname*{Col}A = \{\mathbf{b} | \mathbf{b} = A\mathbf{x} \text{ for some } \mathbf{x}\in\R^n\}.
+    $$
+    $\operatorname*{Col}A$ is the set of all $\mathbf{b}\in\R^m$ that can be expressed as $A\mathbf{x}$ for some $\mathbf{x}\in\R^n$.
+\end{definition}
+\indent Following this definition, we can easily get the following proposition.
+\begin{proposition}
+    The column space of an $m\times n$ matrix $A$ is a subspace of $\R^m$.
+\end{proposition}
+\indent The handwritten notes provides an example of finding a matrix $A$ such that its column space is a given subset of $\R^m$. To solve this kind of problems, the standart steps are to first write the subset as a linear combination of vectors, and then a span of n vectors. Finally, augment the vectors to form an $m\times n$ matrix.\\
+Furthermore, please note that the column space of an $m \times n$ matrix $A$ is all of $\mathbb{R}^m$ if and only if the equation $A\mathbf{x} = \mathbf{b}$ has a solution for each $\mathbf{b}$ in $\mathbb{R}^m$.
+
+\subsubsection*{Kernel and Range of a Linear Transformation}
+Recall that a linear transformation $T$ from $\R^n$ to $\R^m$ is a function that satisfies the following two properties:
+\begin{enumerate}
+    \item $T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$ for all $\mathbf{u}, \mathbf{v}$ in $\R^n$, and
+    \item $T(\alpha\mathbf{u}) = \alpha T(\mathbf{u})$ for all $\mathbf{u}$ in $\R^n$ and all scalars $\alpha$.
+\end{enumerate} 
+Now we expand the concept of linear transformation to a more general form.
+\begin{definition}
+    A \textbf{linear transformation} $T$ from a vector space $V$ to a vector space $W$ is a function that satisfies the following two properties:
+    \begin{enumerate}
+        \item $T(\mathbf{u} + \mathbf{v}) = T(\mathbf{u}) + T(\mathbf{v})$ for all $\mathbf{u}, \mathbf{v}$ in $V$, and
+        \item $T(\alpha\mathbf{u}) = \alpha T(\mathbf{u})$ for all $\mathbf{u}$ in $V$ and all scalars $\alpha$.
+    \end{enumerate}
+    Equivalently, $T$ is a linear transformation if and only if $T(\alpha\mathbf{u} + \beta\mathbf{v}) = \alpha T(\mathbf{u}) + \beta T(\mathbf{v})$ for all $\mathbf{u}, \mathbf{v}$ in $V$ and all scalars $\alpha, \beta$.
+\end{definition}
+Also, recall that for each linear transformation $T$, there exists a unique $m\times n$ matrix $A$ such that $T(\mathbf{x}) = A\mathbf{x}$ for all $\mathbf{x}$ in $\R^n$. 
+In previous chapters, we have discussed some relationships between the linear transformation and its corresponding matrix. Similarly, for null spaces and column spaces of a matrix, we also have the corresponding concepts for a linear transformation (the expanded version).
+\begin{definition}
+    The \textbf{kernel} (or Null space) of a linear transformation $T$ is \[
+    \{\mathbf{x} | T(\mathbf{x}) = \mathbf{0}\}.
+    \]
+    The \textbf{range} of a linear transformation $T$ is \[
+    \{\mathbf{b} | \mathbf{b} = T(\mathbf{x}) \text{ for some } \mathbf{x}\}.
+    \]
+\end{definition}
+
+\subsection{Linearly Independent Sets; Bases}
+\subsubsection*{Linear Independence}
+\begin{definition}
+    An indexed set of vectors $\{\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}\}$ in a vector space $V$ is said to be \textbf{linearly independent} if the vector equation \[
+    x_1\mathbf{v_1} + x_2\mathbf{v_2} + \cdots + x_p\mathbf{v_p} = \mathbf{0}
+    \] has only the trivial solution $x_1 = x_2 = \cdots = x_p = 0$. 
+\end{definition}
+\indent\textbf{Remark.} The set $\{\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}\}$ is linearly dependent if there exist weights $c_1, c_2, \cdots, c_p$, not all zero, such that $c_1\mathbf{v_1} + c_2\mathbf{v_2} + \cdots + c_p\mathbf{v_p} = \mathbf{0}$. 
+In such a case, $c_1\mathbf{v_1} + c_2\mathbf{v_2} + \cdots + c_p\mathbf{v_p}$ is called a \textbf{linear dependence relation} among $\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}$. Directly following this, we get the theorem similar to the version for linear transformation $\R^n\mapsto\R^m$.
+\begin{proposition}
+    An indexed set of vectors $\{\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}\}$ of two or more vectors in a vector space $V$, with $\mathbf{v_1}\neq \mathbf{0}$ is linearly dependent \textit{if and only if} at least one of the vectors in the set is a linear combination of the others.
+\end{proposition}
+\indent\textbf{Remark.} The proof of the throrem above is quite trivial and can be done by simply following the definition. However, when trying to prove the "only if" part, remember to consider the situation where all coefficients are zero (which is imposible since $\mathbf{v_1}\neq \mathbf{0}$), following which we can construct some $\mathbf{v_j}$ with $c_j\neq0$ as a linear combination of the other vectors.\\
+\indent For example, let $P_1(t)=1\; P_2(t)=t\; P_3(t)=4-t$, then $P_1(t), P_2(t), P_3(t)$ are linearly dependent since $P_3(t) = 4P_1(t) - P_2(t)$.
+
+\subsubsection*{Basis}
+\begin{definition}
+    Let H be a subspace of a vector space $V$. A \textbf{basis} for $H$ is a linearly independent set in $H$ that spans $H$. In other words, a set of vectors $B=\{\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}\}$ in $V$ is a basis for $H$ if
+    \begin{enumerate}
+        \item $B$ is linearly independent, and
+        \item The subspace spanned by $B$ coincides with $H$, that is, $\operatorname*{Span}B = H$.
+    \end{enumerate}
+    Remark: The basis for the zero subspace is the empty set. Every subspace of a vector space has a basis, \textcolor{Green}{which remains to be proved}.
+\end{definition}
+\indent For example, an $n\times n$ matrix, $A=[\vt{a_1}, \vt{a_2}, \cdots, \vt{a_n}]$. If $A$ is invertible, then the columns of $A$ are linearly independent and form a basis for $\R^n$.\\
+\indent Another example is that the set of all polynomials of degree at most $n$, denoted by $P_n$, has a basis $S=\{1, x, x^2, \cdots, x^n\}$. This can be proved by the argument that
+any $f(x)\in P_n, \; f(t) = a_0 + a_1t + a_2t^2 + \cdots + a_nt^n$ can be written as a linear combination of the elements in $S$, and that if $a_0 + a_1t + a_2t^2 + \cdots + a_nt^n = 0$ as a polynomial, then $a_0 = a_1 = \cdots = a_n = 0$, which implies that $S$ is linearly independent.\\
+
+\indent Although we presented the concept of basis explicitly, after reading the definition above, it may be natural to 
+note that "a set is a basis of $H$" implies "the set spans $H$", while the converse is not necessarily true. 
+However, if you have already find a set that spans $H$, which is not linearly independent, you may also wonder
+whether we can get a basis from the set by "reducing" it. You may want to remove some vectors from the set to make it linearly independent while making sure it still spans $H$. The following proposition will help you to do this.
+\begin{proposition}
+    \textbf{The Spanning Set Theorem} If $S=\{\mathbf{v_1}, \mathbf{v_2}, \cdots, \mathbf{v_p}\}$ spans a subspace $H$ of a vector space $V$, then 
+    \begin{enumerate}
+        \item If one of the vectors in $S$ - say, $\vt{v_k}$ - is a linear combination of the remaining vectors in $S$, then the set obtained by removing $\vt{v_k}$ from $S$ still spans $H$.
+        \item If $H\neq\{0\}$, some subset of $S$ is a basis for $H$.
+        \item If $H=\{0\}$, then $S=\emptyset$ is a basis for $H$. (The empty set is linearly independent by definition.)
+    \end{enumerate}
+\end{proposition}
+\indent Hence, once you get a set that spans $H$, you can gradually remove the vectors in the set that are linear combinations of the others, until the time when deleting any vector will make the set not span $H$. Then the remaining set is linearly independent and spans $H$, which is a basis for $H$. 
+Using this fact, we can give a corollary of the proposition above, a property of basis which the handwritten notes point out from nowhere.
+\begin{quotation}
+    $S$ is a basis of vector space $V$. If we delete one vector from $S$, the remaining set $T$ is still linearly independent, but cannot generate $V$. If we add a vector in $V$ to $S$ to get $R$, it generate $V$ but is not linearly independent.
+\end{quotation}
+Now that it's clear we can get a basis from a spanning set, the last thing is to find an efficient way to do the "reduction". Again, we can use the row reduction method to do this.
+\begin{proposition}
+    The pivot columns of a matrix A form a basis for Col$A$. \textcolor{red}{proof remains to be done (the essence of row equivalant).}
+\end{proposition}
+
+\indent Finally, the homework and examinations may ask you to do the following things:
+\begin{itemize}
+    \item Find a basis for a given subspace of a vector space.
+    \item Determine whether a given set of vectors is a basis for a given subspace of a vector space.
+\end{itemize}
+To find a basis, first solve a corresponding linear system to get the vectors that span the subspace, then verify whether the vectors are linearly independent, and reduce it if not.
+To determine whether a set of vectors is a basis, first check whether the set spans the subspace by checking pivot position, and then verify whether the set is linearly independent by calculating the determinant of the matrix formed by the vectors. Remember that a bunch of exercises is needed.
+\begin{example}
+    Find a basis for the subspace $W$ spanned by $\{\vt{v_1}, \vt{v_2}, \vt{v_3},\vt{v_4}\}$ where\[
+    \vt{v_1} = \begin{pmatrix}
+        1\\-3\\4
+    \end{pmatrix},
+    \vt{v_2} = \begin{pmatrix}
+        6\\2\\-1
+    \end{pmatrix},
+    \vt{v_3} = \begin{pmatrix}
+        2\\-2\\3
+    \end{pmatrix},
+    \vt{v_4} = \begin{pmatrix}
+        -4\\-8\\9
+    \end{pmatrix}.
+    \]
+    \textbf{Solution.}\\
+    \[
+    A\dim\begin{pmatrix}
+        1 & 6 & 2 & -4\\
+        -3 & 2 & -2 & -8\\
+        4 & -1 & 3 & 9
+    \end{pmatrix}\dim\begin{pmatrix}
+        1 & 6 & 2 & -4\\
+        0 & 20 & 4 & -20\\
+        0 & -25 & -5 & 25
+    \end{pmatrix}\dim\begin{pmatrix}
+        1 & 6 & 2 & -4\\
+        0 & 5 & 1 & -5\\
+        0 & 0 & 0 & 0
+    \end{pmatrix}
+    \]
+    The first two columns of $A$ are the pivot columns and hence form a basis of Col$A=W$. Hence $\{\vt{v_1}, \vt{v_2}\}$ is a basis for $W$.
+\end{example}
+
+\subsection{Coordinate Systems}
+\subsubsection*{The existence of coordinate system for a vector space}
+Recall the Cartesian coordinate system in $\R^2$ and $\R^3$. In these coordinate systems, each point in the plane or in space is represented by a unique ordered pair or an ordered triple of real numbers.
+We may inteperate "cartesian coordinate system" as a biversive function that maps each point in the space to a unique ordered pair or triple of real numbers. Hence, if we want to build a coordinate system for a vector space, we need to find a way that maps each vector in the space to a \textbf{unique} ordered pair or triple of real numbers.
+Luckily, we have the following theorem.
+\begin{proposition}
+    Let $B=\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_p}\}$ be a basis for a vector space $V$. Then for each $\vt{v}$ in $V$, there exists a unique set of scalars $c_1, c_2, \cdots, c_p$ such that \[
+    \vt{v} = c_1\vt{v_1} + c_2\vt{v_2} + \cdots + c_p\vt{v_p}.
+    \]
+    The scalars $c_1, c_2, \cdots, c_p$ are called the \textbf{coordinates} of $\vt{v}$ relative to the basis $B$.
+\end{proposition}
+\indent\textit{Proof.} Since B spans V, there exists scalars such that the equation above holds. Suppose $\vt{v}$ also has the coordinates $d_1, d_2, \cdots, d_p$ relative to $B$. Then we have \[
+\vt{v}-\vt{v} = (c_1-d_1)\vt{v_1} + (c_2-d_2)\vt{v_2} + \cdots + (c_p-d_p)\vt{v_p} = \vt{0}.
+\]
+Since B is linearly independent, we have $c_1=d_1, c_2=d_2, \cdots, c_p=d_p$. Hence the coordinates are unique.\\
+
+Bearing this in mind, we can define the \textbf{coordinate system} for a vector space $V$ as follows.
+\begin{definition} Coordinate System\\
+    Suppose $B=\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_p}\}$ is a basis for a vector space $V$ and $\vt{x}$ is in $V$. The \textbf{coordinates of $\vt{x}$ relative to the basis $B$} (or the B-coordinates of $\vt{x}$) are the scalars $c_1, c_2, \cdots, c_p$ such that \[
+    \vt{x} = c_1\vt{v_1} + c_2\vt{v_2} + \cdots + c_p\vt{v_p}.
+    \]
+    If $c_1, c_2, cdots, c_n$ are B-coordinates of $\vt{x}$, the the vector in $R^n$ \[
+    [\vt{x}]_B = \begin{pmatrix}
+        c_1\\c_2\\\vdots\\c_p
+    \end{pmatrix}
+    \]
+    is the \textbf{coordinate vector of $\vt{x}$ (relative to the basis $B$)}, or the \textbf{B-coordinate vector of $\vt{x}$}. The mapping \[
+    x\mapsto [\vt{x}]_B
+    \]
+    is called the \textbf{coordinate mapping} (determined by $B$).
+\end{definition}
+\indent\textbf{Remark.} A coordinate system on a set consists of a one-to-one mapping of the points in the set into the points in $\R^n$.\\
+\indent The handwritten notes gives some examples of coordinate systems in $R^3$, $P_2$, and $M_{2\times 2}$, which are quite trivial and skipped here.
+
+\subsubsection*{Change of coordinates matrix}
+Let $B=\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_p}\}$ be a basis of $\R^n$. Let $P_B = [\vt{b_1}, \vt{b_2}, \cdots, \vt{b_n}]$. 
+Then $\vt{v}=c_1\vt{b_1}+c_2\vt{b_2}+\cdots+c_n\vt{b_n}$ if and only if \[
+\vt{v}=[\vt{b_1}, \vt{b_2}, \cdots, \vt{b_n}]\begin{pmatrix}
+    c_1\\c_2\\\vdots\\c_n
+\end{pmatrix} = P_B[\vt{c}]_B.
+\]
+Here $P_B$ is called the \textbf{change of coordinates matrix} from $B$ to the standard basis in $\R^n$. 
+Since $P_B$ is invertible, we can also define the change of coordinates matrix from the standard basis to $B$ as $P_B^{-1}$.
+Simply following this definition, we can get the following proposition.
+\begin{proposition}
+    \textbf{The Coordinate Mapping Theorem} 
+    Let $B=\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_p}\}$ be a basis for a vector space $V$, and let $\vt{x}$ be in $V$. Then the coordinate mapping $\vt{x}\mapsto [\vt{x}]_B$ is a one-to-one linear transformation from $V$ onto $\R^p$. Furthermore, for each $\vt{y}=a\vt{u}+b\vt{v}$ in $V$, the equation \[
+    \vt{y} = a\vt{u}+b\vt{v}
+    \]
+\end{proposition}
+Although I don't quite understand why the handwritten notes put the following definition explicitly after the proposition above, I still write it down here. The word "isomorphism" is not necessary in the reasoning process so far, but it may be useful in the homework and exams, so it's necessary to remember it.
+In the logic of understanding, it should be put in plain text as a suplementary terminology, but here I still write it as a definition to stress the importance.
+\begin{definition}
+    A one-to-one linear transformation from a vector space $V$ a vector space $W$ is called an \textbf{isomorphism} of $V$ with $W$. 
+\end{definition}
+\begin{example}
+    Use coordinate vectors to verify that the polynomials $1+2t^2$, $4+t+5t^2$ and $3+2t$ are linearly indelendent in $P_2$.\\
+    \textbf{Solution.} Let $B=\{1, t, t^2\}$ be the basis for $P_2$. Then\begin{align*}
+        P_2 & \mapsto \R^3\\
+        P(t) & \mapsto [P(t)]_B
+    \end{align*}
+    is an isomorphism. Hence, we have \[
+    [1+2t^2]_B = \begin{pmatrix}
+        1\\0\\2
+    \end{pmatrix} = \vt{v_1},\; 
+    [4+t+5t^2]_B = \begin{pmatrix}
+        4\\1\\5
+    \end{pmatrix} = \vt{v_2},\; 
+    [3+2t]_B = \begin{pmatrix}
+        3\\2\\0
+    \end{pmatrix} = \vt{v_3}.
+    \]
+    Thus, the three polynomials are linearly independent if and only if the matrix $A = (\vt{v_1}, \vt{v_2}, \vt{v_3})$ is invertible.
+    After this, the problem can be solved in two ways: by calculating the determinant of $A$ or by row reducing $A$ to see if $A\vt{x}=0$ has only the trivial solution.
+\end{example}
+
+\subsection{Dimensions of a Vector Space}
+Recall what we have learnt in section 4.3, each vector space has a basis. And for any set of vectors that spans the vector space, it is either a basis or can be reduced to a basis by removing some vectors.
+Under this view, it's natural to regard basis as some kind of "final stage" of the sets of vectors that spans the vector space.
+While different spanning sets may be reduced to different basis, there may be some underlying properties of the vector space itself independent from the choice of spanning vectors, that is, the number of vectors in the basis.
+This observation can be stated formally as the following theorem.
+\begin{proposition}
+    If a vector space V has a basis with n vectors, then any set in V containing more than n vectors must be linearly dependent.
+\end{proposition}
+\indent\textit{Proof.} 
+One simple idea is to prove by contradiction.
+Suppose $B=\{\vt{b_1}, \vt{b_2}, \cdots, \vt{b_n}\}$ is a basis for $V$. If $S=\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_n}, \vt{v_{n+1}}, \cdots\}$ is linearly independent, then $S'=\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_n}\}$ must be linear independent.
+Hence, for any $1\leq i\leq n+1$, denote \[
+\vt{v_i} = c_{1i}\vt{b_1} + c_{2i}\vt{b_2} + \cdots + c_{ni}\vt{b_n},
+\]
+then, since $S'$ is linearly independent, we must have the set $\{\vt{c_i}:\vt{c_i}=(c_{1i}, c_{2i}, \cdots, c_{ni})^T \text{for any integer} i\in [1,n]\}$ to be linearly independent (otherwise, by the propertiy of vector spaces, we can find one vector in $S'$ to be a linear combination of the others).
+Now to determine whether $\vt{v_{n+1}}$ can be written as a linear combination of the vectors in $S'$, we can simply solve the equation \[
+x_1\vt{v_1} + x_2\vt{v_2} + \cdots + x_n\vt{v_n}=\vt{v_{n+1}} = (d_1, d_2, \cdots, d_n)^T,
+\]
+which is equivalent to \[
+\begin{pmatrix}
+    c_{11} & c_{12} & \cdots & c_{1n}\\
+    c_{21} & c_{22} & \cdots & c_{2n}\\
+    \vdots & \vdots & \ddots & \vdots\\
+    c_{n1} & c_{n2} & \cdots & c_{nn}
+\end{pmatrix}\begin{pmatrix}
+    x_1\\x_2\\\vdots\\x_n
+\end{pmatrix} = \begin{pmatrix}
+    d_1\\d_2\\\vdots\\d_n
+\end{pmatrix},
+\]
+which must have a solution since the set $\{\vt{c_i}\}$ is linearly independent. Hence, $\vt{v_{n+1}}$ can be written as a linear combination of the vectors in $S'$, which contradicts the assumption that $S$ is linearly independent.\\
+\indent The handwritten notes also provides a proof as follows. \\
+$\vt{u_1}, \cdots, \vt{u_p}$ in $V$ with $p>n$ \\
+$[\vt{u_1}]_b, \cdots, [\vt{u_n}]_B$ form a linearly dependent set in $\R^n$ because one of the columns in the matrix $[\vt{u_1}, \cdots, \vt{u_p}]$ is not a pivot column.\\
+Thus there exists $c_1, \cdots,c_p$ not all zeros such that $c_1[\vt{u_1}]_B + \cdots + c_p[\vt{u_p}]_B = \vt{0}$.\\
+Hence $[c_1\vt{u_1} + \cdots + c_p\vt{u_p}]_B = \vt{0}$, which implies that $\vt{u_1}, \cdots, \vt{u_p}$ are linearly dependent.\\
+
+\begin{proposition}
+    If a vector space V has a basis with n vectors, then every basis for V must consist of exactly n vectors.
+\end{proposition}
+\indent\textit{Proof.} If there exists two basis $B_1$ and $B_2$ for $V$ with $n_1$ and $n_2$ vectors respectively. Without loss of generosity, we can assume $n_1< n_2$. 
+Using the previous theorem, we can find that $B_2$ is linearly dependent, which contradicts the assumption that $B_2$ is a basis.\\
+
+\begin{definition}
+    If V is spanned by a finite set, then V is said to be \textbf{finite-dimensional}. The \textbf{dimension} of V, denoted by dim V, is the number of vectors in a basis for V.
+    The dimension of the zero subspace $\{0\}$ is defined to be zero.\\
+    If V is not spanned by a finite set, then V is said to be \textbf{infinite-dimensional}.
+\end{definition}
+\indent For example, the dimension of $P_n$ is $n+1$, the dimension of $M_{m\times n}$ is $mn$, and the dimension of $P$ -all polynomials in one variable- is infinite.
+\begin{example}
+    Find the dimension of the subspace \[
+    H=\{\begin{pmatrix}
+        a-3b+6c\\5a+4d\\b-2c-d\\5d
+    \end{pmatrix}: a,b,c,d\in\R\}
+    \]
+    \textbf{Solution.} 
+    \[
+        \begin{pmatrix}
+            a-3b+6c\\5a+4d\\b-2c-d\\5d
+        \end{pmatrix} = a\begin{pmatrix}
+            1\\5\\0\\0
+        \end{pmatrix} + b\begin{pmatrix}
+            -3\\0\\1\\0
+        \end{pmatrix} + c\begin{pmatrix}
+            6\\0\\-2\\0
+        \end{pmatrix} + d\begin{pmatrix}
+            0\\4\\-1\\5
+        \end{pmatrix}
+    \]
+    Hence, $H$ is spanned by the set $$\{\begin{pmatrix}
+        1\\5\\0\\0
+    \end{pmatrix}, \begin{pmatrix}
+        -3\\0\\1\\0
+    \end{pmatrix}, \begin{pmatrix}
+        6\\0\\-2\\0
+    \end{pmatrix}, \begin{pmatrix}
+        0\\4\\-1\\5
+    \end{pmatrix}\}.$$
+    Hence, we perform row reduction to the following matrix
+    \[
+    \begin{pmatrix}
+        1 & -3 & 6 & 0\\
+        5 & 0 & 0 & 4\\
+        0 & 1 & -2 & -1\\
+        0 & 0 & 0 & 5
+    \end{pmatrix}
+    \sim \begin{pmatrix}
+        1&-3&6&0\\
+        0&1&2&-1\\
+        0&0&0&1\\
+        0&0&0&0
+    \end{pmatrix}
+    \]
+    Since column 1, 2, 4 are pivot columns, the set is linearly dependent, and the dimension of $H$ is 3.
+\end{example}
+
+\indent Note that the dimension of a vector space is a property of a vector space, so we may wonder the relationship of their dimensions if two vector spaces are related in some way, especially the relationship of subspaces.
+\begin{proposition}
+    Let $H$ be a subspace of a finite-dimensional vector space $V$. Then $H$ is finite-dimensional and $\dim H\leq \dim V$. 
+\end{proposition}
+\begin{proposition}
+    \textbf{The Dimension Theorem} Let $V$ be a p-dimensional vector space ($p\geq1$), then any linearly independent set of exactly $p$ elements in $V$ is automatically a basis of $V$.
+    Any set of exactly $p$ elements that spans $V$ is automatically a basis of $V$.
+\end{proposition}
+
+\subsubsection*{The dimension of Null A and Col A}
+Facts:
+\begin{itemize}
+    \item The dimension of the null space of an $m\times n$ matrix $A$ is the number of free variables in the solution set of $A\vt{x}=\vt{0}$.
+    \item The dimension of the column space of an $m\times n$ matrix $A$ is the number of pivot columns in $A$.
+\end{itemize}
+\begin{example}
+    Find the dimension of the null space and the column space of the matrix \[
+    A = \begin{pmatrix}
+        -3 & 6 & -1 & 1 & -7\\
+        1 & -2 & 2 & 3 & -1\\
+        2 & -4 & 5 & 8 & -4
+    \end{pmatrix}.
+    \]
+    Answer: 3 and 2.
+\end{example}
+
+\begin{example}
+    Let H and K be subspaces of a vector space V. Prove that 
+    \begin{enumerate}
+        \item $H\cap K$ is a subspace of V.
+        \item $H\cup K$ is a subspace of V if and only if $H\subset K$ or $K\subset H$.
+        \item $\dim(H \cap K)\leq \dim H$.
+    \end{enumerate}
+\end{example}
+
+\subsection{Rank}
+\subsubsection*{Row Space}
+\indent For each matrix $A$, we denote\[
+\begin{pmatrix}
+    a_{11} & a_{12} & \cdots & a_{1n}\\
+    a_{21} & a_{22} & \cdots & a_{2n}\\
+    \vdots & \vdots & \ddots & \vdots\\
+    a_{m1} & a_{m2} & \cdots & a_{mn}
+\end{pmatrix}
+\triangleq \begin{pmatrix}
+    \vt{a_1}\\\vt{a_2}\\\vdots\\\vt{a_m}
+\end{pmatrix},
+\]
+\textbf{row space} of $A$, denoted by row $A$, is the subspace of $\R^n$ spanned by the rows of $A$., that is, \[
+\text{row }A = \operatorname*{Span}\{\vt{a_1}, \vt{a_2}, \cdots, \vt{a_m}\}.
+\]
+If two matrices $A$ and $B$ are row equivalent, then they have the same row space. If $B$ is in the echelon form, the nonzero rows of $B$ form a basis for the row space of $A$.\\\subset \subseteq 
+\indent \textit{Proof.} Since $B$ is obtained from $A$ by row operations, the rows of $B$ are linear combinations of the rows of $A$. Hence, any linear combination of the rows of $B$ is also a linear combination of the rows of $A$, indicating that $\text{row }B\subset \text{row }A$. Similarly, we can prove that $\text{row }A\subset \text{row }B$. Hence, $\text{row }A = \text{row }B$.\\
+
+\indent Hence, we have enough knowledge to find Row$A$, Col$A$, Null$A$, and Nul$A^T$ for a given matrix $A$, all of which involves row reduction. 
+\begin{example}
+    Find basis for Row$A$, Col$A$, Null$A$ for the matrix \[
+    A = \begin{pmatrix}
+        -2&-5&8&0&-17\\
+        1&3&-5&1&5\\
+        3&11&-19&7&1\\
+        1&7&-13&5&-3
+    \end{pmatrix}.
+    \]
+    \textbf{Solution.} We perform row reduction on $A$ and get \[
+    \begin{pmatrix}
+        -2&-5&8&0&-17\\
+        1&3&-5&1&5\\
+        3&11&-19&7&1\\
+        1&7&-13&5&-3
+    \end{pmatrix}\sim \begin{pmatrix}
+        1&3&-5&1&5\\
+        0&1&-2&2&-7\\
+        0&0&0&-4&20\\
+        0&0&0&0&0
+    \end{pmatrix}
+    \]
+    Hence, the basis for Row$A$ is $\{\begin{pmatrix}
+        1&3&-5&1&5
+    \end{pmatrix}, \begin{pmatrix}
+        0&1&-2&2&-7
+    \end{pmatrix}, \begin{pmatrix}
+        0 & 0 & 0 & -4 & 20
+    \end{pmatrix}
+    \}$,\\ the basis for Col$A$ is $\{\begin{pmatrix}
+        -2\\1\\3\\1
+    \end{pmatrix}, \begin{pmatrix}
+        -5\\3\\11\\7
+    \end{pmatrix}, \begin{pmatrix}
+        0\\1\\7\\5
+    \end{pmatrix}\}$,\\
+    and the basis for Null$A$ is $\{\begin{pmatrix}
+        1\\2\\1\\0\\0
+    \end{pmatrix}, \begin{pmatrix}
+        -1\\-3\\0\\5\\1
+    \end{pmatrix}\}$.
+\end{example}
+\indent Remark: Row operations may change the linear dependence relations among the rows of a matrix, but not the dimension of the row space.\\
+
+\subsubsection*{Rank}
+\begin{definition}
+    The \textbf{rank} of a matrix $A$, denoted by $\operatorname{rank} A$, is the dimension of the column space of $A$, i.e., \[
+    \operatorname{rank} A = \dim \text{Col }A.
+    \]
+\end{definition}
+\begin{proposition}
+    \textbf{The Rank Theorem} Let $A$ be an $m\times n$ matrix. Then \[
+    \operatorname{rank} A + \dim \text{Null }A = n,
+    \]
+    and \[
+    \operatorname*{dim} \operatorname*{Col} A = \operatorname*{dim} \operatorname*{Row} A = \operatorname*{rank} A = \text{number of pivot columns in }A.
+    \]
+\end{proposition}
+\indent \textit{Proof.} Since the pivot columns of a matrix forms a basis for Col$A$, we have $$\dim \text{Col }A = \text{number of pivot columns in }A = \operatorname{rank} A$$, and number of pivots $+$ number of free variables $= n$.\\
+
+\newpage
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 5
+% ------------------------------------------------------------------------------
+\section{Eigenvalues and Eigenvectors}
+\subsection{Eigenvalues and Eigenvectors}
+\begin{definition}
+    Let $A$ be an $n \times n$ matrix. A scalar $\lambda$ is called an \textbf{eigenvalue} of $A$ if there exists a \textit{nonzero} vector $\vt{x}$ in $\R^n$ such that
+    \begin{equation}
+        A\vt{x} = \lambda \vt{x}
+    \end{equation}
+    The vector $\vt{x}$ is called an \textbf{eigenvector} of $A$ corresponding to $\lambda$.
+\end{definition}
+\begin{example}
+    Show that 7 is an eigenvalue of the matrix
+    \begin{equation}
+        A = \begin{bmatrix}
+            1&6\\
+            5&2
+        \end{bmatrix}
+    \end{equation}
+    and find the corresponding eigenvectors.
+    \textbf{Solution.} The scalar 7 is an eigenvalue of $A$ if and only if the equation\[A\vt{x}=7\vt{x}=7I_2\vt{x}\] has a nontrivial solution, which is equivalent to 
+    \begin{equation}
+        (A-7I_2)\vt{x} = \vt{0}.
+    \end{equation}
+    We perform the row reduction on the augmented matrix (details should be shown in the exam), and get the result that $x_1-x_2=0$. Hence, the general solution is 
+    \begin{equation}
+        \vt{x} = t\begin{bmatrix}
+            1\\
+            1
+        \end{bmatrix}
+    \end{equation}
+    So $(1,1)^T$ is an eigenvector of $A$ corresponding to the eigenvalue 7.
+\end{example}
+Instead of giving the general solution, we first consider the special case when the matrix is triangular.
+\begin{proposition}
+    Let $A$ be an $n \times n$ upper triangular matrix. Then the eigenvalues of $A$ are the diagonal entries of $A$.
+\end{proposition}
+\textit{Proof.} Let $A$ be an $n \times n$ upper triangular matrix. Then we have \[
+A=\begin{bmatrix}
+    a_{11}&a_{12}&\cdots&a_{1n}\\
+    0&a_{22}&\cdots&a_{2n}\\
+    \vdots&\vdots&\ddots&\vdots\\
+    0&0&\cdots&a_{nn}
+\end{bmatrix}
+, A-\lambda I_n = \begin{bmatrix}
+    a_{11}-\lambda&a_{12}&\cdots&a_{1n}\\
+    0&a_{22}-\lambda&\cdots&a_{2n}\\
+    \vdots&\vdots&\ddots&\vdots\\
+    0&0&\cdots&a_{nn}-\lambda
+\end{bmatrix}
+\]
+Hence we have the following statements equivalent:
+\begin{itemize}
+    \item $\lambda$ is an eigenvalue of $A$.
+    \item The system $(A-\lambda I_n)\vt{x}=\vt{0}$ has a nontrivial solution.
+    \item The system $(A-\lambda I_n)\vt{x}=\vt{0}$ has a free variable.
+    \item At least one of the entries on the diagonal of $A-\lambda I_n$ is zero.
+    \item $\lambda = a_{ii}$ for some $i$.
+\end{itemize}
+Remark: For a lower triangular matrix, the proof is similar and we have the same conclusion. 0 can also be an eigenvalue.
+
+\begin{proposition}
+    If $\vt{v_1}, \vt{v_2}, \cdots, \vt{v_k}$ are eigenvectors of a matrix $A$ corresponding to distinct eigenvalues $\lambda_1, \lambda_2, \cdots, \lambda_k$, then the set $\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_k}\}$ is linearly independent.
+\end{proposition}
+\textit{Proof.} [This proof is given by \textit{Github Copilot} to make the notes more elegent, but the correctness has not yet been verified...] Without loss of generality, we can assume that $\lambda_1\neq 0$. Suppose that there exist scalars $c_1, c_2, \cdots, c_k$ such that \[
+c_1\vt{v_1}+c_2\vt{v_2}+\cdots+c_k\vt{v_k}=\vt{0},
+\]
+and at least one of the $c_i$ is nonzero. 
+Then we have \[
+A(c_1\vt{v_1}+c_2\vt{v_2}+\cdots+c_k\vt{v_k})=c_1A\vt{v_1}+c_2A\vt{v_2}+\cdots+c_kA\vt{v_k}=\vt{0}
+\]
+Since $A\vt{v_i}=\lambda_i\vt{v_i}$, we have \[
+c_1\lambda_1\vt{v_1}+c_2\lambda_2\vt{v_2}+\cdots+c_k\lambda_k\vt{v_k}=\vt{0}
+\]
+Multiplying both sides by $\vt{v_1}^T$, we get \[
+c_1\lambda_1\vt{v_1}\vt{v_1}^T+c_2\lambda_2\vt{v_2}\vt{v_1}^T+\cdots+c_k\lambda_k\vt{v_k}\vt{v_1}^T=0
+\]
+Since $\vt{v_i}^T\vt{v_j}=0$ for $i\neq j$, we have $c_1\lambda_1\vt{v_1}^T\vt{v_1}=0$. Since $\vt{v_1}\neq \vt{0}$, we have $\vt{v_1}^T\vt{v_1}\neq 0$. Hence $c_1\lambda_1=0$. Since $\lambda_1\neq 0$, we have $c_1=0$. Similarly, we can show that $c_2=c_3=\cdots=c_k=0$. Hence the set $\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_k}\}$ is linearly independent.
+
+\begin{example}
+    Suppose that $\vt{b_1}, \vt{b_2}$ are eigenvectors corresponding to distinct eigenvalues $\lambda_1, \lambda_2$ of a matrix $A$. 
+    And suppose that $\vt{b_3},\vt{b_4}$ are linearly independent vectors corresponding to a third distince eigenvalue $\lambda_3$.
+    Show that the set $\{\vt{b_1}, \vt{b_2}, \vt{b_3}, \vt{b_4}\}$ is linearly independent.
+\end{example}
+\indent Remark: Note that under a same eigenvalue, the eigenvectors are actually the solutions to a homogeneous system of linear equations, which can be independent or dependent.
+\indent \textcolor{red}{Remark:} Think more about the example above! 
+\subsection{Characteristic Equation}
+\indent In the previous section, we have already tried to get the eigenvalues and eigenvectors of a matrix. 
+Recall the ways we used to find the eigenvalues and eigenvectors, we can generalize the idea behind it as follows:\\
+For any $n \times n$ matrix $A$, according to the definition of eigenvalues and eigenvectors, we have \[
+A\vt{x}=\lambda\vt{x} \Leftrightarrow (A-\lambda I_n)\vt{x}=\vt{0}.
+\]
+This equation has a nontrivial solution if and only if the matrix $A-\lambda I_n$ is singular, i.e., $\det(A-\lambda I_n)=0$. 
+Hence, all possible eigenvalues of $A$ are the roots of the equation $\det(A-\lambda I_n)=0$, which is called the \textbf{characteristic equation} of $A$, and the eigenvectors are the solutions to the system $(A-\lambda I_n)\vt{x}=\vt{0}$ with corresponding $\lambda$.
+Furthermore, we summarize this process to get a more systematic method by giving the following definition and proposition.
+\begin{definition}
+    Let $A$ be an $n \times n$ matrix, then the equation \[
+    \det(A-\lambda I_n)=0
+    \]
+    is called the \textbf{characteristic equation} of $A$.\\ 
+    The polynomial \[
+    p_A(\lambda)=\det(A-\lambda I_n)
+    \]
+    is called the \textbf{characteristic polynomial} of $A$, a polynomial of degree $n$ in variable $\lambda$.
+\end{definition}
+\begin{proposition}
+    $\lambda$ is an eigenvalue of $A$ if and only if $\lambda$ is a root of the characteristic equation $\det(A-\lambda I_n)=0$.
+\end{proposition}
+\indent This proposition has connected the concept of eigenvalues with the determinant of a matrix, and consequently, the invertibility of a matrix.
+Therefore, we give some new insights into the invertibility of a matrix.
+\begin{quotation}
+    $A:$ a $n \times n$ matrix. Then $A$ is invertible if and only if 
+    \begin{itemize}
+        \item The number 0 is not an eigenvalue of $A$.
+        \item The determinant $\det(A)\neq 0$, and 
+              \begin{equation*}
+                \det A = (-1)^r \det u = \begin{cases}
+                    (-1)^r\cdot(\text{product of pivots of $u$}) & \text{$u$ invertible};\\
+                    0 & \text{$u$ singular},
+                \end{cases}
+              \end{equation*}
+              where $u$ is an echelon form of $A$ by row replacements and row interchanges (without scaling) with $r$ row interchanges.
+    \end{itemize}
+\end{quotation}
+\begin{example}
+    The characteristic polynomial of a $6 \times 6$ matrix $A$ is given by \[
+    \lambda^6-4\lambda^5-12\lambda^4
+    \]
+    Find the eigenvalues and their multiplicities.\\
+    \textbf{Solution.} 
+    \begin{itemize}
+        \item $\lambda=0$\; multiplicity 4.
+        \item $\lambda=6$\; multiplicity 1.
+        \item $\lambda=-2$ multiplicity 1.
+    \end{itemize}
+\end{example}
+\indent Remark: The purpose of putting this example here is to show the concept of \textit{multiplicity} of an eigenvalue, which is the number of times the eigenvalue appears as a root of the characteristic polynomial.
+\begin{example}
+    Find the eigenvalues of the matrix \[
+    A = \begin{bmatrix}
+        0&2&1\\
+        3&0&3\\
+        1&2&0
+    \end{bmatrix}
+    \]
+    \textbf{Solution.} -1, 4, -3.
+\end{example}
+
+\subsection{Diagonalization}
+\begin{example}
+    Let $A$ be the matrix \(
+    A = \begin{bmatrix}
+        7&-2\\
+        -4&1
+    \end{bmatrix}
+    \).
+    Find a formula for $A^n$ for any positive integer $n$, given that $A=PDP^{-1}$, where \[
+    P = \begin{bmatrix}
+        1&1\\
+        -1&-2
+    \end{bmatrix}
+    \text{ and }
+    D = \begin{bmatrix}
+        5 & 0\\
+        0 & 3
+    \end{bmatrix}
+    \]
+    \textbf{Solution.} \\
+    Since $A=PDP^{-1}$, we have $A^2 = PD(P^{-1} P)DP^{-1} = PD^2P^{-1}$, $A^3 = PD^3P^{-1}$, and so on. In general we have \[
+    A^n = PD^nP^{-1},
+    \]
+    which can be proved by induction. Hence we have \[
+    A^n = \begin{bmatrix}
+        1&1\\
+        -1&-2
+    \end{bmatrix}
+    \begin{bmatrix}
+        5^n & 0\\
+        0 & 3^n
+    \end{bmatrix}
+    \begin{bmatrix}
+        2&1\\
+        -1&-1
+    \end{bmatrix}
+    = \begin{bmatrix}
+        2\cdot 5^n - 3^n & 5^n - 3^n\\
+        -2\cdot5^n + 2\cdot 3^n & -5^n + 2\cdot3^n
+    \end{bmatrix}
+    \]
+\end{example}
+    \begin{definition}
+        A square matrix $A$ is said to be \textbf{diagonalizable} $A$ is similar to a diagonal matrix. That is, if $A=PDP^{-1}$ for some invertible matrix $P$ and some diagonal matrix $D$.
+    \end{definition}
+    \begin{proposition}
+        An $n\times n$ matrix $A$ is diagonalizable if and only if $A$ has $n$ linearly independent eigenvectors.\\
+        $A=PDP^{-1}$ with $D$ a diagonal matrix if and only if the columns of $P$ are $n$ linearly independent eigenvectors of $A$.
+        In this case, the diagonal entries of $D$ are the eigenvalues of $A$ that correspond, respectively, to the eigenvectors in $P$.
+    \end{proposition}
+    \indent \textit{Proof.} If $A$ is diagonalizable, then $A=PDP^{-1}$. Denote $P=(\vt{v_1},\vt{v_2},\cdots,\vt{v_n})$, where $\vt{v_i}$ are column vectors. Then $AP=A(\vt{v_1},\vt{v_2},\cdots,\vt{v_n})=(A\vt{v_1},A\vt{v_2},\cdots,A\vt{v_n})$.\\
+    Since $A=PDP^{-1}$, we have \[
+    AP=PD=(A\vt{v_1},A\vt{v_2},\cdots,A\vt{v_n})
+    (\vt{v_1},\vt{v_2},\cdots,\vt{v_n})\begin{pmatrix}
+        \lambda_1&0&\cdots&0\\
+        0&\lambda_2&\cdots&0\\
+        \vdots&\vdots&\ddots&\vdots\\
+        0&0&\cdots&\lambda_n
+    \end{pmatrix}= (\lambda_1\vt{v_1},\lambda_2\vt{v_2},\cdots,\lambda_n\vt{v_n}).
+    \]
+    Hence we have $A\vt{v_i}=\lambda_i\vt{v_i}$, which means that $\vt{v_i}$ is an eigenvector of $A$ corresponding to $\lambda_i$. Since $P$ is invertible, the columns of $P$ are linearly independent, completing the proof that 
+\begin{quotation}
+    If $A$ is diagonalizable, $A$ has $n$ linearly independent eigenvectors.
+\end{quotation}
+\indent \indent Conversly, if $A$ has $n$ linearly independent eigenvectors such that $A\vt{v_i}=\lambda_i\vt{v_i}$ for any $1\leq i\leq n$ with $\{\vt{v_1},\cdots,\vt{v_n}\}$ linearly independent, then we can construct the matrix $$P=(\vt{v_1},\vt{v_2},\cdots,\vt{v_n})$$ which is invertible, and the matrix 
+\[
+D=\begin{pmatrix}
+    \lambda_1&0&\cdots&0\\
+    0&\lambda_2&\cdots&0\\
+    \vdots&\vdots&\ddots&\vdots\\
+    0&0&\cdots&\lambda_n
+\end{pmatrix}
+\]
+Then we have $AP=PD$, which indicates $A=PDP^{-1}$, completing the proof that 
+\begin{quotation}
+    If $A$ has $n$ linearly independent eigenvectors, then $A$ is diagonalizable.
+\end{quotation}
+\begin{example}
+    Diagonalizing a matrix, if possible.
+    \[
+    \begin{pmatrix}
+        2&4&3\\
+        -4&-6&-3\\
+        3&3&1
+    \end{pmatrix}
+    \]
+\end{example}
+\indent From the previous example, we can see that the matrix is not diagonalizable, since the matrix has only two linearly independent eigenvectors, which is less than the dimension of the matrix.
+From this observation, we may find that wheter a matrix is diagonalizable is related to the number of linearly independent eigenvectors, which is also related to \textit{the sum of multiplicity of the eigenvalues}.
+\textcolor{red}{[Remark] This is worth further exploration, although it is not covered in the handwritten notes.}
+Specifically, we have the following proposition.
+\begin{proposition}
+    An $n\times n$ matrix $A$ with $n$ distinct eigenvalues is diagonalizable.
+\end{proposition}
+\indent \textit{Proof.} If $A$ has $n$ distinct eigenvalues, then $A$ has at least $n$ linearly independent eigenvectors. According to the previous proposition, $A$ is diagonalizable.
+
+In a more general case, let $A$ be an $n\times n$ matrix whose distince eigenvalues are $\lambda_1,\lambda_2,\cdots,\lambda_p$ with multiplicities $m_1,m_2,\cdots,m_p$. Then we have the following proposition whose title in the handwritten notes is \textbf{Matrices Whose Eigenvalues Are Not Distinct}.
+\begin{itemize}
+    \item[(a)] For $1\leq k\leq p$, the dimension of the eigenspace for $\lambda_k$ is less than or equal to the multiplicity of the eigenvalue $\lambda_k$.
+    \item[(b)] The matrix $A$ is diagonalizable if and only if the sum of the dimensions of the eigenspaces is equal to $n$, which happens if and only If
+    \begin{itemize}
+        \item the characteristic polynomial factors completely into linear factors, and
+        \item the dimension of the eigenspace for each $\lambda_k$ is equal to the multiplicity of the eigenvalue.
+    \end{itemize}
+    \item[(c)] If $A$ is diagonalizable and $B_k$ is a basis for the eigenspace for $\lambda_k$, then the total collection of vectors in the sets $B_1,B_2,\cdots,B_k$ forms an eigenvector basis for $\R^n$.
+\end{itemize}
+\indent Finally, in the end of this section, we want to clarify the two systems of methods we have learnt: \textcolor{Red}{(Please further clarify and add details when reviewing this note)}
+\begin{itemize}
+    \item \textbf{Method 1:} Find the eigenvalues and eigenvectors of the matrix $A$.
+    \item \textbf{Method 2:} Find the matrix $P$ and the diagonal matrix $D$ such that $A=PDP^{-1}$.
+\end{itemize}
+\indent The handwritten notes provides some reasoning exercises for the two methods, i.e., the following examples.
+\begin{example}
+    \begin{enumerate}
+        \item Show that if $A$ is both diagonalizable and invertible, then $A^{-1}$ is also diagonalizable.
+        \item Show that if $A$ has $n$ distinct eigenvalues, then so does $A^T$.
+        \item Find the range of $a$ where the matrix \[
+        A = \begin{bmatrix}
+            1&a\\
+            1&1
+        \end{bmatrix}
+        \]
+        has no real eigenvalues. (Ans: $a<0$)
+    \end{enumerate}
+\end{example}
+\begin{example}
+    \textbf{Discrete Dynamical Systems.} We provides a "real-life" problem regarding the growth of owl and wood rad populations in a forest, denoted by $O_k$ and $R_k$ respectively, where $k$ is the time in months.
+    Suppose that \[
+    \vt{x_k}=\begin{bmatrix}
+        O_k\\
+        R_k
+    \end{bmatrix}
+    = \begin{bmatrix}
+        0.5Q_{k-1} + 0.4R_{k-1}\\
+        -0.104Q_{k-1} + 1.1R_{k-1}
+    \end{bmatrix}.
+    \]
+    Determine the evolution of the system $\vt{x_k}$.\\
+    \textbf{Solution.} \\
+    Let $A=\begin{bmatrix}
+        0.5&0.4\\
+        -0.104&1.1
+    \end{bmatrix}$. Then we have $\vt{x_{k+1}}=A\vt{x_k}$.\\
+    It's easy to find that the eigenvalues for $A$ are $\lambda_1=1.02,\;\lambda_2=0.58$. The corresponding eigenvectors are $\vt{v_1}=\begin{bmatrix}
+        10\\
+        13
+    \end{bmatrix}$ and $\vt{v_2}=\begin{bmatrix}
+        5\\
+        1
+    \end{bmatrix}$.\\
+    Obviously, $\vt{v_1}$ and $\vt{v_2}$ form a basis in $\R^2$, and $A$ is diagonalizable. For any initial $x_0$, there exists $c_1,c_2$ such that \[
+    x_0=c_1\vt{v_1}+c_2\vt{v_2}
+    \]
+    Hence we have \[
+    x_k = A^k x_0 = A^k(c_1\vt{v_1}+c_2\vt{v_2}) = c_1\lambda_1^k\vt{v_1}+c_2\lambda_2^k\vt{v_2}
+    \]
+    After substituting the values of $\lambda_1,\lambda_2$ and $\vt{v_1},\vt{v_2}$, for very large $k$, we have \[
+    \vt{x_{k+1}}\approx 1.02 \vt{x_k},
+    \]
+    which indicates that eventually both entries of $\vt{x_k}$ will increase by 2\% each month.
+\end{example}
+
+\subsection{Applications to Differential Equations}
+\subsubsection*{System of Linear Differential Equations}
+\begin{equation*}
+    \begin{cases}
+        x_1'(t) = a_{11} x_1(t) + a_{12} x_2(t) + \cdots + a_{1n} x_n(t)\\
+        x_2'(t) = a_{21} x_1(t) + a_{22} x_2(t) + \cdots + a_{2n} x_n(t)\\
+        \vdots\\
+        x_n'(t) = a_{n1} x_1(t) + a_{n2} x_2(t) + \cdots + a_{nn} x_n(t)
+    \end{cases}
+\end{equation*}
+Let \[
+\vt{x(t)}=\begin{bmatrix}
+    x_1(t)\\
+    x_2(t)\\
+    \vdots\\
+    x_n(t)
+\end{bmatrix}
+, A=\begin{bmatrix}
+    a_{11}&a_{12}&\cdots&a_{1n}\\
+    a_{21}&a_{22}&\cdots&a_{2n}\\
+    \vdots&\vdots&\ddots&\vdots\\
+    a_{n1}&a_{n2}&\cdots&a_{nn}
+\end{bmatrix}
+\]
+Then $\vt{x'(t)}=A\vt{x(t)}$.\\
+
+\subsubsection*{When $A$ is a diagonal matrix}
+\indent Since \[
+\begin{bmatrix}
+    x_1'(t)\\
+    x_2'(t)\\
+    \vdots\\
+    x_n'(t)
+\end{bmatrix}
+= \begin{bmatrix}
+    a_{11}&0&\cdots&0\\
+    0&a_{22}&\cdots&0\\
+    \vdots&\vdots&\ddots&\vdots\\
+    0&0&\cdots&a_{nn}
+\end{bmatrix}
+\begin{bmatrix}
+    x_1(t)\\
+    x_2(t)\\
+    \vdots\\
+    x_n(t)
+\end{bmatrix},
+\]
+it can be decoupled into $n$ independent equations:\[
+\begin{cases}
+    x_1'(t) = a_{11} x_1(t)\\
+    x_2'(t) = a_{22} x_2(t)\\
+    \vdots\\
+    x_n'(t) = a_{nn} x_n(t)
+\end{cases}
+\]
+The solution to each equation is of the form $x_i(t)=c_i e^{a_{ii}t}$, where $c_i$ is a constant. Hence the general solution to the system is \[
+\vt{x(t)} = c_1 e^{a_{11}t}\begin{bmatrix}
+    1\\
+    0\\
+    \vdots\\
+    0
+\end{bmatrix} + c_2 e^{a_{22}t}\begin{bmatrix}
+    0\\
+    1\\
+    \vdots\\
+    0
+\end{bmatrix} + \cdots + c_n e^{a_{nn}t}\begin{bmatrix}
+    0\\
+    0\\
+    \vdots\\
+    1
+\end{bmatrix}
+\]
+
+\subsubsection*{For general equation $x'(t)=Ax(t)$}
+
+\indent The solution is \[
+\vt{x(t)} = c_1 e^{\lambda_1 t}\vt{v_1} + c_2 e^{\lambda_2 t}\vt{v_2} + \cdots + c_n e^{\lambda_n t}\vt{v_n}
+\]
+where $\lambda_1,\lambda_2,\cdots,\lambda_n$ are the eigenvalues of $A$ and $\vt{v_1},\vt{v_2},\cdots,\vt{v_n}$ are the corresponding eigenvectors. 
+Here $\vt{v_i}e^{\lambda_i t}$ are called eigenfunctions of the differential equation system.
+\begin{example}
+    \[
+    \vt{x'(t)} = \begin{bmatrix}
+        -1.5&0.5\\
+        1&-1
+    \end{bmatrix}
+    \vt{x(t)}
+    ,\;\;
+    \vt{x(0)} = \begin{bmatrix}
+        5\\
+        4
+    \end{bmatrix}
+    \]
+    \textbf{Solution.} The eigenvalues are $\lambda_1=-0.5,\lambda_2=-2$, and the corresponding eigenvectors are $\vt{v_1}=\begin{bmatrix}
+        1\\
+        2
+    \end{bmatrix}$ and $\vt{v_2}=\begin{bmatrix}
+        -1\\
+        1
+    \end{bmatrix}$. The eigenfunctions $x_1(t)=\vt{v_1}e^{\lambda_1 t}$ and $x_2(t)=\vt{v_2}e^{\lambda_2 t}$ both satisfy $\vt{x'(t)} = A\vt{x(t)}$. Hence we write\[
+    \vt{x(t)} = c_1 e^{-0.5t}\begin{bmatrix}
+        1\\
+        2
+    \end{bmatrix} + c_2 e^{-2t}\begin{bmatrix}
+        -1\\
+        1
+    \end{bmatrix}
+    \]
+    Let $t=0$, we have $\vt{x(0)}=c_1\begin{bmatrix}
+        1\\
+        2
+    \end{bmatrix} + c_2\begin{bmatrix}
+        -1\\
+        1
+    \end{bmatrix} = \begin{bmatrix}
+        5\\
+        4
+    \end{bmatrix}$. Solving this system of equations, we get $c_1=3,c_2=-2$. Hence the solution is \[
+    \vt{x(t)} = 3e^{-0.5t}\begin{bmatrix}
+        1\\
+        2
+    \end{bmatrix} - 2e^{-2t}\begin{bmatrix}
+        -1\\
+        1
+    \end{bmatrix}
+    \]
+\end{example}
+\indent \textit{Proof.} [This proof is given by \textit{Github Copilot}, and a proof may also be found in handwritten lecture 20] 
+To prove the general solution to the system of linear differential equations $\vt{x'(t)} = A\vt{x(t)}$, we can use the method of decoupling the system by diagonalizing the matrix $A$.
+
+Assume that $A$ is diagonalizable, i.e., there exists an invertible matrix $P$ and a diagonal matrix $D$ such that $A = PDP^{-1}$. Let $\vt{y(t)} = P^{-1}\vt{x(t)}$. Then we have:
+\[
+\vt{x(t)} = P\vt{y(t)}
+\]
+Differentiating both sides with respect to $t$, we get:
+\[
+\vt{x'(t)} = P\vt{y'(t)}
+\]
+Since $\vt{x'(t)} = A\vt{x(t)}$, we have:
+\[
+P\vt{y'(t)} = AP\vt{y(t)}
+\]
+Substituting $A = PDP^{-1}$, we get:
+\[
+P\vt{y'(t)} = PDP^{-1}P\vt{y(t)} = PD\vt{y(t)}
+\]
+Multiplying both sides by $P^{-1}$, we obtain:
+\[
+\vt{y'(t)} = D\vt{y(t)}
+\]
+Since $D$ is a diagonal matrix, the system $\vt{y'(t)} = D\vt{y(t)}$ is decoupled into $n$ independent differential equations:
+\[
+\begin{cases}
+y_1'(t) = \lambda_1 y_1(t)\\
+y_2'(t) = \lambda_2 y_2(t)\\
+\vdots\\
+y_n'(t) = \lambda_n y_n(t)
+\end{cases}
+\]
+where $\lambda_1, \lambda_2, \ldots, \lambda_n$ are the diagonal entries of $D$, which are the eigenvalues of $A$. The solution to each equation is of the form:
+\[
+y_i(t) = c_i e^{\lambda_i t}
+\]
+where $c_i$ is a constant. Hence, the general solution to the system $\vt{y'(t)} = D\vt{y(t)}$ is:
+\[
+\vt{y(t)} = \begin{bmatrix}
+c_1 e^{\lambda_1 t}\\
+c_2 e^{\lambda_2 t}\\
+\vdots\\
+c_n e^{\lambda_n t}
+\end{bmatrix}
+\]
+Finally, transforming back to the original variables, we get the general solution to the system $\vt{x'(t)} = A\vt{x(t)}$:
+\[
+\vt{x(t)} = P\vt{y(t)} = P \begin{bmatrix}
+c_1 e^{\lambda_1 t}\\
+c_2 e^{\lambda_2 t}\\
+\vdots\\
+c_n e^{\lambda_n t}
+\end{bmatrix} = c_1 e^{\lambda_1 t} \vt{v_1} + c_2 e^{\lambda_2 t} \vt{v_2} + \cdots + c_n e^{\lambda_n t} \vt{v_n}
+\]
+where $\vt{v_1}, \vt{v_2}, \ldots, \vt{v_n}$ are the columns of $P$, which are the eigenvectors of $A$.
+
+
+
+\newpage
+
+
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 6
+% ------------------------------------------------------------------------------
+\section{Inner Product Spaces}
+\subsection{Inner Product, Length, and Orthogonality}
+\indent In $\R^2, \R^3$, we have already learnt the concepts of dot product, length/distance, perpendicularity, etc. In this section, we will generalize these concepts to $\R^n$ and more general vector spaces.
+\begin{itemize}
+    \item \textbf{Inner Product:} Let $\vt{u} = (u_1, u_2, \cdots, u_n)$ and $\vt{v} = (v_1, v_2, \cdots, v_n)$ be vectors in $\R^n$. The \textbf{inner product} of $\vt{u}$ and $\vt{v}$ is defined as\[ \vt{u} \cdot \vt{v} = u_1v_1 + u_2v_2 + \cdots + u_nv_n. \]
+    \item \textbf{Length:} The \textbf{length} (or \textbf{norm}) of a vector $\vt{v}$ in $\R^n$ is defined as\[ ||\vt{v}|| = \sqrt{\vt{v} \cdot \vt{v}} = \sqrt{v_1^2 + v_2^2 + \cdots + v_n^2}. \] 
+    \item \textbf{Distance:} The \textbf{distance} between two vectors $\vt{u}$ and $\vt{v}$ in $\R^n$ is defined as\[ d(\vt{u}, \vt{v}) = ||\vt{u} - \vt{v}|| = \sqrt{(u_1 - v_1)^2 + (u_2 - v_2)^2 + \cdots + (u_n - v_n)^2}. \]
+    \item \textbf{Orthogonality:} Two vectors $\vt{u}$ and $\vt{v}$ in $\R^n$ are \textbf{orthogonal} if $\vt{u} \cdot \vt{v} = 0$.
+\end{itemize}
+\begin{proposition}
+    \textbf{Pythagorean Theorem}\\ Two vectors $\vt{u}$ and $\vt{v}$ in $\R^n$ are orthogonal if and only if\[ ||\vt{u} + \vt{v}||^2 = ||\vt{u}||^2 + ||\vt{v}||^2. \]
+\end{proposition}
+\subsubsection*{Orthogonal Complements}
+\indent Let $\vt{z}\in \R^n$ and $W$ is a subspace of $\R^n$. If $\vt{z}$ is orthogonal to every vector in $W$, we say that $\vt{z}$ is orthogonal to $W$, and write $\vt{z}\perp W$. The set of all vectors in $\R^n$ that are orthogonal to $W$ is called the \textbf{orthogonal complement} of $W$, denoted by $W^\perp$. 
+By definition, we can easily see that $W^\perp$ is also a subspace of $\R^n$. Furthermore, we will look at some facts:
+\begin{itemize}
+    \item Let $A$ be an $m\times n$ matrix. The orthogonal complement of the row space of $A$ is the null space of $A$, and the orthogonal complement of $A$ is the null space of $A^T$, that is \[ \text{Row}A^\perp = \text{Nul}A, \quad \text{Col}A^\perp = \text{Nul}A^T. \]
+    \item Let $W$ be a subspace of $\R^n$. Then $(W^\perp)$ is also a subspace of $\R^n$, and\[
+    \operatorname*{dim} W + \operatorname*{dim} W^\perp = n.
+    \]
+\end{itemize}
+
+
+\subsection{Orthogonal Sets}
+In applications in different areas, like the Cartesian coordinate system, we use a set of orthogonal vectors to represent the space, and use them as the basis to represent other instances like vectors, surfaces, etc.
+Here, we summarize such set of vectors as orthogonal sets and show some properties of them.
+\begin{definition}
+    A set of vectors $\{\vt{v}_1, \vt{v}_2, \cdots, \vt{v}_n\}$ in $\R^n$ is said to be an \textbf{orthogonal set} if each pair of distince vectors in the set is orthogonal, that is,
+    $\vt{v}_i \cdot \vt{v}_j = 0$ for all $i \neq j$.
+\end{definition}
+\begin{proposition}
+    If $S=\{\vt{v}_1, \vt{v}_2, \cdots, \vt{v}_n\}$ is an orthogonal set of nonzero vectors in $\R^n$, then the set $S$ is linearly independent and hence is a basis for the subspace $V$ of $\R^n$ spanned by $S$.
+\end{proposition}
+\indent\textit{Proof.} Suppose that $c_1\vt{v}_1 + c_2\vt{v}_2 + \cdots + c_n\vt{v}_n = \vt{0}$, then we have
+\begin{align*}
+    \vt{0} &= \vt{v}_1 \cdot (c_1\vt{v}_1 + c_2\vt{v}_2 + \cdots + c_n\vt{v}_n) \\
+    &= c_1\vt{v}_1 \cdot \vt{v}_1 + c_2\vt{v}_1 \cdot \vt{v}_2 + \cdots + c_n\vt{v}_1 \cdot \vt{v}_n \\
+    &= c_1\|\vt{v}_1\|^2,
+\end{align*}
+which implies that $c_1 = 0$. Similarly, we can show that $c_2 = c_3 = \cdots = c_n = 0$. Thus, by contradiction, we can show that the set $S$ is linearly independent. \qed
+\begin{definition}
+    An \textbf{orthogonal basis} for a subspace $V$ of $\R^n$ is a basis for $V$ that is also an orthogonal set.
+\end{definition}
+\begin{proposition}
+    If $S=\{\vt{v}_1, \vt{v}_2, \cdots, \vt{v}_n\}$ is an orthogonal basis for a subspace $V$ of $\R^n$. For each $\vt{y} \in V$, the weights in the linear combination\[
+    \vt{y} = c_1\vt{v}_1 + c_2\vt{v}_2 + \cdots + c_n\vt{v}_n
+    \]
+    are given by\[
+    c_i = \frac{\vt{y} \cdot \vt{v}_i}{\vt{v}_i \cdot \vt{v}_i}, \quad i = 1, 2, \cdots, n.
+    \]
+\end{proposition}
+\indent The proof is trivial by multiplying $\vt{v}_i$ on both sides of the equation above, but always keep in mind that if the basis were not orthogonal, it would be necessary to solve a system of linear equations in order to find the weights.\\
+\indent In the 2D Cartesian coordinate system we have learnt before, we covered the concept of projection vectors. Here, we discuss the similar idea in the context of orthogonal sets and expand it to $\R^n$.
+\begin{definition}
+    Let $\vt{u}\in\R^n$ and $\vt{y}\in\R^n$, and denote\[
+    L \equiv \text{span}\{\vt{u}\} \text{, the line parralel to $\vt{u}$}.
+    \]
+     Write $\vt{y}$ as $$\vt{y} = \hat{\vt{y}}+\vt{w}$$ such that $\hat{\vt{y}}=c\vt{u}$ (parallel to $\vt{u}$) and $\vt{w}$ is orthogonal to $\vt{u}$. 
+    Then $\hat{\vt{y}}$ is called the \textbf{orthogonal projection} of $\vt{y}$ onto $\vt{u}$, denoted by $\text{proj}_{\vt{u}}\vt{y}$ or $\text{proj}_{L}\vt{y}$.
+     and $\vt{w}$ is called the component of $\vt{y}$ orthogonal to $\vt{u}$.
+\end{definition}
+Just like the projection vector in 2D, we can calculate the orthogonal projection by the following formula:\[
+\hat{\vt{y}} = \text{proj}_{\vt{u}}\vt{y} = \frac{\vt{y}\cdot\vt{u}}{\vt{u}\cdot\vt{u}}\vt{u}, \quad \vt{w} = \vt{y} - \hat{\vt{y}}.
+\]
+\indent Recall that in the Cartesian coordinate system, we require the basis to be not only orthogonal, but also normalized. In the context of $\R^n$, we have the word of "orthonormality" to describe such basis.
+\begin{definition}
+    A set of vectors $\{\vt{v}_1, \vt{v}_2, \cdots, \vt{v}_n\}$ in $\R^n$ is said to be an \textbf{orthonormal set} if it is an orthogonal set and each vector in the set has unit length, that is, $\|\vt{v}_i\| = 1$ for all $i$.\\
+    If $W$ is a subspace spanned by an orthonormal set, then the set is called an \textbf{orthonormal basis} for $W$.
+\end{definition}
+\begin{proposition}
+    An $n\times n$ matrix $U$ has orthonormal columns if and only if $U^TU = I$.
+\end{proposition}
+\indent The proof of this proposition follows directly from how we calculate the product of two matrices, and the readers can try to prove it by themselves. 
+This reveals the relationship between orthonormal sets and square matrices, and next, we will discuss some properties of general $m\times n$ matrices.
+\begin{proposition}
+    Let $U$ be an $m\times n$ matrix with orthonormal columns, and let $\vt{x}$ and $\vt{y}$ be vectors in $\R^n$. Then
+    \begin{itemize}
+        \item $||U\vt{x}||=||\vt{x}||$
+        \item $(U\vt{x})\cdot(U\vt{y}) = \vt{x}\cdot\vt{y}$
+        \item $(U\vt{x})\cdot(U\vt{y}) = \vt{0} \text{ if and only if } \vt{x}\cdot\vt{y} = 0$
+    \end{itemize}
+    Remark: Properties a and c say that the linear mapping $\vt{x} \mapsto U \vt{x}$ preserves lengths and orthogonality.
+\end{proposition}
+\indent To bring this section to an end, we introduce the following lemmma of the propositions above, whose proof is left as an exercise to the readers.
+\begin{quotation}
+    Let $U$ be an $n\times n$ matrix with orthonormal columns, show that det$U$ = $\pm 1$.
+\end{quotation}
+
+\subsection{Orthogonal Projections}
+\indent In the previous section, we have introduced the concept of orthogonal projection onto a vector, as well as the orthonormal set. Now let's combine them together and introduce the orthogonal projection onto a subspace.
+\begin{example}
+    Let $W$ to be the xy-plane, and $\vt{u_1}\in W,\vt{u_2}\in W^\perp$, then we can decomposit the vector $\vt{u}=(a,b,c)$ into two parts:\[
+    \vt{u}=(a,b,c)=(a,b,0)+(0,0,c)=\vt{u_1}+\vt{u_2}
+    \]
+\end{example}
+In general, we want to find a decomposition of a vector $\vt{y}$ in $\R^n$ into two parts, one in the subspace $W$ and the other in the orthogonal complement $W^\perp$.
+\begin{proposition}
+    \textbf{Orthogonal Decomposition Theorem}\\
+     Let $W$ be a subspace of $\R^n$, then each $\vt{y}\in\R^n$ can be uniquely written as\[
+    \vt{y} = \hat{\vt{y}} + \vt{z}
+    \]
+    where $\hat{\vt{y}}\in W$ and $\vt{z}\in W^\perp$. In fact, if $\{\vt{u_1},\cdots,\vt{u_p}\}$ is any orthogonal basis for $W$, then\[
+    \hat{\vt{y}} = \frac{\vt{y}\cdot\vt{u_1}}{\vt{u_1}\cdot\vt{u_1}}\vt{u_1}+\cdots+\frac{\vt{y}\cdot\vt{u_p}}{\vt{u_p}\cdot\vt{u_p}}\vt{u_p}
+    \]
+    and $\vt{z} = \vt{y} - \hat{\vt{y}}$.\\
+    Here, $\hat{\vt{y}}$ is called the \textbf{orthogonal projection} of $\vt{y}$ onto $W$, denoted by $\text{proj}_W\vt{y}$.
+\end{proposition}
+\indent We may inteprete the the orthogonal projection onto a orthogonal basis as a generalization of the orthogonal projection onto a vector. Hence, the proof of this propositon is similar that to the latter. 
+Since the correctness of a decomposition can be easily verified, by checking whether $\vt{z}$ is orthogonal to each $\vt{u_i}$, we will not provide examples here. Readers can randomly choose a vector and a subspace as exercises and verify the correctness by themselves.\\
+\indent \textit{Proof.} The proof of this proposition can be slipped into two parts, i.e., the existence and uniqueness, and here is an outline of the proof:
+\begin{itemize}
+    \item \textbf{Existence:} First we observe that $\hat{\vt{y}}$ is in $W$, since it's a linear combination of the basis vectors, and next we only need to show that $\vt{z}$ is orthogonal to $W$. This can be done by calculating the dot product of $\vt{z}$ and $\vt{u_i}$, and we can show that $\vt{z}$ is orthogonal to each $\vt{u_i}$.
+    \item \textbf{Uniqueness:} Suppose that there are two, then $\hat{\vt{y}}=\hat{\vt{y_1}}+\hat{\vt{z_1}}=\hat{\vt{y_2}}+\hat{\vt{z_2}}$, and \[
+    (\hat{\vt{y_1}}-\hat{\vt{y_2}})=-(\hat{\vt{z_1}}-\hat{\vt{z_2}})
+    \]
+    Multiplying both sides by $\hat{\vt{y_1}}-\hat{\vt{y_2}}$ and using the fact that $\hat{\vt{y_1}}-\hat{\vt{y_2}} \perp \hat{\vt{z_1}}-\hat{\vt{z_2}}$,
+    we can show that $||\hat{\vt{y_1}}-\hat{\vt{y_2}}||$ and therefore the result.
+\end{itemize}
+\indent\indent From these concepts, we can easily get the following lemma:
+\begin{quotation}
+    Let $W=\operatorname*{span} \{\vt{u}_1, \vt{u}_2, \cdots, \vt{u}_p\}$ be an orthogonal basis for $W$. If $\vt{y}\in W$, then $\text{proj}_W\vt{y} = \vt{y}$.
+\end{quotation}
+\begin{proposition}
+    \textbf{The Best Approximation Theorem}\\
+    Let $W$ be a subspace of $\R^n$. Let $\vt{y}$ be any vector in $\R^n$, and let $\hat{\vt{y}}$ be the orthogonal projection of $\vt{y}$ onto $W$. Then $\hat{\vt{y}}$ is the closest point in $W$ to $\vt{y}$, that is, for any $\vt{w}\in W$,\[
+    ||\vt{y}-\hat{\vt{y}}||\leq||\vt{y}-\vt{w}||
+    \]
+    Remark: The vector $\hat{\vt{y}}$ is called \textbf{the best approximation} to $\vt{y}$ from $W$.
+\end{proposition}
+\indent\indent \textit{Proof.} We write $\vt{y}-\vt{w}=(\vt{y}-\hat{\vt{y}})+(\hat{\vt{y}}-\vt{w})$, and the result follows from the Pythagorean theorem. 
+\indent Following this proposition, we are safe to define the distance between a vector and a subspace.
+\begin{definition}
+    The \textbf{distance} from a vector $\vt{y}$ to a subspace $W$ is defined as the distance from $\vt{y}$ to the closest point in $W$, that is,\[
+    \text{dist}(\vt{y},W) = ||\vt{y}-\hat{\vt{y}}||
+    \]
+    where $\hat{\vt{y}}$ is the orthogonal projection of $\vt{y}$ onto $W$.
+\end{definition}
+\begin{example}
+    Find the distance from $\vt{y}$ to $W=\operatorname*{span}\{\vt{u_1},\vt{u_2}\}$, where\[
+    \vt{y}=\begin{bmatrix}
+        -1\\-5\\10
+    \end{bmatrix}, \quad \vt{u_1}=\begin{bmatrix}
+        5\\-2\\1
+    \end{bmatrix}, \quad \vt{u_2}=\begin{bmatrix}
+        1\\2\\-1
+    \end{bmatrix}.
+    \]
+    \textbf{Solution.} $3\sqrt{5}$
+\end{example}
+\indent Lastly, from the Orthogonal Decomposition Theorem, for the case when the set is an orthonormal basis, we can easily get the following lemma: (hint: when proving the second one try to write $UU^T\vt{y}=U(U^T\vt{y})$)
+\begin{quotation}
+    Let $W$ be a subspace of $\R^n$ spanned by an orthonormal basis $\{\vt{u}_1, \vt{u}_2, \cdots, \vt{u}_p\}$. If $\vt{y}\in\R^n$, then $$\text{proj}_W\vt{y} = \vt{y}\cdot\vt{u}_1\vt{u}_1+\cdots+\vt{y}\cdot\vt{u}_p\vt{u}_p.$$
+    If $U=[\vt{u_1}\; \vt{u_2}\; \cdots \; \vt{u_p}]$, then $$\text{proj}_W\vt{y} = UU^T\vt{y} \text{ for all }\vt{y}\in \R^n$$
+\end{quotation}
+\indent Also, we may show the following lemma to be true, which involves the linear combination:
+\begin{quotation}
+    Let $W$ be a subspace of $\R^n$, and $\vt{x},\vt{y}$ are vectors in $\R^n$. If $\vt{z}=\vt{x}+\vt{y}$, then\[
+    \text{proj}_W\vt{z} = \text{proj}_W\vt{x} + \text{proj}_W\vt{y}.
+    \]
+\end{quotation}
+
+\subsection{Gram-Schmidt Process}
+\indent After having the concepts of orthogonal and orthonormal sets, the thing left is to find such sets. Although we may be provided with a basis of a subspace, it may not be orthogonal or orthonormal, which limits its applications. For example, try the following exercise:
+\begin{example}
+    Let $W$ be the subspace of $\R^3$ spanned by the vectors\[
+    \vt{v}_1 = \begin{pmatrix}
+        3\\6\\0
+    \end{pmatrix}, \quad \vt{v}_2 = \begin{pmatrix}
+        1\\2\\2
+    \end{pmatrix}.
+    \]
+    Find an orthogonal basis for $W$.
+\end{example}
+\indent In this example, it is quite easy to "guess out" an answer, but in general, we need a systematic way to find the orthogonal basis. The Gram-Schmidt process is such a simple algorithm to find an orthogonal basis for a nonzero subspace $W$ of $\R^n$ given a basis for $W$.\\
+\indent \textcolor{Green}{Remark}: There should have been some reasoning behind the Gram-Schmidt process, which can be "felt" but hard to write in texts.
+\begin{proposition}
+    \textbf{The Gram-Schmidt Process}\\
+    Given a basis $\{\vt{x_1}, \vt{x_2}, \cdots, \vt{x_p}\}$ for a nonzero subspace $W$ of $\R^n$, define\[\vt{v}_i = 
+    \begin{cases}
+        \vt{x}_1 & \text{if } i = 1,\\
+        \vt{x}_i - \sum_{j=1}^{i-1}\operatorname*{proj}_{\vt{v}_j}\vt{x}_i & \text{if } i > 1.
+    \end{cases}
+    \]
+    Then $\{\vt{v}_1, \vt{v}_2, \cdots, \vt{v}_p\}$ is an orthogonal basis for $W$, and \[
+    \operatorname*{Span}\{ \vt{v}_1, \vt{v}_2, \cdots, \vt{v}_p\} = \operatorname*{Span}\{ \vt{x}_1, \vt{x}_2, \cdots, \vt{x}_p\}.
+    \]
+\end{proposition}
+\indent After getting an \textbf{orthogonal basis} through the algorithm above, we can easily construct a \textbf{orthonormal basis} by normalizing each vector in the basis.
+\begin{proposition}
+    \textbf{The QR Factorization}\\
+    Let $A$ be an $m\times n$ matrix with linearly independent columns. Then there exists an $m\times n$ matrix $Q$ with orthonormal columns and an $n\times n$ upper triangular matrix $R$ such that $A=QR$, and
+    The $Q$'s columns form an orthonormal basis for the column space of $A$, and $R$ is an $n\times n$ upper triangular invertible matrix with positive diagonal entries.
+\end{proposition}
+\indent \textit{Proof.} The columns of $A$ form a basis for Col$A$. Construct an orthonormal basis $\{\vt{u_1}, \cdots, \vt{u_n}\}$ for Col$A$ using the Gram-Schmidt process. 
+Let $Q=[\vt{u_1}, \cdots, \vt{u_n}]$ and $R$ be the $n\times n$ matrix whose $(i,j)$ entry is $\vt{u_i}\cdot\vt{a_j}$, where $\vt{a_j}$ is the $j$th column of $A$. Then $A=QR$. \qed \\
+\indent Furthermore, from this proof, if columns of $A$ are linearly dependent and $A=QR$, then $R$ will have zero entries on its diagonal.\\
+\indent There are lots of questions related to QR factorization which involves terreble calculations. The following is a common algorithm to compute the QR factorization of a matrix.
+\begin{enumerate}
+    \item Given a matrix $A$, let $\vt{a}_1, \vt{a}_2, \cdots, \vt{a}_n$ be the columns of $A$, and perform the Gram-Schmidt process to get an orthogonal basis $\{\vt{u}_1, \vt{u}_2, \cdots, \vt{u}_n\}$ for Col$A$.
+    \item Let $Q=[\vt{u}_1, \vt{u}_2, \cdots, \vt{u}_n]$ and recall that $Q^TQ=I$, so $R=Q^TQR=Q^TA$.
+\end{enumerate}
+\indent \indent - The blank here is left for rough work -
+\newpage
+
+
+
+\subsection{Least Squares Problems}
+\subsubsection*{Least Squares Solutions}
+\indent In real application, sometimes $A\vt{x}=\vt{b}$ has no solution, and we want to find $\hat{\vt{x}}$ such that $A\vt{x}$ is as close as possible to $\vt{b}$, which is called the \textbf{least squares problem}.
+\begin{definition}
+    If $A$ is $m\times n$ and $\vt{b}$ is in $\R^m$, then the \textbf{least squares solution} to the inconsistent system $A\vt{x}=\vt{b}$ is the vector $\hat{\vt{x}}$ in $\R^n$ such that\[
+    ||A\hat{\vt{x}}-\vt{b}|| \leq ||A\vt{x}-\vt{b}||
+    \]
+    for all $\vt{x}$ in $\R^n$.
+\end{definition}
+\begin{proposition}
+    \textbf{The Least Squares Solution}\\
+    The set of least-squares solutions of $A\vt{x}=\vt{b}$ coincides with the nonempty set of solutions of the equations \[
+    A^TA\vt{x} = A^T\vt{b},
+    \]
+    which is called the \textbf{normal equation} for the system $A\vt{x}=\vt{b}$.
+\end{proposition}
+\indent \textit{Proof.} First we prove that such $\hat{\vt{x}}$ exists. Denote $\hat{\vt{b}}=\text{proj}_{\text{Col}A}\vt{b}$, then since $\hat{\vt{b}}$ is a combination of column vectors of $A$, 
+the system $A\hat{\vt{x}}=\hat{\vt{b}}$ has a solution $\hat{\vt{x}}$, which satisfies\[
+||\vt{b}-A\hat{\vt{x}}||=||\vt{b}-\hat{\vt{b}}||\leq||\vt{b}-A\vt{x}||.
+\]
+\indent Next, we prove that the solution set of $A^TA\vt{x}=A^T\vt{b}$ (1) is the same as the solution set of $A\vt{x}=\hat{\vt{b}}$ (2). 
+According to the definition of orthogonal projection, $\vt{b}-\vt{\hat{b}}\perp \text{Col}A$, which indicates that $$A^T(\vt{b}-\vt{\hat{b}})=\vt{0}.$$ 
+By substituting $\vt{\hat{b}}=A\hat{\vt{x}}$ into the equation above, we can get (1). 
+Conversly, from (1) we can get $0=A^T(A\vt{x}-\vt{b})$, which implies that $(\vt{b}-A\vt{x})\perp \text{Col}A$, so $\vt{b}-A\vt{x}\in (\text{Col}A)^\perp$.
+ Here by the uniqueness of orthogonal decomposition, we must have $\vt{b}-A\vt{x}=\vt{b}-\hat{\vt{b}}$, which directly leads to (2). \qed\\
+\indent From the reasoning arguments above, we can easily find that for an $m\times n$ matrix $A$ the following statements are logically equivalent:
+\begin{itemize}
+    \item The equation $A\vt{x}=\vt{b}$ has a unique least-squares solution for every $\vt{b}$ in $\R^m$.
+    \item The columns of $A$ are linearly independent.
+    \item The matrix $A^TA$ is invertible.
+\end{itemize}
+
+\subsubsection*{Alternative ways for finding the least squares solution}
+\begin{itemize}
+    \item[(1)] When the columns of $A$ are orthogonal.\\
+    Since Col$A$ is an orthogonal subspace, by definition we can write the orthogonal projection of $\vt{b}$ onto Col$A$ as\[
+    \hat{\vt{b}} = \text{proj}_{\text{Col}A}\vt{b} = \frac{\vt{b}\cdot\vt{a}_1}{\vt{a}_1\cdot\vt{a}_1}\vt{a}_1 + \cdots + \frac{\vt{b}\cdot\vt{a}_n}{\vt{a}_n\cdot\vt{a}_n}\vt{a}_n = A\cdot (x_1, x_2, \cdots, x_n)^T,
+    \]
+    where $x_i=\frac{\vt{b}\cdot\vt{a}_i}{\vt{a}_i\cdot\vt{a}_i}$. Hence the least squares solution is $\hat{\vt{x}}=(x_1, x_2, \cdots, x_n)^T$.
+    \item[(2)] When columns of $A$ are linearly independent.\\
+    Here the least-squares solution can often be computed more reliable through a QR factorization of $A$. Let $A=QR$ be a QR factorization of $A$.
+    Then, for each $\vt{b}$ in $\R^m$, the least-squares solution of $A\vt{x}=\vt{b}$ is given by\[
+    \hat{\vt{x}} = R^{-1}Q^T\vt{b}.
+    \]
+    \indent\textit{Proof.} Let $\hat{\vt{x}}=R^{-1}Q^T\vt{b}$, then\[
+    A\hat{\vt{x}}=QR\hat{\vt{x}}=QRR^{-1}Q^T\vt{b}=QQ^T\vt{b}.
+    \]
+    Note that the columns of $Q$ form an orthonormal basis for Col$A$, so $QQ^T\vt{b}$ is the orthogonal projection of $\vt{b}$ onto Col$A$ - \textcolor{red}{Why?}. So $\hat{\vt{x}}$ is the least-squares solution. The uniqueness follows from the fact that the columns of $A$ are linearly independent.
+\end{itemize}
+
+\indent These methods requires lots of exercise to get familiar with, and the readers are encouraged to try more exercises to get a better understanding of the least squares problem. For example, following is an example which involves different methods covered in these chapters. (Please calculate this!)
+\begin{example}
+    Find the least square solution using QR factorization for the following system:\[
+    \begin{pmatrix}
+        1&3&5\\1&1&0\\1&1&2\\1&3&3
+    \end{pmatrix}\begin{pmatrix}
+        x_1\\x_2\\x_3
+    \end{pmatrix}=\begin{pmatrix}
+        3\\5\\7\\-3
+    \end{pmatrix}
+    \]
+\end{example}
+- This blank is left for the rough work of the example above -\\
+\newpage
+
+\subsection{Applications}
+\subsubsection*{Linear Regression (Least Squares lines)}
+\indent In the context of linear regression, we are given a set of data points $(x_1, y_1), (x_2, y_2), \cdots, (x_n, y_n)$, and we want to find the best-fitting line $y = mx + b$ to the data, where we want to minimize \[
+\sum_{i=1}^{n}(y_i - (mx_i + b))^2. 
+\]
+Given the description above, we can always write $$y_i=mx_i+b+\epsilon_i,$$ where $\epsilon_i$ is the error in the $i$th measurement. Hence, we can use the matrix form to represent the problem as\[
+\begin{pmatrix}
+    y_1\\y_2\\\vdots\\y_n
+\end{pmatrix}=\begin{pmatrix}
+    1&x_1\\1&x_2\\\vdots&\vdots\\1&x_n
+\end{pmatrix}\begin{pmatrix}
+    b\\m
+\end{pmatrix}+\begin{pmatrix}
+    \epsilon_1\\\epsilon_2\\\vdots\\\epsilon_n
+\end{pmatrix}.
+\]
+Now we want to minimize $||\vt{x}\vt{\beta}-\vt{y}||$, where\[
+\vt{x}=\begin{pmatrix}
+    1&x_1\\1&x_2\\\vdots&\vdots\\1&x_n
+\end{pmatrix}, \quad \vt{\beta}=\begin{pmatrix}
+    b\\m
+\end{pmatrix}, \quad \vt{y}=\begin{pmatrix}
+    y_1\\y_2\\\vdots\\y_n
+\end{pmatrix},
+\]
+which is equivalent to find the least squares solution of the system $\vt{x}\vt{\beta}=\vt{y}$.
+\subsubsection*{General Linear Model}
+\indent Fit data by curves that have the form\[
+y = \beta_0 f_0(x) + \beta_1 f_1(x) + \cdots + \beta_n f_n(x),
+\]
+where $f_0(x), f_1(x), \cdots, f_n(x)$ are known functions of $x$. The goal is to find the coefficients $\beta_0, \beta_1, \cdots, \beta_n$ that minimize the sum of the squares of the errors.
+\begin{example}
+    Given the data $(x_1,y_1), (x_2,y_2), \cdots, (x_n,y_n)$ that comes from a company's total costs. The equation of the form \[
+    y = \beta_0 + \beta_1x + \beta_2x^2 + \beta_3x^3
+    \]
+    is an appropriate model for the data. Describe the linear model that gives a best fit to the data.\\
+    \textbf{Solution.} $\vt{y}=\vt{x}\beta+\varepsilon$, where\[
+    \vt{y}=\begin{pmatrix}
+        y_1\\y_2\\\vdots\\y_n
+    \end{pmatrix}, \quad \beta=\begin{pmatrix}
+        \beta_0\\\beta_1\\\beta_2\\\beta_3
+    \end{pmatrix}, \quad \vt{x}=\begin{pmatrix}
+        1&x_1&x_1^2&x_1^3\\1&x_2&x_2^2&x_2^3\\\vdots&\vdots&\vdots&\vdots\\1&x_n&x_n^2&x_n^3
+    \end{pmatrix}.
+    \]
+    Now we can solve the least squares solution of $\vt{x}\beta=\vt{y}$ to get $\beta$.
+\end{example}
+\indent Note that when we have more than one independent variable, we can use the same method to find the best-fitting plane or hyperplane, such as \[
+y=\beta_0+\beta_1 u + \beta_2 v + \beta_3 w.
+\]
+
+\end{document}

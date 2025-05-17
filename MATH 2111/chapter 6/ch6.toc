@@ -1,0 +1,13 @@
+\babel@toc {english}{}\relax 
+\contentsline {section}{\numberline {1}Systems of Linear Equations}{3}{section.1}%
+\contentsline {section}{\numberline {2}Matrix Algebra}{3}{section.2}%
+\contentsline {section}{\numberline {3}Determinants}{3}{section.3}%
+\contentsline {section}{\numberline {4}Vector Spaces}{3}{section.4}%
+\contentsline {section}{\numberline {5}Eigenvalues and Eigenvectors}{3}{section.5}%
+\contentsline {section}{\numberline {6}Inner Product Spaces}{4}{section.6}%
+\contentsline {subsection}{\numberline {6.1}Inner Product, Length, and Orthogonality}{4}{subsection.6.1}%
+\contentsline {subsection}{\numberline {6.2}Orthogonal Sets}{4}{subsection.6.2}%
+\contentsline {subsection}{\numberline {6.3}Orthogonal Projections}{6}{subsection.6.3}%
+\contentsline {subsection}{\numberline {6.4}Gram-Schmidt Process}{7}{subsection.6.4}%
+\contentsline {subsection}{\numberline {6.5}Least Squares Problems}{8}{subsection.6.5}%
+\contentsline {subsection}{\numberline {6.6}Applications}{11}{subsection.6.6}%

@@ -1,0 +1,338 @@
+\documentclass[10pt, a4paper]{article}
+\hbadness=10000
+\usepackage{listings}
+\usepackage{ulem}
+\usepackage{appendix}
+\usepackage{amsmath, amsthm, amssymb, amsfonts}
+\usepackage{thmtools}
+\usepackage{graphicx}
+\usepackage{setspace}
+\usepackage[top=2.5cm, bottom=3.5cm, left=2.5cm, right=2.5cm]{geometry}
+\usepackage{float}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{ctex}
+\usepackage{framed}
+\usepackage[dvipsnames]{xcolor}
+\usepackage{tcolorbox}
+\usepackage{indentfirst}
+\usepackage{titlesec}
+\usepackage{sectsty}
+
+\newcommand{\R}{\mathbb{R}}
+\newcommand{\vt}[1]{\mathbf{#1}}
+
+
+\colorlet{LightGray}{White!90!Periwinkle}
+\colorlet{LightOrange}{Orange!15}
+\colorlet{LightGreen}{Green!15}
+\colorlet{LightBlue}{Cyan!15}
+
+\newcommand{\HRule}[1]{\rule{\linewidth}{#1}}
+
+\declaretheoremstyle[name=Example,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{example}
+\tcolorboxenvironment{example}{colback=LightBlue, boxrule=0pt}
+
+\declaretheoremstyle[name=Principle,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{principle}
+\tcolorboxenvironment{principle}{colback=LightGreen, boxrule=0pt}
+
+\declaretheoremstyle[name=Proposition,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{proposition}
+\tcolorboxenvironment{proposition}{colback=LightGray, boxrule=0pt}
+
+\declaretheoremstyle[name=Definition,]{thmsty}
+\declaretheorem[style=thmsty,numberwithin=section]{definition}
+\tcolorboxenvironment{definition}{colback=LightOrange, boxrule=0pt}
+
+
+\newenvironment{Solution}{\textbf{Solution.}}
+
+\definecolor{codegreen}{rgb}{0,0.6,0}
+\definecolor{codegray}{rgb}{0.5,0.5,0.5}
+\definecolor{codepurple}{rgb}{0.58,0,0.82}
+\definecolor{backcolour}{rgb}{0.95,0.95,0.92}
+
+\lstdefinestyle{mystyle}{
+    backgroundcolor=\color{backcolour},  
+    commentstyle=\color{codegreen},
+    keywordstyle=\color{magenta},
+    numberstyle=\tiny\color{codegray},
+    stringstyle=\color{codepurple},
+    basicstyle=\ttfamily\footnotesize,
+    breakatwhitespace=false,        
+    breaklines=true,                
+    captionpos=b,                    
+    keepspaces=true,                
+    numbers=left,                    
+    numbersep=5pt,                  
+    showspaces=false,                
+    showstringspaces=false,
+    showtabs=false,                  
+    tabsize=2
+}
+\lstset{style=mystyle}
+
+\setlength{\parindent}{2em}
+\subsubsectionfont{\color{Blue}}
+
+
+% ------------------------------------------------------------------------------
+\setstretch{1.0}
+% ------------------------------------------------------------------------------
+\begin{document}
+\title{ \normalsize \textsc{}
+\\ [2.0cm]
+\HRule{1.5pt} \\ [0.3cm]
+\LARGE {\textbf{Matrix Algebra and Applications}
+\HRule{1.5pt} \\ [0.6cm]
+\LARGE{\textbf{MATH 2111 Lecture Notes}} \vspace*{10\baselineskip}}
+}
+\date{\today}
+\author{\textbf{LI, Hongrui}}  %template borrowed from hlx
+\maketitle
+
+\clearpage
+\tableofcontents
+\newpage
+
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 1
+% ------------------------------------------------------------------------------
+\section{Systems of Linear Equations}
+\section{Matrix Algebra}
+\section{Determinants}
+\section{Vector Spaces}
+\newpage
+
+
+
+% ------------------------------------------------------------------------------
+% Start of Chapter 4
+% ------------------------------------------------------------------------------
+\section{Eigenvalues and Eigenvectors}
+\subsection{Eigenvalues and Eigenvectors}
+\begin{definition}
+    Let $A$ be an $n \times n$ matrix. A scalar $\lambda$ is called an \textbf{eigenvalue} of $A$ if there exists a \textit{nonzero} vector $\vt{x}$ in $\R^n$ such that
+    \begin{equation}
+        A\vt{x} = \lambda \vt{x}
+    \end{equation}
+    The vector $\vt{x}$ is called an \textbf{eigenvector} of $A$ corresponding to $\lambda$.
+\end{definition}
+\begin{example}
+    Show that 7 is an eigenvalue of the matrix
+    \begin{equation}
+        A = \begin{bmatrix}
+            1&6\\
+            5&2
+        \end{bmatrix}
+    \end{equation}
+    and find the corresponding eigenvectors.
+    \textbf{Solution.} The scalar 7 is an eigenvalue of $A$ if and only if the equation\[A\vt{x}=7\vt{x}=7I_2\vt{x}\] has a nontrivial solution, which is equivalent to 
+    \begin{equation}
+        (A-7I_2)\vt{x} = \vt{0}.
+    \end{equation}
+    We perform the row reduction on the augmented matrix (details should be shown in the exam), and get the result that $x_1-x_2=0$. Hence, the general solution is 
+    \begin{equation}
+        \vt{x} = t\begin{bmatrix}
+            1\\
+            1
+        \end{bmatrix}
+    \end{equation}
+    So $(1,1)^T$ is an eigenvector of $A$ corresponding to the eigenvalue 7.
+\end{example}
+Instead of giving the general solution, we first consider the special case when the matrix is triangular.
+\begin{proposition}
+    Let $A$ be an $n \times n$ upper triangular matrix. Then the eigenvalues of $A$ are the diagonal entries of $A$.
+\end{proposition}
+\textit{Proof.} Let $A$ be an $n \times n$ upper triangular matrix. Then we have \[
+A=\begin{bmatrix}
+    a_{11}&a_{12}&\cdots&a_{1n}\\
+    0&a_{22}&\cdots&a_{2n}\\
+    \vdots&\vdots&\ddots&\vdots\\
+    0&0&\cdots&a_{nn}
+\end{bmatrix}
+, A-\lambda I_n = \begin{bmatrix}
+    a_{11}-\lambda&a_{12}&\cdots&a_{1n}\\
+    0&a_{22}-\lambda&\cdots&a_{2n}\\
+    \vdots&\vdots&\ddots&\vdots\\
+    0&0&\cdots&a_{nn}-\lambda
+\end{bmatrix}
+\]
+Hence we have the following statements equivalent:
+\begin{itemize}
+    \item $\lambda$ is an eigenvalue of $A$.
+    \item The system $(A-\lambda I_n)\vt{x}=\vt{0}$ has a nontrivial solution.
+    \item The system $(A-\lambda I_n)\vt{x}=\vt{0}$ has a free variable.
+    \item At least one of the entries on the diagonal of $A-\lambda I_n$ is zero.
+    \item $\lambda = a_{ii}$ for some $i$.
+\end{itemize}
+Remark: For a lower triangular matrix, the proof is similar and we have the same conclusion. 0 can also be an eigenvalue.
+
+\begin{proposition}
+    If $\vt{v_1}, \vt{v_2}, \cdots, \vt{v_k}$ are eigenvectors of a matrix $A$ corresponding to distinct eigenvalues $\lambda_1, \lambda_2, \cdots, \lambda_k$, then the set $\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_k}\}$ is linearly independent.
+\end{proposition}
+\textit{Proof.} [This proof is given by \textit{Github Copilot} to make the notes more elegent, but the correctness has not yet been verified...] Suppose that there exist scalars $c_1, c_2, \cdots, c_k$ such that \[
+c_1\vt{v_1}+c_2\vt{v_2}+\cdots+c_k\vt{v_k}=\vt{0}
+\]
+Then we have \[
+A(c_1\vt{v_1}+c_2\vt{v_2}+\cdots+c_k\vt{v_k})=c_1A\vt{v_1}+c_2A\vt{v_2}+\cdots+c_kA\vt{v_k}=\vt{0}
+\]
+Since $A\vt{v_i}=\lambda_i\vt{v_i}$, we have \[
+c_1\lambda_1\vt{v_1}+c_2\lambda_2\vt{v_2}+\cdots+c_k\lambda_k\vt{v_k}=\vt{0}
+\]
+Multiplying both sides by $\vt{v_1}^T$, we get \[
+c_1\lambda_1\vt{v_1}^T\vt{v_1}+c_2\lambda_2\vt{v_2}^T\vt{v_1}+\cdots+c_k\lambda_k\vt{v_k}^T\vt{v_1}=0
+\]
+Since $\vt{v_i}^T\vt{v_j}=0$ for $i\neq j$, we have $c_1\lambda_1\vt{v_1}^T\vt{v_1}=0$. Since $\vt{v_1}\neq \vt{0}$, we have $\vt{v_1}^T\vt{v_1}\neq 0$. Hence $c_1\lambda_1=0$. Since $\lambda_1\neq 0$, we have $c_1=0$. Similarly, we can show that $c_2=c_3=\cdots=c_k=0$. Hence the set $\{\vt{v_1}, \vt{v_2}, \cdots, \vt{v_k}\}$ is linearly independent.
+
+\begin{example}
+    Suppose that $\vt{b_1}, \vt{b_2}$ are eigenvectors corresponding to distinct eigenvalues $\lambda_1, \lambda_2$ of a matrix $A$. 
+    And suppose that $\vt{b_3},\vt{b_4}$ are linearly independent vectors corresponding to a third distince eigenvalue $\lambda_3$.
+    Show that the set $\{\vt{b_1}, \vt{b_2}, \vt{b_3}, \vt{b_4}\}$ is linearly independent.
+\end{example}
+\indent Remark: Note that under a same eigenvalue, the eigenvectors are actually the solutions to a homogeneous system of linear equations, which can be independent or dependent.
+
+\subsection{Characteristic Equation}
+\indent In the previous section, we have already tried to get the eigenvalues and eigenvectors of a matrix. 
+Recall the ways we used to find the eigenvalues and eigenvectors, we can generalize the idea behind it as follows:\\
+For any $n \times n$ matrix $A$, according to the definition of eigenvalues and eigenvectors, we have \[
+A\vt{x}=\lambda\vt{x} \Leftrightarrow (A-\lambda I_n)\vt{x}=\vt{0}.
+\]
+This equation has a nontrivial solution if and only if the matrix $A-\lambda I_n$ is singular, i.e., $\det(A-\lambda I_n)=0$. 
+Hence, all possible eigenvalues of $A$ are the roots of the equation $\det(A-\lambda I_n)=0$, which is called the \textbf{characteristic equation} of $A$, and the eigenvectors are the solutions to the system $(A-\lambda I_n)\vt{x}=\vt{0}$ with corresponding $\lambda$.
+Furthermore, we summarize this process to get a more systematic method by giving the following definition and proposition.
+\begin{definition}
+    Let $A$ be an $n \times n$ matrix, then the equation \[
+    \det(A-\lambda I_n)=0
+    \]
+    is called the \textbf{characteristic equation} of $A$.\\ 
+    The polynomial \[
+    p_A(\lambda)=\det(A-\lambda I_n)
+    \]
+    is called the \textbf{characteristic polynomial} of $A$, a polynomial of degree $n$ in variable $\lambda$.
+\end{definition}
+\begin{proposition}
+    $\lambda$ is an eigenvalue of $A$ if and only if $\lambda$ is a root of the characteristic equation $\det(A-\lambda I_n)=0$.
+\end{proposition}
+\indent This proposition has connected the concept of eigenvalues with the determinant of a matrix, and consequently, the invertibility of a matrix.
+Therefore, we give some new insights into the invertibility of a matrix.
+\begin{quotation}
+    $A:$ a $n \times n$ matrix. Then $A$ is invertible if and only if 
+    \begin{itemize}
+        \item The number 0 is not an eigenvalue of $A$.
+        \item The determinant $\det(A)\neq 0$, and 
+              \begin{equation*}
+                \det A = (-1)^r \det u = \begin{cases}
+                    (-1)^r\cdot(\text{product of pivots of $u$}) & \text{$u$ invertible};\\
+                    0 & \text{$u$ singular},
+                \end{cases}
+              \end{equation*}
+              where $u$ is an echelon form of $A$ by row replacements and row interchanges (without scaling) with $r$ row interchanges.
+    \end{itemize}
+\end{quotation}
+\begin{example}
+    The characteristic polynomial of a $6 \times 6$ matrix $A$ is given by \[
+    \lambda^6-4\lambda^5-12\lambda^4
+    \]
+    Find the eigenvalues and their multiplicities.\\
+    \textbf{Solution.} 
+    \begin{itemize}
+        \item $\lambda=0$\; multiplicity 4.
+        \item $\lambda=6$\; multiplicity 1.
+        \item $\lambda=-2$ multiplicity 1.
+    \end{itemize}
+\end{example}
+\indent Remark: The purpose of putting this example here is to show the concept of \textit{multiplicity} of an eigenvalue, which is the number of times the eigenvalue appears as a root of the characteristic polynomial.
+\begin{example}
+    Find the eigenvalues of the matrix \[
+    A = \begin{bmatrix}
+        0&2&1\\
+        3&0&3\\
+        1&2&0
+    \end{bmatrix}
+    \]
+    \textbf{Solution.} -1, 4, -3.
+\end{example}
+\subsubsection*{Similarity}
+\begin{definition}
+    Two $n \times n$ matrices $A$ and $B$ are called \textbf{similar} if there exists an invertible matrix $P$ such that \[
+    B=P^{-1}AP\text{ or,equivalently }A=PBP^{-1}.
+    \]
+    Changing $A$ into $P^{-1}AP$ is called a \textbf{similarity transformation}.
+\end{definition}
+\begin{proposition}
+    If $A$ and $B$ are similar matrices, then $A$ and $B$ have the same characteristic polynomial and hence the same eigenvalues(with the same multiplicities).
+\end{proposition}
+\indent \textit{Proof.} Suppose that $A$ and $B$ are similar matrices, then there exists an invertible matrix $P$ such that $B=P^{-1}AP$. 
+Then we have \begin{align*}
+    \det(B-\lambda I_n) &= \det(P^{-1}AP-\lambda I_n)\\
+    &= \det(P^{-1}AP-\lambda P^{-1}IP)\\
+    &= \det(P^{-1}(A-\lambda I_n)P)\\
+    &= \det(P^{-1})\det(A-\lambda I_n)\det(P)\\
+    &= \det(A-\lambda I_n).
+\end{align*}
+Therefore, $A$ and $B$ have the same characteristic polynomial and hence the same eigenvalues.\\
+\indent \textcolor{red}{Warning:} \begin{itemize}
+    \item Two matrices may have the same eigenvalues but are not similar.
+    \item Similarity is not the same as row equivalence. Row operations on a matrix usually change its eigenvalues.
+\end{itemize}
+\subsubsection*{Application to Dynamical Systems}
+\begin{example}
+    Let $A$ be the matrix \[
+    A = \begin{bmatrix}
+        0.95 & 0.03\\
+        0.05 & 0.97
+    \end{bmatrix}
+    \]
+    Analyze the long-term behavior of the system $\vt{x}_{k+1}=A\vt{x}_k$ with $x_0=(0.6,0.4)^T$.
+    \textbf{Solution.} 
+    We can first get the eigenvalues of $A$ by solving the characteristic equation $\det(A-\lambda I_2)=0$, which is \[
+    \lambda^2-1.92\lambda+0.92=0
+    \]
+    The roots are $\lambda_1=1$ and $\lambda_2=0.92$, and the corresponding eigenvectors are \[
+    \vt{v_1}=\begin{bmatrix}
+        3\\
+        5
+    \end{bmatrix}, \vt{v_2}=\begin{bmatrix}
+        1\\
+        -1
+    \end{bmatrix}
+    \]
+    Then $\{v_1,v_2\}$ is obviously a basis for $\R^2$ since they are linearly independent and the dimension of $\R^2$ is 2.
+    Hence, there exists weight $c_1,c_2$ such that \[
+    x_0=c_1\vt{v_1}+c_2\vt{v_2} = [\vt{v_1},\vt{v_2}]\begin{bmatrix}
+        c_1\\
+        c_2
+    \end{bmatrix}
+    \]
+    By multiplying both sides by $[\vt{v_1},\vt{v_2}]^{-1}$, we can get the weights $c_1,c_2 = 0.125, 0.225$.
+    Since $\vt{v_1}$ and $\vt{v_2}$ are eigenvectors of $A$ corresponding to distinct eigenvalues, we can write \[
+    \vt{x_1}=A\vt{x_0}=A(c_1\vt{v_1}+c_2\vt{v_2})=c_1A\vt{v_1}+c_2A\vt{v_2}=c_1\lambda_1\vt{v_1}+c_2\lambda_2\vt{v_2}
+    \]
+    \[
+    \vt{x_2}=A\vt{x_1}=A(c_1\lambda_1\vt{v_1}+c_2\lambda_2\vt{v_2})=c_1\lambda_1^2\vt{v_1}+c_2\lambda_2^2\vt{v_2}
+    \]
+    \[\cdots\]
+    In general, \[
+    \vt{x_k}=c_1\lambda_1^k\vt{v_1}+c_2\lambda_2^k\vt{v_2}
+    \]
+    As $k\to \infty$, $\lambda_2^k\to 0$ since $0<\lambda_2<1$, and 
+    \[
+    \vt{x_k}\to c_1\vt{v_1} = 0.125\begin{bmatrix}
+        3\\
+        5
+    \end{bmatrix}
+    = \begin{bmatrix}
+        0.375\\
+        0.625
+    \end{bmatrix}
+    \]
+\end{example}
+
+\subsection{Diagonalization}
+
+\end{document}
